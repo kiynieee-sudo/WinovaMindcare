@@ -1530,7 +1530,14 @@
             .reveal-on-scroll { opacity: 1; transform: none; }
         }
 
-    </style>
+    
+/* =========================================================
+   OWNER PANEL — ADDED WITHOUT REMOVING EXISTING MINDCARE UI
+========================================================= */
+.owner-only{display:none!important}.owner-only.owner-visible{display:block!important}
+.owner-panel-wrap{padding:4px 0 40px}.owner-hero{padding:28px;border-radius:24px;background:linear-gradient(135deg,#eef2ff,#f7f2ff);border:1px solid rgba(91,115,232,.14);margin-bottom:20px}.owner-hero h2{margin:0}.owner-hero p{color:var(--gray);margin:7px 0 0}.owner-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}.owner-stat-card{background:var(--white,#fff);border:1px solid var(--border);border-radius:18px;padding:17px;transition:.25s}.owner-stat-card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(45,106,79,.1)}.owner-stat-icon{font-size:21px}.owner-stat-number{font-size:27px;font-weight:850;margin-top:7px}.owner-stat-label{font-size:11px;color:var(--gray);margin-top:2px}.owner-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}.owner-tab{border:1px solid var(--border);background:#fff;color:#687386;border-radius:11px;padding:10px 12px;cursor:pointer;font-weight:750;font-size:11px;transition:.2s}.owner-tab:hover{transform:translateY(-1px)}.owner-tab.active{background:#eef1ff;color:#526bdc;border-color:#dce3ff}.owner-card{background:var(--white,#fff);border:1px solid var(--border);border-radius:18px;padding:19px;margin-bottom:16px}.owner-card h3{margin:0 0 5px}.owner-muted{color:var(--gray);font-size:12px;line-height:1.6}.owner-search-row{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.owner-search-row input,.owner-search-row select,.owner-form input,.owner-form select,.owner-form textarea{padding:11px 12px;border:1px solid #dfe5ec;border-radius:10px;background:#fff;outline:none;font:inherit}.owner-search-row input{flex:1;min-width:220px}.owner-table-wrap{overflow-x:auto}.owner-table{width:100%;border-collapse:collapse;min-width:760px}.owner-table th,.owner-table td{padding:12px 10px;border-bottom:1px solid #edf0f4;text-align:left;font-size:11px}.owner-table th{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:#7b8799}.owner-user{display:flex;align-items:center;gap:9px}.owner-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#eef1ff;color:#526bdc;font-weight:850;flex:none}.owner-user-name{font-weight:800}.owner-user-email{font-size:9px;color:#8791a1;margin-top:2px}.owner-role,.owner-status{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:800}.owner-role.student{background:#eef2f7;color:#667386}.owner-role.therapist{background:#f0eaff;color:#7358b8}.owner-role.owner{background:#fff1d7;color:#ad7617}.owner-status.verified{background:#eaf4ff;color:#287bd1}.owner-status.pending{background:#fff5dc;color:#ad7b19}.owner-status.rejected{background:#fff0f1;color:#c34e5b}.owner-status.unverified{background:#f1f3f6;color:#778295}.owner-action{border:0;border-radius:9px;padding:8px 10px;background:#eef1ff;color:#526bdc;font-size:10px;font-weight:800;cursor:pointer}.owner-action:hover{filter:brightness(.97)}.owner-action.success{background:#eaf8f2;color:#25815e}.owner-action.danger{background:#fff0f1;color:#c44d5b}.owner-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.owner-form .full{grid-column:1/-1}.owner-form label{display:block;font-size:10px;font-weight:800;margin-bottom:5px}.owner-form input,.owner-form select,.owner-form textarea{width:100%;box-sizing:border-box}.owner-form textarea{resize:vertical}.owner-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.owner-result{margin-top:10px;font-size:11px;min-height:17px}.owner-result.ok{color:#25815e}.owner-result.err{color:#c44d5b}.owner-empty{padding:25px;text-align:center;color:var(--gray);font-size:12px}.owner-badge-preview{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800}.owner-badge-dot{width:21px;height:21px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px}.owner-log{display:flex;flex-direction:column;gap:9px}.owner-log-item{padding:12px;border:1px solid #edf0f4;border-radius:12px;background:#fbfcfd}.owner-log-item strong{font-size:11px}.owner-log-item small{display:block;color:var(--gray);margin-top:3px;font-size:9px}.owner-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.owner-mini{border:1px solid #edf0f4;border-radius:14px;padding:15px}.owner-mini strong{display:block}.owner-mini span{display:block;color:var(--gray);font-size:10px;margin-top:4px;line-height:1.5}.owner-notice{padding:13px 15px;border-radius:12px;background:#f7f9fc;color:#687386;font-size:11px;line-height:1.6;margin-top:10px}.owner-danger-zone{border:1px solid #ffe0e3;background:#fff8f8}.owner-verified-tick{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#3b82f6;color:#fff;font-size:10px;font-weight:900;vertical-align:middle;margin-left:4px}@media(max-width:850px){.owner-stats{grid-template-columns:repeat(2,1fr)}.owner-mini-grid{grid-template-columns:1fr}.owner-form{grid-template-columns:1fr}.owner-form .full{grid-column:auto}}@media(max-width:600px){.owner-stats{grid-template-columns:1fr 1fr}.owner-hero{padding:21px}}
+
+</style>
 
 </head>
 
@@ -1920,6 +1927,14 @@
                     onclick="showSection('settings', this)"
                 >
                     ⚙️ Settings
+                </button>
+
+                <button
+                    class="sidebar-button owner-only"
+                    id="ownerSidebarButton"
+                    onclick="showSection('owner', this); ownerLoadPanel()"
+                >
+                    👑 Owner Panel
                 </button>
 
             </aside>
@@ -2556,6 +2571,103 @@
 
                     </div>
 
+
+                </div>
+
+                <!-- OWNER PANEL -->
+                <div class="dashboard-section" id="section-owner">
+                    <div class="owner-panel-wrap">
+                        <div class="owner-hero">
+                            <span class="eyebrow">PRIVATE ADMINISTRATION</span>
+                            <h2>👑 Owner Panel</h2>
+                            <p>Manage MindCare accounts, therapist verification, badges, friendships and owner activity.</p>
+                        </div>
+
+                        <div class="owner-stats">
+                            <div class="owner-stat-card"><div class="owner-stat-icon">👥</div><div class="owner-stat-number" id="ownerStatAccounts">—</div><div class="owner-stat-label">Accounts</div></div>
+                            <div class="owner-stat-card"><div class="owner-stat-icon">🩺</div><div class="owner-stat-number" id="ownerStatTherapists">—</div><div class="owner-stat-label">Therapists</div></div>
+                            <div class="owner-stat-card"><div class="owner-stat-icon">🔵</div><div class="owner-stat-number" id="ownerStatVerified">—</div><div class="owner-stat-label">Verified therapists</div></div>
+                            <div class="owner-stat-card"><div class="owner-stat-icon">🏷️</div><div class="owner-stat-number" id="ownerStatBadges">—</div><div class="owner-stat-label">Badges</div></div>
+                        </div>
+
+                        <div class="owner-tabs">
+                            <button class="owner-tab active" onclick="ownerTab('accounts',this)">👥 Accounts</button>
+                            <button class="owner-tab" onclick="ownerTab('verification',this)">🩺 Verification</button>
+                            <button class="owner-tab" onclick="ownerTab('badges',this)">🔵 Badges</button>
+                            <button class="owner-tab" onclick="ownerTab('friends',this)">🤝 Friends</button>
+                            <button class="owner-tab" onclick="ownerTab('activity',this)">📋 Activity</button>
+                            <button class="owner-tab" onclick="ownerTab('platform',this)">⚙️ Platform</button>
+                        </div>
+
+                        <div id="ownerTabAccounts" class="owner-tab-panel">
+                            <div class="owner-card">
+                                <h3>All Accounts</h3>
+                                <div class="owner-muted">Search students, therapists and the Owner account. Private messages are not exposed here.</div>
+                                <div class="owner-search-row">
+                                    <input id="ownerAccountSearch" placeholder="Search by name or email…" oninput="ownerRenderAccounts()">
+                                    <select id="ownerAccountRole" onchange="ownerRenderAccounts()"><option value="all">All roles</option><option value="student">Students</option><option value="therapist">Therapists</option><option value="owner">Owner</option></select>
+                                    <button class="owner-action" onclick="ownerLoadAccounts()">↻ Refresh</button>
+                                </div>
+                                <div id="ownerAccountsTable" class="owner-table-wrap"></div>
+                            </div>
+                        </div>
+
+                        <div id="ownerTabVerification" class="owner-tab-panel" style="display:none">
+                            <div class="owner-card">
+                                <h3>🩺 Therapist Verification</h3>
+                                <div class="owner-muted">Review professional license information and approve or reject therapist accounts. Approved therapists receive a blue verified tick.</div>
+                                <div id="ownerVerificationList" class="owner-table-wrap"></div>
+                            </div>
+                        </div>
+
+                        <div id="ownerTabBadges" class="owner-tab-panel" style="display:none">
+                            <div class="owner-card">
+                                <h3>🔵 Badge Manager</h3>
+                                <div class="owner-muted">Give a custom badge to an account. Badge colours can be changed to blue, green, purple, gold or any valid CSS colour.</div>
+                                <div class="owner-form" style="margin-top:15px">
+                                    <div><label>Target account</label><select id="ownerBadgeUser"></select></div>
+                                    <div><label>Badge label</label><input id="ownerBadgeName" value="Verified" placeholder="Verified"></div>
+                                    <div><label>Icon</label><input id="ownerBadgeIcon" value="✓" maxlength="4"></div>
+                                    <div><label>Colour</label><input id="ownerBadgeColor" value="#3B82F6" placeholder="#3B82F6"></div>
+                                    <div class="full"><label>Description</label><textarea id="ownerBadgeDescription" rows="2" placeholder="Why this badge was awarded"></textarea></div>
+                                </div>
+                                <div class="owner-form-actions"><button class="primary-button" onclick="ownerGiveBadge()">Give Badge</button><button class="owner-action" onclick="ownerLoadBadges()">↻ Refresh</button></div>
+                                <div id="ownerBadgeResult" class="owner-result"></div>
+                            </div>
+                            <div class="owner-card"><h3>Existing Badges</h3><div id="ownerBadgesList"></div></div>
+                        </div>
+
+                        <div id="ownerTabFriends" class="owner-tab-panel" style="display:none">
+                            <div class="owner-card">
+                                <h3>🤝 Manage Friendships</h3>
+                                <div class="owner-muted">Create a friendship directly between two student accounts. It will appear in both Friends lists and can be used by the normal messaging system.</div>
+                                <div class="owner-form" style="margin-top:15px">
+                                    <div><label>Student A</label><select id="ownerFriendA"></select></div>
+                                    <div><label>Student B</label><select id="ownerFriendB"></select></div>
+                                </div>
+                                <div class="owner-form-actions"><button class="primary-button" onclick="ownerAddFriend()">Add Friendship</button></div>
+                                <div id="ownerFriendResult" class="owner-result"></div>
+                            </div>
+                            <div class="owner-card"><h3>Current Friendships</h3><div id="ownerFriendshipsList"></div></div>
+                        </div>
+
+                        <div id="ownerTabActivity" class="owner-tab-panel" style="display:none">
+                            <div class="owner-card"><h3>📋 Owner Activity Log</h3><div class="owner-muted">Owner actions recorded by MindCare.</div><div id="ownerAuditList" class="owner-log" style="margin-top:13px"></div></div>
+                        </div>
+
+                        <div id="ownerTabPlatform" class="owner-tab-panel" style="display:none">
+                            <div class="owner-card">
+                                <h3>⚙️ Platform Overview</h3>
+                                <div class="owner-mini-grid">
+                                    <div class="owner-mini"><strong>📅 Appointments</strong><span>Use the existing Appointments workspace to review and manage sessions without exposing private message content.</span><button class="owner-action" style="margin-top:9px" onclick="showSectionByName('appointments')">Open</button></div>
+                                    <div class="owner-mini"><strong>📚 Resources</strong><span>Use the existing Resources workspace for student-facing support material.</span><button class="owner-action" style="margin-top:9px" onclick="showSectionByName('resources')">Open</button></div>
+                                    <div class="owner-mini"><strong>🚨 Reports & Safety</strong><span>Keep safety actions in the existing MindCare support and notification flows. Future report records can be connected here.</span></div>
+                                </div>
+                                <div class="owner-notice">Owner access is intentionally separate from private conversations. Being the Owner does not automatically grant access to users' message content.</div>
+                            </div>
+                            <div class="owner-card owner-danger-zone"><h3>🔐 Owner Security</h3><div class="owner-muted">Only the Supabase account whose profile role is <strong>owner</strong> should be allowed to use these controls. Never put the Owner password or a service-role key in this HTML.</div><div class="owner-form-actions"><button class="owner-action danger" onclick="logout()">🚪 Sign Out Owner</button></div></div>
+                        </div>
+                    </div>
                 </div>
 
             </section>
@@ -2922,6 +3034,29 @@
 
 
         /* ========================================
+           OWNER ROLE RESOLUTION
+        ======================================== */
+        async function getMindCareRole(user) {
+            if (!user?.id) return "student";
+            try {
+                const { data, error } = await supabaseClient
+                    .from("profiles")
+                    .select("id,name,username,role")
+                    .eq("id", user.id)
+                    .maybeSingle();
+                if (!error && data?.role) return data.role;
+            } catch (e) { console.warn("Role lookup failed:", e); }
+            return user.user_metadata?.role || localStorage.getItem("mindcare_role_" + user.id) || "student";
+        }
+
+        async function hydrateCurrentUser(user) {
+            if (!user) return null;
+            const role = await getMindCareRole(user);
+            const name = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student";
+            return { id:user.id, name, email:user.email||"", role };
+        }
+
+        /* ========================================
            LOAD USER
         ======================================== */
 
@@ -2946,15 +3081,7 @@
 
                     const user = session.user;
 
-                    currentUser = {
-                        id: user.id,
-                        name:
-                            user.user_metadata?.full_name ||
-                            user.user_metadata?.name ||
-                            user.email?.split("@")[0] ||
-                            "Student",
-                        email: user.email || ""
-                    };
+                    currentUser = await hydrateCurrentUser(user);
 
                 } else {
 
@@ -3011,15 +3138,7 @@
 
                             const user = session.user;
 
-                            currentUser = {
-                                id: user.id,
-                                name:
-                                    user.user_metadata?.full_name ||
-                                    user.user_metadata?.name ||
-                                    user.email?.split("@")[0] ||
-                                    "Student",
-                                email: user.email || ""
-                            };
+                            currentUser = await hydrateCurrentUser(user);
 
                         } else {
 
@@ -3243,7 +3362,8 @@
             const name = document.getElementById("registerName").value.trim();
             const email = document.getElementById("registerEmail").value.trim().toLowerCase();
             const password = document.getElementById("registerPassword").value;
-            const role = document.getElementById("registerRole")?.value || "student";
+            const requestedRole = document.getElementById("registerRole")?.value || "student";
+            const role = requestedRole === "owner" ? "student" : requestedRole;
             const error = document.getElementById("registerError");
             error.textContent = "";
 
@@ -3289,13 +3409,13 @@
                 const { data, error: signInError } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (signInError) throw signInError;
                 const user = data.user;
-                const role = user.user_metadata?.role || localStorage.getItem("mindcare_role_" + user.id) || "student";
-                currentUser = { id: user.id, name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student", email: user.email || email, role };
-                localStorage.setItem("mindcare_role_" + user.id, role);
+                currentUser = await hydrateCurrentUser(user);
+                localStorage.setItem("mindcare_role_" + user.id, currentUser.role || "student");
                 await ensureProfile(currentUser);
+                currentUser = await hydrateCurrentUser(user);
                 startVoiceSignalPolling();
                 closeModals(); updateHeader();
-                if (role === "therapist") showTherapistDashboard(); else { showDashboard(); refreshDashboard(); }
+                if (currentUser.role === "therapist") showTherapistDashboard(); else { showDashboard(); refreshDashboard(); if (currentUser.role === "owner") ownerLoadPanel(); }
             } catch (err) {
                 console.error("Login error:", err);
                 error.textContent = err.message || "Could not log in.";
@@ -3370,6 +3490,13 @@
 
                 return;
 
+            }
+
+            if (currentUser.role === "owner") {
+                document.getElementById("landingPage").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+                document.getElementById("therapistDashboard").style.display = "none";
+                ownerApplyVisibility();
             }
 
 
@@ -3824,12 +3951,15 @@
         async function ensureProfile(user) {
             if (!user || !user.id) return;
             const username = (user.email || "").toLowerCase();
-            const { data, error } = await supabaseClient
-                .from("profiles")
-                .upsert({ id: user.id, name: user.name || "Student", username, role: user.role || "student" }, { onConflict: "id" })
-                .select().single();
-            if (error) { console.error("Profile sync error:", error); return; }
-            profileCache[data.id] = { id: data.id, name: data.name, username: data.username || username, email: user.email || profileCache[data.id]?.email || "" };
+            try {
+                const { data: existing } = await supabaseClient.from("profiles").select("id,name,username,role").eq("id", user.id).maybeSingle();
+                const payload = { id:user.id, name:user.name||"Student", username };
+                if (!existing) payload.role = user.role || "student";
+                const { data, error } = await supabaseClient.from("profiles").upsert(payload,{onConflict:"id"}).select().single();
+                if (error) { console.error("Profile sync error:",error); return; }
+                profileCache[data.id] = {...data,email:user.email||profileCache[data.id]?.email||""};
+                if (data.role) currentUser.role=data.role;
+            } catch (e) { console.error("Profile sync error:",e); }
         }
 
         async function loadProfiles() {
@@ -5200,7 +5330,7 @@
      showAITyping(false);
      mindcareAIHistory.push({role:'assistant',content:data.reply||'I’m sorry, I couldn’t generate a response right now. Please try again.'});
      mindcareAISave();renderMindCareAI();if(data.safety)showAISupport();
-   }catch(err){showAITyping(false);mindcareAIHistory.push({role:'assistant',content:'I couldn’t connect to MindCare AI right now. Please try again in a moment.'});mindcareAISave();renderMindCareAI();console.error('MindCare AI:',err);}
+   }catch(err){showAITyping(false);const msg=(err&&err.message)?String(err.message):'I couldn’t connect to MindCare AI right now. Please try again in a moment.';mindcareAIHistory.push({role:'assistant',content:msg});mindcareAISave();renderMindCareAI();console.error('MindCare AI:',err);}
    finally{mindcareAISending=false;input.disabled=false;if(send)send.disabled=false;input.focus();}
  }
 
@@ -5220,6 +5350,48 @@
         </div>
     </div>
     <audio id="remoteCallAudio" autoplay playsinline></audio>
+
+
+<script>
+/* =========================================================
+   OWNER PANEL LOGIC
+========================================================= */
+(function(){
+let ownerAccounts=[];
+let ownerBadges=[];
+let ownerFriends=[];
+let ownerReady=false;
+
+function ownerEscape(v){return typeof escapeHTML==='function'?escapeHTML(String(v??'')):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function ownerMsg(id,msg,ok=false){const el=document.getElementById(id);if(!el)return;el.textContent=msg||'';el.className='owner-result '+(ok?'ok':'err');}
+function ownerIsOwner(){return !!currentUser && currentUser.role==='owner';}
+window.ownerApplyVisibility=function(){const btn=document.getElementById('ownerSidebarButton');if(btn)btn.classList.toggle('owner-visible',ownerIsOwner());const section=document.getElementById('section-owner');if(section&&!ownerIsOwner()){section.classList.remove('active');section.style.display='none';}else if(section){section.style.display='';}};
+window.ownerTab=function(name,button){if(!ownerIsOwner())return;document.querySelectorAll('.owner-tab-panel').forEach(x=>x.style.display='none');const p=document.getElementById('ownerTab'+name.charAt(0).toUpperCase()+name.slice(1));if(p)p.style.display='block';document.querySelectorAll('.owner-tab').forEach(x=>x.classList.remove('active'));if(button)button.classList.add('active');if(name==='accounts')ownerRenderAccounts();if(name==='verification')ownerRenderVerification();if(name==='badges'){ownerLoadBadgeUsers();ownerLoadBadges();}if(name==='friends'){ownerLoadStudentLists();ownerLoadFriendships();}if(name==='activity')ownerLoadAudit();};
+window.ownerLoadPanel=async function(){if(!ownerIsOwner()){alert('Owner access required.');return;}ownerApplyVisibility();if(ownerReady){ownerRenderAccounts();return;}ownerReady=true;await ownerLoadAccounts();await ownerLoadBadgeUsers();await ownerLoadStudentLists();await ownerLoadBadges();await ownerLoadFriendships();await ownerLoadAudit();ownerRenderVerification();};
+window.ownerLoadAccounts=async function(){if(!ownerIsOwner())return;const box=document.getElementById('ownerAccountsTable');if(box)box.innerHTML='<div class="owner-empty">Loading accounts…</div>';const {data,error}=await supabaseClient.from('profiles').select('id,name,username,role,verification_status,license_number,license_type,license_authority,license_expiry,verification_note,verified_at').order('name',{ascending:true});if(error){if(box)box.innerHTML='<div class="owner-empty">Could not load accounts. Check the Owner profile RLS policy in Supabase.</div>';console.error(error);return;}ownerAccounts=data||[];ownerAccounts.forEach(p=>profileCache[p.id]={...p,email:p.username||''});document.getElementById('ownerStatAccounts').textContent=ownerAccounts.length;document.getElementById('ownerStatTherapists').textContent=ownerAccounts.filter(x=>x.role==='therapist').length;document.getElementById('ownerStatVerified').textContent=ownerAccounts.filter(x=>x.role==='therapist'&&x.verification_status==='verified').length;ownerRenderAccounts();ownerRenderVerification();ownerLoadBadgeUsers();ownerLoadStudentLists();};
+window.ownerRenderAccounts=function(){const box=document.getElementById('ownerAccountsTable');if(!box)return;const q=(document.getElementById('ownerAccountSearch')?.value||'').toLowerCase().trim();const role=document.getElementById('ownerAccountRole')?.value||'all';const list=ownerAccounts.filter(p=>(role==='all'||p.role===role)&&(!q||String(p.name||'').toLowerCase().includes(q)||String(p.username||'').toLowerCase().includes(q)));if(!list.length){box.innerHTML='<div class="owner-empty">No matching accounts.</div>';return;}box.innerHTML='<table class="owner-table"><thead><tr><th>Account</th><th>Role</th><th>Status</th><th>License</th><th>Action</th></tr></thead><tbody>'+list.map(p=>{const initials=(p.name||p.username||'?').slice(0,1).toUpperCase();const verified=p.role==='therapist'&&p.verification_status==='verified';return `<tr><td><div class="owner-user"><div class="owner-avatar">${ownerEscape(initials)}</div><div><div class="owner-user-name">${ownerEscape(p.name||'Unnamed')}${verified?'<span class="owner-verified-tick">✓</span>':''}</div><div class="owner-user-email">${ownerEscape(p.username||'')}</div></div></div></td><td><span class="owner-role ${ownerEscape(p.role||'student')}">${ownerEscape(p.role||'student')}</span></td><td><span class="owner-status ${ownerEscape(p.verification_status||'unverified')}">${ownerEscape(p.verification_status||'unverified')}</span></td><td>${ownerEscape(p.license_number||'—')}</td><td>${p.role==='therapist'?`<button class="owner-action" onclick="ownerOpenVerification('${p.id}')">Review</button>`:'—'}</td></tr>`}).join('')+'</tbody></table>';};
+window.ownerRenderVerification=function(){const box=document.getElementById('ownerVerificationList');if(!box)return;const list=ownerAccounts.filter(p=>p.role==='therapist');if(!list.length){box.innerHTML='<div class="owner-empty">No therapist accounts found.</div>';return;}box.innerHTML='<table class="owner-table"><thead><tr><th>Therapist</th><th>License</th><th>Authority</th><th>Expiry</th><th>Status</th><th>Actions</th></tr></thead><tbody>'+list.map(p=>`<tr id="ownerVerifyRow-${p.id}"><td><div class="owner-user"><div class="owner-avatar">${ownerEscape((p.name||'?').slice(0,1).toUpperCase())}</div><div><div class="owner-user-name">${ownerEscape(p.name||'Unnamed')}</div><div class="owner-user-email">${ownerEscape(p.username||'')}</div></div></div></td><td>${ownerEscape(p.license_number||'Not submitted')}<br><small>${ownerEscape(p.license_type||'')}</small></td><td>${ownerEscape(p.license_authority||'—')}</td><td>${ownerEscape(p.license_expiry||'—')}</td><td><span class="owner-status ${ownerEscape(p.verification_status||'unverified')}">${ownerEscape(p.verification_status||'unverified')}</span></td><td><button class="owner-action success" onclick="ownerVerify('${p.id}','verified')">Approve</button> <button class="owner-action danger" onclick="ownerVerify('${p.id}','rejected')">Reject</button></td></tr>`).join('')+'</tbody></table>';};
+window.ownerOpenVerification=function(id){ownerTab('verification',document.querySelectorAll('.owner-tab')[1]);setTimeout(()=>document.getElementById('ownerVerifyRow-'+id)?.scrollIntoView({behavior:'smooth',block:'center'}),50);};
+window.ownerVerify=async function(id,status){if(!ownerIsOwner())return;const note=status==='verified'?'Verified by MindCare Owner':'Rejected by MindCare Owner';const payload={verification_status:status,verification_note:note};if(status==='verified')payload.verified_at=new Date().toISOString(),payload.verified_by=currentUser.id;else payload.verified_at=null;const {error}=await supabaseClient.from('profiles').update(payload).eq('id',id);if(error){alert('Could not update verification. Your profiles RLS may need an owner update policy.');console.error(error);return;}await supabaseClient.from('owner_audit_log').insert({owner_id:currentUser.id,action:status==='verified'?'therapist_verified':'therapist_rejected',target_user_id:id,details:{status}});await ownerLoadAccounts();ownerLoadAudit();};
+window.ownerLoadBadgeUsers=async function(){const sel=document.getElementById('ownerBadgeUser');if(!sel)return;if(!ownerAccounts.length)await ownerLoadAccounts();sel.innerHTML=ownerAccounts.filter(p=>p.id!==currentUser.id).map(p=>`<option value="${p.id}">${ownerEscape(p.name||p.username||p.id)} — ${ownerEscape(p.role||'student')}</option>`).join('');};
+window.ownerGiveBadge=async function(){if(!ownerIsOwner())return;const target=document.getElementById('ownerBadgeUser')?.value,name=document.getElementById('ownerBadgeName')?.value.trim(),color=document.getElementById('ownerBadgeColor')?.value.trim()||'#3B82F6',icon=document.getElementById('ownerBadgeIcon')?.value.trim()||'✓',desc=document.getElementById('ownerBadgeDescription')?.value.trim()||null;if(!target||!name){ownerMsg('ownerBadgeResult','Choose an account and badge label.');return;}const {error}=await supabaseClient.rpc('owner_give_badge',{target_user:target,p_badge_name:name,p_badge_color:color,p_badge_icon:icon,p_description:desc,p_expires_at:null});if(error){ownerMsg('ownerBadgeResult',error.message||'Could not give badge.');console.error(error);return;}await supabaseClient.from('owner_audit_log').insert({owner_id:currentUser.id,action:'badge_given',target_user_id:target,details:{badge_name:name,badge_color:color,badge_icon:icon}});ownerMsg('ownerBadgeResult','Badge given successfully.',true);await ownerLoadBadges();ownerLoadAudit();};
+window.ownerLoadBadges=async function(){const box=document.getElementById('ownerBadgesList');if(!box||!ownerIsOwner())return;const {data,error}=await supabaseClient.from('user_badges').select('id,user_id,badge_name,badge_color,badge_icon,badge_description,expires_at,created_at').order('created_at',{ascending:false});if(error){box.innerHTML='<div class="owner-empty">Could not load badges.</div>';return;}ownerBadges=data||[];document.getElementById('ownerStatBadges').textContent=ownerBadges.length;if(!ownerBadges.length){box.innerHTML='<div class="owner-empty">No badges yet.</div>';return;}box.innerHTML=ownerBadges.map(b=>{const u=ownerAccounts.find(x=>x.id===b.user_id);return `<div class="owner-log-item"><div class="owner-badge-preview"><span class="owner-badge-dot" style="background:${ownerEscape(b.badge_color||'#3B82F6')}">${ownerEscape(b.badge_icon||'✓')}</span>${ownerEscape(b.badge_name)}</div><div class="owner-user-email">${ownerEscape(u?.name||u?.username||b.user_id)}</div><small>${ownerEscape(b.badge_description||'')} · ${new Date(b.created_at).toLocaleString()}</small><button class="owner-action danger" style="margin-top:8px" onclick="ownerRemoveBadge('${b.id}')">Remove</button></div>`}).join('');};
+window.ownerRemoveBadge=async function(id){if(!ownerIsOwner())return;if(!confirm('Remove this badge?'))return;const {error}=await supabaseClient.from('user_badges').delete().eq('id',id);if(error){alert(error.message||'Could not remove badge.');return;}await supabaseClient.from('owner_audit_log').insert({owner_id:currentUser.id,action:'badge_removed',details:{badge_id:id}});ownerLoadBadges();ownerLoadAudit();};
+window.ownerLoadStudentLists=async function(){if(!ownerAccounts.length)await ownerLoadAccounts();const students=ownerAccounts.filter(p=>p.role==='student');['ownerFriendA','ownerFriendB'].forEach(id=>{const s=document.getElementById(id);if(s)s.innerHTML='<option value="">Select student…</option>'+students.map(p=>`<option value="${p.id}">${ownerEscape(p.name||p.username||p.id)} — ${ownerEscape(p.username||'')}</option>`).join('');});};
+window.ownerAddFriend=async function(){if(!ownerIsOwner())return;const a=document.getElementById('ownerFriendA')?.value,b=document.getElementById('ownerFriendB')?.value;if(!a||!b){ownerMsg('ownerFriendResult','Choose two students.');return;}if(a===b){ownerMsg('ownerFriendResult','Choose two different students.');return;}const {data,error}=await supabaseClient.rpc('owner_add_friend',{student_a:a,student_b:b});if(error){ownerMsg('ownerFriendResult',error.message||'Could not create friendship.');return;}await supabaseClient.from('owner_audit_log').insert({owner_id:currentUser.id,action:'friendship_added',target_user_id:a,details:{student_a:a,student_b:b,created:data===true}});ownerMsg('ownerFriendResult',data===false?'They are already friends.':'Friendship created successfully.',true);ownerLoadFriendships();ownerLoadAudit();};
+window.ownerLoadFriendships=async function(){const box=document.getElementById('ownerFriendshipsList');if(!box||!ownerIsOwner())return;const {data,error}=await supabaseClient.from('friendships').select('user1_id,user2_id').limit(500);if(error){box.innerHTML='<div class="owner-empty">Could not load friendships.</div>';return;}ownerFriends=data||[];if(!ownerFriends.length){box.innerHTML='<div class="owner-empty">No friendships found.</div>';return;}box.innerHTML=ownerFriends.map((f,i)=>{const a=ownerAccounts.find(x=>x.id===f.user1_id),b=ownerAccounts.find(x=>x.id===f.user2_id);return `<div class="owner-log-item"><strong>${ownerEscape(a?.name||a?.username||f.user1_id)} ↔ ${ownerEscape(b?.name||b?.username||f.user2_id)}</strong><small>${ownerEscape(a?.username||'')} · ${ownerEscape(b?.username||'')}</small><button class="owner-action danger" style="margin-top:8px" onclick="ownerRemoveFriend('${f.user1_id}','${f.user2_id}')">Remove friendship</button></div>`}).join('');};
+window.ownerRemoveFriend=async function(a,b){if(!ownerIsOwner()||!confirm('Remove this friendship?'))return;const {error}=await supabaseClient.from('friendships').delete().or(`and(user1_id.eq.${a},user2_id.eq.${b}),and(user1_id.eq.${b},user2_id.eq.${a})`);if(error){alert('Could not remove friendship. Your friendships RLS may need an owner delete policy.');console.error(error);return;}await supabaseClient.from('owner_audit_log').insert({owner_id:currentUser.id,action:'friendship_removed',target_user_id:a,details:{student_a:a,student_b:b}});ownerLoadFriendships();ownerLoadAudit();};
+window.ownerLoadAudit=async function(){const box=document.getElementById('ownerAuditList');if(!box||!ownerIsOwner())return;const {data,error}=await supabaseClient.from('owner_audit_log').select('id,action,target_user_id,details,created_at').order('created_at',{ascending:false}).limit(100);if(error){box.innerHTML='<div class="owner-empty">Could not load activity log.</div>';return;}if(!data?.length){box.innerHTML='<div class="owner-empty">No owner actions recorded yet.</div>';return;}box.innerHTML=data.map(x=>{const u=ownerAccounts.find(p=>p.id===x.target_user_id);return `<div class="owner-log-item"><strong>${ownerEscape(x.action)}</strong><div class="owner-user-email">${ownerEscape(u?.name||u?.username||x.target_user_id||'Platform')}</div><small>${new Date(x.created_at).toLocaleString()} · ${ownerEscape(JSON.stringify(x.details||{}))}</small></div>`}).join('');};
+
+// Make the normal showSection function respect Owner-only access and load panel when opened.
+const originalShowSection=window.showSection;
+if(typeof originalShowSection==='function'){
+ window.showSection=function(sectionName,button){if(sectionName==='owner'&&!ownerIsOwner()){alert('Owner access required.');return;}originalShowSection(sectionName,button);if(sectionName==='owner')ownerLoadPanel();};
+}
+
+window.addEventListener('DOMContentLoaded',function(){setTimeout(ownerApplyVisibility,100);});
+})();
+</script>
 
 </body>
 
