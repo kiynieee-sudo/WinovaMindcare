@@ -4223,6 +4223,11 @@
             voiceCallId = crypto.randomUUID();
             voiceCallStartedAt = new Date().toISOString();
             voiceCallRole = "caller";
+            const remoteAudio = document.getElementById("remoteCallAudio");
+            if (remoteAudio) {
+                remoteAudio.muted = false;
+                remoteAudio.volume = 1;
+            }
             voicePeer = createVoicePeer(activeChatUser.id);
             voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
 
@@ -4244,11 +4249,32 @@
                     await sendCallSignal("ice", { call_id: voiceCallId, candidate: event.candidate }, otherUserId);
                 }
             };
-            pc.ontrack = event => {
+            pc.ontrack = async event => {
                 const audio = document.getElementById("remoteCallAudio");
-                if (audio) {
-                    audio.srcObject = event.streams[0];
-                    audio.play().catch(() => {});
+                if (!audio) return;
+                audio.autoplay = true;
+                audio.playsInline = true;
+                audio.muted = false;
+                audio.volume = 1;
+                if (event.streams && event.streams[0]) audio.srcObject = event.streams[0];
+                try {
+                    await audio.play();
+                    const status = document.getElementById("callStatus");
+                    if (status && pc.connectionState === "connected") status.textContent = "Connected 🎙️🔊";
+                } catch (e) {
+                    console.warn("Remote audio autoplay was blocked:", e);
+                    const actions = document.getElementById("callActions");
+                    if (actions && !document.getElementById("enableCallAudioButton")) {
+                        const btn = document.createElement("button");
+                        btn.id = "enableCallAudioButton";
+                        btn.className = "call-action accept";
+                        btn.textContent = "🔊 Enable audio";
+                        btn.onclick = async () => {
+                            try { await audio.play(); btn.remove(); }
+                            catch (err) { console.error("Could not start remote audio:", err); }
+                        };
+                        actions.prepend(btn);
+                    }
                 }
             };
             pc.onconnectionstatechange = () => {
@@ -4275,6 +4301,11 @@
             voiceCallId = offer.call_id;
             voiceCallStartedAt = new Date().toISOString();
             voiceCallRole = "callee";
+            const remoteAudio = document.getElementById("remoteCallAudio");
+            if (remoteAudio) {
+                remoteAudio.muted = false;
+                remoteAudio.volume = 1;
+            }
             voicePeer = createVoicePeer(offer.from);
             voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
             await voicePeer.setRemoteDescription(new RTCSessionDescription(offer.sdp));
@@ -4322,6 +4353,12 @@
             }
             if (voicePeer) voicePeer.close();
             if (voiceLocalStream) voiceLocalStream.getTracks().forEach(t => t.stop());
+            const remoteAudio = document.getElementById("remoteCallAudio");
+            if (remoteAudio) {
+                remoteAudio.pause();
+                remoteAudio.srcObject = null;
+            }
+            voiceIceQueue = [];
             voicePeer = null;
             voiceLocalStream = null;
             voiceCallId = null;
