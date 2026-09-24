@@ -1853,6 +1853,14 @@
 
                 <button
                     class="sidebar-button"
+                    onclick="showSection('ai', this)"
+                >
+                    🧠 MindCare AI
+                </button>
+
+
+                <button
+                    class="sidebar-button"
                     onclick="showSection('support', this)"
                 >
                     🤝 Support
@@ -1988,6 +1996,21 @@
 
                     </div>
 
+                </div>
+
+
+                <!-- MINDCARE AI -->
+
+                <div
+                    class="dashboard-section"
+                    id="section-ai"
+                >
+                    <div class="dashboard-heading">
+                        <span class="eyebrow">YOUR SUPPORT COMPANION</span>
+                        <h2>MindCare AI 🌿</h2>
+                        <p>Ask questions, talk things through, get study help, or find your next small step.</p>
+                    </div>
+                    <div id="mindcareAIHost"></div>
                 </div>
 
 
@@ -5051,6 +5074,23 @@
 
 
 <style>
+
+/* =========================
+   MINDCARE AI
+========================= */
+.mindcare-ai-shell{display:flex;flex-direction:column;min-height:650px;background:linear-gradient(145deg,#fbfffc,#f4fbf6);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.mindcare-ai-top{padding:22px 24px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.82);display:flex;justify-content:space-between;align-items:center;gap:18px}
+.mindcare-ai-brand{display:flex;align-items:center;gap:13px}.mindcare-ai-icon{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--light-green);font-size:25px}.mindcare-ai-brand h3{margin:0}.mindcare-ai-brand p{margin:4px 0 0;color:var(--gray);font-size:13px}
+.mindcare-ai-new{border:1px solid var(--border);background:white;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;color:var(--dark-green)}
+.mindcare-ai-messages{flex:1;overflow-y:auto;padding:28px;display:flex;flex-direction:column;gap:14px;min-height:430px;max-height:540px}
+.ai-message{max-width:min(760px,88%);padding:14px 16px;border-radius:18px;line-height:1.65;white-space:pre-wrap;word-break:break-word;box-shadow:0 4px 14px rgba(0,0,0,.04)}
+.ai-message.assistant{align-self:flex-start;background:white;border:1px solid var(--border);border-top-left-radius:7px}.ai-message.user{align-self:flex-end;background:var(--light-green);border:1px solid var(--border);border-top-right-radius:7px}
+.ai-message small{display:block;margin-top:7px;font-size:11px;opacity:.55}.ai-typing{display:inline-flex;gap:4px;align-items:center}.ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--green);animation:aiPulse 1s infinite}.ai-typing span:nth-child(2){animation-delay:.15s}.ai-typing span:nth-child(3){animation-delay:.3s}@keyframes aiPulse{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+.mindcare-ai-quick{padding:0 24px 16px;display:flex;flex-wrap:wrap;gap:8px}.ai-quick-btn{border:1px solid var(--border);background:white;border-radius:999px;padding:9px 12px;cursor:pointer;font-weight:700;color:var(--dark);transition:.2s}.ai-quick-btn:hover{transform:translateY(-2px);border-color:var(--green);background:var(--lighter-green)}
+.mindcare-ai-composer{display:flex;gap:10px;padding:16px;border-top:1px solid var(--border);background:white}.mindcare-ai-composer textarea{flex:1;resize:none;min-height:48px;max-height:130px;padding:13px 14px;border:1px solid #cfe3d5;border-radius:14px;font:inherit;outline:none}.mindcare-ai-composer textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(74,128,91,.1)}.mindcare-ai-send{align-self:flex-end;border:0;border-radius:14px;padding:13px 17px;background:var(--green);color:white;font-weight:800;cursor:pointer}.mindcare-ai-send:disabled{opacity:.55;cursor:not-allowed}
+.ai-safety-note{padding:10px 24px 18px;color:var(--gray);font-size:12px;line-height:1.5}.ai-support-card{margin:0 24px 18px;padding:16px;border-radius:16px;background:#fff8ed;border:1px solid #ead8b7}.ai-support-card strong{display:block;margin-bottom:5px}.ai-support-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.ai-support-actions button{border:1px solid var(--border);background:white;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}
+@media(max-width:800px){.mindcare-ai-top{align-items:flex-start}.mindcare-ai-messages{padding:18px;min-height:400px}.mindcare-ai-quick{padding:0 18px 12px}.mindcare-ai-composer{padding:12px}.ai-message{max-width:94%}}
+
 /* MindCare requested enhancement layer — landing page preserved */
 .login-role-button{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--lighter-green);color:var(--dark);font-weight:700;text-align:left}.login-role-button.active{border-color:var(--green);background:var(--light-green);color:var(--dark-green)}
 .therapist-layout{background:linear-gradient(135deg,#fbfffc,#f2fbf5)}.therapist-sidebar{background:rgba(248,252,249,.94);position:sticky;top:75px;height:calc(100vh - 75px)}.therapist-sidebar .sidebar-title small{display:block;font-size:.72rem;color:var(--gray);font-weight:600;margin-top:3px}.therapist-logout{margin-top:20px;color:var(--red)!important}.therapist-content{background:transparent;padding:42px 5%}.eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.13em;font-weight:800;color:var(--dark-green);background:var(--light-green);padding:7px 10px;border-radius:999px;margin-bottom:12px}.therapist-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:24px 0}.therapist-stat{display:flex;gap:15px;align-items:center;padding:22px;border-radius:20px;background:white;border:1px solid var(--border);box-shadow:var(--shadow)}.therapist-stat>span{font-size:1.7rem}.therapist-stat small,.therapist-stat strong{display:block}.therapist-stat small{color:var(--gray);margin-bottom:4px}.therapist-panel-grid,.therapist-settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:20px}.therapist-panel{background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.text-button{border:0;background:none;color:var(--dark-green);font-weight:800}.therapist-actions{display:grid;gap:12px}.therapist-list{display:grid;gap:10px}.therapist-list-item{padding:14px;border-radius:14px;background:var(--lighter-green);border:1px solid var(--border)}.therapist-client-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.therapist-client{padding:20px;background:white;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}.toggle-row{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:15px 0;border-bottom:1px solid var(--border)}.toggle-row:last-child{border-bottom:0}.toggle-row small{display:block;color:var(--gray);margin-top:4px}.resource-clean-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.resource-clean-card{border:1px solid var(--border);background:white;border-radius:20px;padding:22px;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:15px;align-items:center;box-shadow:var(--shadow);transition:.25s ease}.resource-clean-card:hover{transform:translateY(-4px);border-color:var(--green)}.resource-clean-card>span{font-size:2rem}.resource-clean-card strong,.resource-clean-card small{display:block}.resource-clean-card small{color:var(--gray);line-height:1.5;margin-top:5px}.resource-clean-card b{white-space:nowrap;color:var(--dark-green);font-size:.88rem}.therapist-content textarea{resize:vertical;width:100%;padding:13px;border:1px solid #cfe3d5;border-radius:10px}.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.theme-choice{padding:14px;border:1px solid var(--border);border-radius:14px;background:white;text-align:left;font-weight:700}.theme-choice:hover{border-color:var(--green);transform:translateY(-2px)}.settings-extra-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}.settings-extra-grid .form-card{max-width:none}.friends-redesign{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.friends-hero{padding:28px;border-radius:24px;background:linear-gradient(135deg,#e9f7ee,#f8fcf9);border:1px solid var(--border);margin-bottom:20px}.friends-hero h2{font-size:2rem;margin-bottom:7px}.friends-hero p{color:var(--gray);line-height:1.6}.friends-search{display:flex;gap:10px;margin-top:20px}.friends-search input{flex:1;padding:14px;border:1px solid #cfe3d5;border-radius:12px}.friends-box{background:white;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.friends-box h3{margin-bottom:15px}.friends-box.full{grid-column:1/-1}.overview-hero{padding:30px;border-radius:25px;background:linear-gradient(135deg,#e9f7ee,#f8fcf9);border:1px solid var(--border);margin-bottom:20px}.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.overview-feature{padding:24px;border-radius:20px;background:white;border:1px solid var(--border);box-shadow:var(--shadow)}.overview-feature span{font-size:1.8rem}.overview-feature h3{margin:12px 0 7px}.overview-feature p{color:var(--gray);line-height:1.6}.overview-feature button{margin-top:15px}.overview-feature,.friends-box,.therapist-stat,.therapist-panel{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.overview-feature.is-visible,.friends-box.is-visible,.therapist-stat.is-visible,.therapist-panel.is-visible{opacity:1;transform:translateY(0)}.reduce-motion *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.wellness-strip{margin-top:20px;padding:22px;border-radius:20px;background:#f5fbf7;border:1px solid var(--border)}
@@ -5107,10 +5147,67 @@
  window.openStudentMessagesForTherapist=function(){document.getElementById('therapistDashboard').style.display='none';showDashboard();showSectionByName('messages');};
  window.openResource=window.openResource||function(type){alert('Resource: '+type);};
  // Preserve the original page while upgrading only dashboard internals.
+ function buildMindCareAI(){
+   const host=document.getElementById('mindcareAIHost');
+   if(!host||host.dataset.ready==='1') return;
+   host.dataset.ready='1';
+   host.innerHTML=`
+     <div class="mindcare-ai-shell">
+       <div class="mindcare-ai-top">
+         <div class="mindcare-ai-brand"><div class="mindcare-ai-icon">🧠</div><div><h3>MindCare AI</h3><p>A supportive place to ask, think, plan and talk.</p></div></div>
+         <button class="mindcare-ai-new" type="button" onclick="mindcareAINewChat()">＋ New chat</button>
+       </div>
+       <div class="mindcare-ai-messages" id="mindcareAIMessages"></div>
+       <div class="mindcare-ai-quick" id="mindcareAIQuick">
+         <button class="ai-quick-btn" type="button" onclick="mindcareAIQuick('I feel overwhelmed right now. Can you help me figure out what to do first?')">🌿 I'm overwhelmed</button>
+         <button class="ai-quick-btn" type="button" onclick="mindcareAIQuick('I have a lot of studying to do and I cannot focus. Help me make a realistic plan.')">📚 Study stress</button>
+         <button class="ai-quick-btn" type="button" onclick="mindcareAIQuick('I need advice about a friendship or relationship.')">💬 Relationships</button>
+         <button class="ai-quick-btn" type="button" onclick="mindcareAIQuick('I have been feeling low lately and I want to talk about it.')">🌱 Feeling low</button>
+         <button class="ai-quick-btn" type="button" onclick="mindcareAIQuick('Help me make a small plan for taking care of myself today.')">✨ Small steps</button>
+       </div>
+       <div id="mindcareAISupport" style="display:none"></div>
+       <div class="mindcare-ai-composer">
+         <textarea id="mindcareAIInput" rows="1" maxlength="4000" placeholder="Ask anything…" onkeydown="mindcareAIKeydown(event)"></textarea>
+         <button class="mindcare-ai-send" id="mindcareAISend" type="button" onclick="sendMindCareAI()">Send</button>
+       </div>
+       <div class="ai-safety-note">MindCare AI is a support tool, not a therapist or emergency service. For urgent or immediate danger, use human or emergency support.</div>
+     </div>`;
+   mindcareAILoad();
+ }
+ const MINDCARE_AI_STORAGE='mindcare_ai_chat_v1';
+ let mindcareAIHistory=[];
+ let mindcareAISending=false;
+ function mindcareAIWelcome(){return {role:'assistant',content:"Hi 🌿 I'm MindCare AI. You can ask me about stress, studying, relationships, sleep, motivation, career worries, or anything else that's on your mind. We can take it one step at a time."};}
+ function mindcareAISave(){try{localStorage.setItem(MINDCARE_AI_STORAGE,JSON.stringify(mindcareAIHistory.slice(-30)));}catch(e){}}
+ function mindcareAILoad(){try{const saved=JSON.parse(localStorage.getItem(MINDCARE_AI_STORAGE)||'[]');mindcareAIHistory=Array.isArray(saved)&&saved.length?saved:[mindcareAIWelcome()];}catch(e){mindcareAIHistory=[mindcareAIWelcome()];}renderMindCareAI();}
+ function mindcareAINewChat(){mindcareAIHistory=[mindcareAIWelcome()];mindcareAISave();renderMindCareAI();const i=document.getElementById('mindcareAIInput');if(i)i.focus();}
+ function escapeAIText(text){return escapeHTML(String(text||''));}
+ function renderMindCareAI(){const box=document.getElementById('mindcareAIMessages');if(!box)return;box.innerHTML=mindcareAIHistory.map(m=>`<div class="ai-message ${m.role==='user'?'user':'assistant'}">${escapeAIText(m.content).replace(/\n/g,'<br>')}</div>`).join('');box.scrollTop=box.scrollHeight;}
+ function showAITyping(show){const box=document.getElementById('mindcareAIMessages');if(!box)return;const old=document.getElementById('mindcareAITyping');if(show&&!old){const d=document.createElement('div');d.className='ai-message assistant';d.id='mindcareAITyping';d.innerHTML='<span class="ai-typing"><span></span><span></span><span></span></span>';box.appendChild(d);box.scrollTop=box.scrollHeight;}else if(!show&&old)old.remove();}
+ function mindcareAIKeydown(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMindCareAI();}}
+ function mindcareAIQuick(text){const i=document.getElementById('mindcareAIInput');if(i){i.value=text;i.focus();}sendMindCareAI();}
+ function showAISupport(){const el=document.getElementById('mindcareAISupport');if(!el)return;el.style.display='block';el.innerHTML=`<div class="ai-support-card"><strong>💛 You don't have to handle an urgent situation alone.</strong><div>If you may be in immediate danger or think you might hurt yourself or someone else, contact local emergency services or a trusted person now. You can also use MindCare's professional support options.</div><div class="ai-support-actions"><button type="button" onclick="showSectionByName('verified')">🧑‍⚕️ Find professional help</button><button type="button" onclick="showSectionByName('messages')">💬 Open Messages</button></div></div>`;}
+ async function sendMindCareAI(){
+   if(mindcareAISending)return;
+   const input=document.getElementById('mindcareAIInput');if(!input)return;
+   const text=input.value.trim();if(!text)return;
+   mindcareAISending=true;input.value='';input.disabled=true;const send=document.getElementById('mindcareAISend');if(send)send.disabled=true;
+   mindcareAIHistory.push({role:'user',content:text});mindcareAISave();renderMindCareAI();showAITyping(true);
+   try{
+     const res=await fetch('/api/mindcare-ai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:mindcareAIHistory.slice(-20)})});
+     const data=await res.json().catch(()=>({}));
+     if(!res.ok)throw new Error(data.error||'MindCare AI is unavailable right now.');
+     showAITyping(false);
+     mindcareAIHistory.push({role:'assistant',content:data.reply||'I’m sorry, I couldn’t generate a response right now. Please try again.'});
+     mindcareAISave();renderMindCareAI();if(data.safety)showAISupport();
+   }catch(err){showAITyping(false);mindcareAIHistory.push({role:'assistant',content:'I couldn’t connect to MindCare AI right now. Please try again in a moment.'});mindcareAISave();renderMindCareAI();console.error('MindCare AI:',err);}
+   finally{mindcareAISending=false;input.disabled=false;if(send)send.disabled=false;input.focus();}
+ }
+
  function buildOverview(){const s=document.getElementById('section-overview');if(!s)return;s.innerHTML=`<div class="overview-hero"><span class="eyebrow">YOUR MINDCARE SPACE</span><h2>Welcome back, <span id="welcomeName">Student</span> 👋</h2><p style="color:var(--gray);margin-top:8px;line-height:1.7">A gentle place to stay connected, find support and take care of yourself.</p></div><div class="overview-grid"><div class="overview-feature"><span>👥</span><h3>Friends</h3><p id="friendCount">0 friends</p><button class="secondary-button" onclick="showSectionByName('friends')">Open Friends</button></div><div class="overview-feature"><span>💬</span><h3>Messages</h3><p>Stay connected with people you trust.</p><button class="secondary-button" onclick="showSectionByName('messages')">Open Messages</button></div><div class="overview-feature"><span>🌿</span><h3>Verified Help</h3><p>Professional support is available when you need it.</p><button class="secondary-button" onclick="showSectionByName('verified')">Find Support</button></div></div><div class="wellness-strip"><strong>🌱 A small reminder</strong><p style="color:var(--gray);margin-top:6px">You don't have to handle everything at once. One small step is still progress.</p></div>`;};
  function buildFriends(){const s=document.getElementById('section-friends');if(!s)return;s.innerHTML=`<div class="friends-hero"><span class="eyebrow">CONNECTION</span><h2>Friends</h2><p>Build a supportive circle and stay connected with people you trust.</p><div class="friends-search"><input id="friendSearch" type="email" placeholder="Enter your friend's email"><button class="primary-button" onclick="sendFriendRequest()">Add Friend</button></div><p id="friendResult" class="success-message"></p></div><div class="friends-redesign"><div class="friends-box"><h3>🔔 Friend Requests</h3><div id="friendRequests" class="friend-list"></div></div><div class="friends-box"><h3>💚 My Friends</h3><div id="friendsList" class="friend-list"></div></div><div class="friends-box full"><h3>✨ A supportive space</h3><p style="color:var(--gray);line-height:1.7">Keep your circle kind, respectful and supportive. You can accept, decline or manage requests whenever you're ready.</p></div></div>`;};
  function buildSettings(){const s=document.getElementById('section-settings');if(!s)return;const old=s.querySelector('.form-card');if(!old)return;const extra=document.createElement('div');extra.className='settings-extra-grid';extra.innerHTML=`<div class="form-card"><h3>🎨 Appearance</h3><p style="color:var(--gray);margin:8px 0 16px">Choose a calm colour palette for your MindCare dashboard.</p><select id="mindcareThemeSelect" style="width:100%;padding:13px;border:1px solid #cfe3d5;border-radius:10px"><option value="default">🌿 MindCare Green</option><option value="lavender">💜 Calm Lavender</option><option value="sage">🌱 Soft Sage</option><option value="ocean">🌊 Quiet Ocean</option><option value="sand">🏜️ Warm Sand</option><option value="rose">🌸 Gentle Rose</option><option value="sky">☁️ Misty Sky</option><option value="plum">🍇 Quiet Plum</option><option value="eucalyptus">🌿 Eucalyptus</option><option value="sunrise">🌅 Sunrise Peace</option><option value="cream">🕯️ Buttercream</option></select></div><div class="form-card"><h3>♿ Accessibility & comfort</h3><label class="toggle-row"><span><strong>Reduce motion</strong><small>Use calmer transitions and animations.</small></span><input id="reduceMotionToggle" type="checkbox"></label><label class="toggle-row"><span><strong>Focus mode</strong><small>Reduce visual distractions in the dashboard.</small></span><input id="focusModeToggle" type="checkbox"></label></div><div class="form-card"><h3>🔔 Notifications</h3><label class="toggle-row"><span><strong>Friend requests</strong><small>Keep social updates visible.</small></span><input type="checkbox" checked></label><label class="toggle-row"><span><strong>Appointment reminders</strong><small>Receive helpful reminders.</small></span><input type="checkbox" checked></label></div><div class="form-card"><h3>🔒 Privacy & account</h3><p style="color:var(--gray);line-height:1.6">Keep your account details private and only share information you are comfortable sharing.</p></div>`;old.parentNode.appendChild(extra);const sel=document.getElementById('mindcareThemeSelect');if(sel){sel.value=localStorage.getItem('mindcare_theme')||'default';sel.onchange=()=>applyTheme(sel.value);}const rm=document.getElementById('reduceMotionToggle');if(rm){rm.checked=localStorage.getItem('mindcare_reduce_motion')==='1';rm.onchange=()=>toggleReducedMotion(rm.checked);}}
- document.addEventListener('DOMContentLoaded',()=>{buildOverview();buildFriends();buildSettings();applyTheme(localStorage.getItem('mindcare_theme')||'default');toggleReducedMotion(localStorage.getItem('mindcare_reduce_motion')==='1'); const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12}); document.querySelectorAll('.overview-feature,.friends-box,.therapist-stat,.therapist-panel').forEach(e=>io.observe(e));});
+ document.addEventListener('DOMContentLoaded',()=>{buildOverview();buildMindCareAI();buildFriends();buildSettings();applyTheme(localStorage.getItem('mindcare_theme')||'default');toggleReducedMotion(localStorage.getItem('mindcare_reduce_motion')==='1'); const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12}); document.querySelectorAll('.overview-feature,.friends-box,.therapist-stat,.therapist-panel').forEach(e=>io.observe(e));});
 })();
 </script>
 
