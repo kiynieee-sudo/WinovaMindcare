@@ -13,11 +13,7 @@
     <title>MindCare - by winova</title>
 
     <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">        setInterval(() => {
-            if (currentUser) pollVoiceSignals();
-        }, 1200);
-
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
 
@@ -2924,6 +2920,8 @@
 
                 await loadCurrentUser();
 
+                if (currentUser) startVoiceSignalPolling();
+
                 updateHeader();
 
                 renderTherapists();
@@ -2965,9 +2963,11 @@
 
                             currentUser = null;
                             activeChatUser = null;
+                            if (voiceSignalTimer) { clearInterval(voiceSignalTimer); voiceSignalTimer = null; }
 
                         }
 
+                        if (currentUser) startVoiceSignalPolling();
                         updateHeader();
 
                     }
@@ -3201,6 +3201,7 @@
                 currentUser = { id: user.id, name, email: user.email || email, role };
                 localStorage.setItem("mindcare_role_" + user.id, role);
                 await ensureProfile(currentUser);
+                startVoiceSignalPolling();
                 closeModals(); updateHeader();
                 if (role === "therapist") showTherapistDashboard(); else showDashboard();
                 if (role === "student") refreshDashboard();
@@ -3230,6 +3231,7 @@
                 currentUser = { id: user.id, name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student", email: user.email || email, role };
                 localStorage.setItem("mindcare_role_" + user.id, role);
                 await ensureProfile(currentUser);
+                startVoiceSignalPolling();
                 closeModals(); updateHeader();
                 if (role === "therapist") showTherapistDashboard(); else { showDashboard(); refreshDashboard(); }
             } catch (err) {
@@ -3257,6 +3259,8 @@
 
                 currentUser = null;
                 activeChatUser = null;
+                if (voiceSignalTimer) { clearInterval(voiceSignalTimer); voiceSignalTimer = null; }
+                await endVoiceCall(false);
 
                 updateHeader();
 
