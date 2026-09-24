@@ -3678,65 +3678,20 @@
 
         async function sendFriendRequest() {
             const input = document.getElementById("friendSearch");
+            const email = input.value.trim().toLowerCase();
             const result = document.getElementById("friendResult");
-            const email = (input?.value || "").trim().toLowerCase();
-            if (result) { result.textContent = ""; result.className = "success-message"; }
-
-            if (!email || !currentUser) {
-                if (result) { result.textContent = "Enter an email address."; result.className = "error-message"; }
-                return;
-            }
-
+            result.textContent = ""; result.className = "success-message";
+            if (!email || !currentUser) { result.textContent = "Enter an email address."; result.className = "error-message"; return; }
             await loadProfiles();
-            const profiles = Object.values(profileCache);
-            const target = profiles.find(p =>
-                (p.username || "").toLowerCase() === email ||
-                (p.email || "").toLowerCase() === email
-            );
-
-            if (!target) {
-                if (result) { result.textContent = "No account was found with that email."; result.className = "error-message"; }
-                return;
-            }
-            if (target.id === currentUser.id) {
-                if (result) { result.textContent = "You cannot add yourself."; result.className = "error-message"; }
-                return;
-            }
-
-            const { data: existing, error: existingError } = await supabaseClient
-                .from("friend_requests")
-                .select("id,status,sender_id,receiver_id")
-                .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${target.id}),and(sender_id.eq.${target.id},receiver_id.eq.${currentUser.id})`)
-                .in("status", ["pending", "accepted"]);
-
-            if (existingError) {
-                console.error("Friend request lookup error:", existingError);
-                if (result) { result.textContent = existingError.message; result.className = "error-message"; }
-                return;
-            }
-            if ((existing || []).some(r => r.status === "accepted")) {
-                if (result) { result.textContent = "You are already friends with this person."; result.className = "success-message"; }
-                return;
-            }
-            if ((existing || []).some(r => r.status === "pending")) {
-                if (result) { result.textContent = "A friend request is already pending between you."; result.className = "success-message"; }
-                return;
-            }
-
-            const { error } = await supabaseClient.from("friend_requests").insert({
-                sender_id: currentUser.id,
-                receiver_id: target.id,
-                status: "pending"
-            });
-
-            if (error) {
-                console.error("Friend request send error:", error);
-                if (result) { result.textContent = error.message; result.className = "error-message"; }
-                return;
-            }
-
-            if (result) { result.textContent = "Friend request sent successfully."; result.className = "success-message"; }
-            if (input) input.value = "";
+            const target = Object.values(profileCache).find(p => (p.username || p.email || "").toLowerCase() === email);
+            if (!target) { result.textContent = "No account was found with that email."; result.className = "error-message"; return; }
+            if (target.id === currentUser.id) { result.textContent = "You cannot add yourself."; result.className = "error-message"; return; }
+            const { data: existing } = await supabaseClient.from("friend_requests").select("id,status").eq("sender_id", currentUser.id).eq("receiver_id", target.id).eq("status","pending");
+            if (existing && existing.length) { result.textContent = "Friend request already sent."; return; }
+            const { error } = await supabaseClient.from("friend_requests").insert({ sender_id: currentUser.id, receiver_id: target.id, status: "pending" });
+            if (error) { result.textContent = error.message; result.className = "error-message"; return; }
+            result.textContent = "Friend request sent successfully.";
+            input.value = "";
             await renderFriends();
         }
 
@@ -3749,11 +3704,25 @@
                 .eq("id", requestId)
                 .eq("receiver_id", currentUser.id)
                 .eq("status", "pending")
-                .maybeSingle();
+                .single();
 
             if (requestError || !request) {
-                console.error("Accept request lookup error:", requestError);
-                alert(requestError?.message || "This friend request could not be found. Please refresh and try again.");
+                console.error("Accept request load error:", requestError);
+                alert(requestError?.message || "This friend request is no longer available.");
+                await renderFriends();
+                return;
+            }
+
+            const firstUser = request.sender_id < request.receiver_id ? request.sender_id : request.receiver_id;
+            const secondUser = request.sender_id < request.receiver_id ? request.receiver_id : request.sender_id;
+
+            const { error: friendshipError } = await supabaseClient
+                .from("friendships")
+                .insert({ user1_id: firstUser, user2_id: secondUser });
+
+            if (friendshipError) {
+                console.error("Friendship creation error:", friendshipError);
+                alert("Could not create the friendship: " + friendshipError.message);
                 return;
             }
 
@@ -3765,24 +3734,9 @@
                 .eq("status", "pending");
 
             if (updateError) {
-                console.error("Accept request update error:", updateError);
-                alert(updateError.message);
-                return;
-            }
-
-            const firstUser = request.sender_id < request.receiver_id ? request.sender_id : request.receiver_id;
-            const secondUser = request.sender_id < request.receiver_id ? request.receiver_id : request.sender_id;
-
-            const { error: friendshipError } = await supabaseClient
-                .from("friendships")
-                .upsert(
-                    { user1_id: firstUser, user2_id: secondUser },
-                    { onConflict: "user1_id,user2_id", ignoreDuplicates: true }
-                );
-
-            if (friendshipError) {
-                console.error("Friendship creation error:", friendshipError);
-                alert("The request was accepted, but the friendship could not be saved: " + friendshipError.message);
+                console.error("Friend request update error:", updateError);
+                alert("The friendship was created, but the request status could not be updated: " + updateError.message);
+                await renderFriends();
                 return;
             }
 
@@ -3814,39 +3768,44 @@
         async function renderFriends() {
             if (!currentUser) return;
 
-            await loadProfiles();
-
             const requestsContainer = document.getElementById("friendRequests");
             const friendsContainer = document.getElementById("friendsList");
+            if (!requestsContainer || !friendsContainer) return;
+
+            requestsContainer.innerHTML = `<div class="empty-state">Loading friend requests…</div>`;
+            friendsContainer.innerHTML = `<div class="empty-state">Loading friends…</div>`;
+
+            await loadProfiles();
 
             const { data: requests, error: requestError } = await supabaseClient
                 .from("friend_requests")
-                .select("*")
+                .select("id,sender_id,receiver_id,status,created_at")
                 .eq("receiver_id", currentUser.id)
                 .eq("status", "pending")
                 .order("created_at", { ascending: false });
 
             if (requestError) {
-                console.error(requestError);
-                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.</div>`;
-            } else if (!requests?.length) {
+                console.error("Incoming friend request error:", requestError);
+                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.<br><small>${escapeHTML(requestError.message || "Database error")}</small></div>`;
+            } else if (!requests || !requests.length) {
                 requestsContainer.innerHTML = `<div class="empty-state">No pending friend requests.</div>`;
             } else {
                 requestsContainer.innerHTML = requests.map(r => {
-                    const sender = getUserById(r.sender_id);
-                    if (!sender) return "";
+                    const sender = getUserById(r.sender_id) || {};
+                    const senderName = sender.name || sender.username || "MindCare member";
+                    const senderEmail = sender.email || sender.username || "Friend request received";
                     return `
-                        <div class="friend-item reveal-on-scroll">
+                        <div class="friend-item reveal-on-scroll is-visible">
                             <div class="friend-info">
-                                <div class="friend-avatar">${escapeHTML((sender.name || "?").charAt(0).toUpperCase())}</div>
+                                <div class="friend-avatar">${escapeHTML(senderName.charAt(0).toUpperCase())}</div>
                                 <div>
-                                    <strong>${escapeHTML(sender.name || "Student")}</strong><br>
-                                    <small>${escapeHTML(sender.email || "")}</small>
+                                    <strong>${escapeHTML(senderName)}</strong><br>
+                                    <small>${escapeHTML(senderEmail)}</small>
                                 </div>
                             </div>
                             <div class="friend-actions">
-                                <button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
-                                <button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button>
+                                <button class="small-button" type="button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
+                                <button class="small-button danger" type="button" onclick="declineFriendRequest('${r.id}')">Decline</button>
                             </div>
                         </div>`;
                 }).join("");
@@ -3854,19 +3813,20 @@
 
             const { data: friendships, error: friendshipError } = await supabaseClient
                 .from("friendships")
-                .select("*")
+                .select("user1_id,user2_id")
                 .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
 
             if (friendshipError) {
                 console.error(friendshipError);
-                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.</div>`;
+                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.<br><small>${escapeHTML(friendshipError.message || "Database error")}</small></div>`;
                 return;
             }
 
-            const friends = (friendships || []).map(f => {
-                const id = f.user1_id === currentUser.id ? f.user2_id : f.user1_id;
-                return getUserById(id);
-            }).filter(Boolean);
+            const friendIds = (friendships || []).map(f =>
+                f.user1_id === currentUser.id ? f.user2_id : f.user1_id
+            );
+            await loadProfiles();
+            const friends = friendIds.map(id => getUserById(id)).filter(Boolean);
 
             document.getElementById("friendCount").textContent =
                 friends.length + (friends.length === 1 ? " friend" : " friends");
@@ -3877,16 +3837,16 @@
             }
 
             friendsContainer.innerHTML = friends.map(friend => `
-                <div class="friend-item reveal-on-scroll">
+                <div class="friend-item reveal-on-scroll is-visible">
                     <div class="friend-info">
                         <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
                         <div>
                             <strong>${escapeHTML(friend.name || "Student")}</strong><br>
-                            <small>${escapeHTML(friend.email || "")}</small>
+                            <small>${escapeHTML(friend.email || friend.username || "MindCare member")}</small>
                         </div>
                     </div>
                     <div class="friend-actions">
-                        <button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
+                        <button class="small-button" type="button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
                     </div>
                 </div>`).join("");
         }
