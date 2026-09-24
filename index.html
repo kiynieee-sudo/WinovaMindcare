@@ -1257,10 +1257,90 @@
 body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-client-card{padding:10px;}
 @media(max-width:850px){.therapist-panel-grid{grid-template-columns:1fr;}.login-role-buttons{grid-template-columns:1fr;}}
 </style>
-<style>body.mindcare-large-text{font-size:106%;}body.mindcare-large-text .dashboard-card p,body.mindcare-large-text .settings-panel p{line-height:1.75;}body.mindcare-high-contrast{--border:#b7c9bd;}body.mindcare-focus-mode .dashboard-card:not(:hover),body.mindcare-focus-mode .feature-card:not(:hover){box-shadow:none;} </style>
+<style>body.mindcare-large-text{font-size:106%;}body.mindcare-large-text .dashboard-card p,body.mindcare-large-text .settings-panel p{line-height:1.75;}body.mindcare-high-contrast{--border:#b7c9bd;}body.mindcare-focus-mode .dashboard-card:not(:hover),body.mindcare-focus-mode .feature-card:not(:hover){box-shadow:none;} 
+
+        /* Restored original scroll-reveal interaction: content remains available,
+           then animates into place as it enters the viewport. */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(32px);
+            transition:
+                opacity .75s ease,
+                transform .75s cubic-bezier(.22,1,.36,1);
+        }
+
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: .08s; }
+        .reveal-delay-2 { transition-delay: .16s; }
+        .reveal-delay-3 { transition-delay: .24s; }
+        .reveal-delay-4 { transition-delay: .32s; }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--dark-green));
+            z-index: 5000;
+            transition: width .08s linear;
+        }
+
+        .back-to-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: rgba(255,255,255,.94);
+            color: var(--dark-green);
+            box-shadow: 0 12px 30px rgba(45,106,79,.14);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: .3s ease;
+            z-index: 2000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        header.scrolled {
+            box-shadow: 0 8px 30px rgba(34,65,50,.07);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal-on-scroll {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+        }
+
+        body.mindcare-large-text { font-size: 17px; }
+        body.mindcare-large-text h1 { font-size: clamp(3.4rem, 6vw, 6rem); }
+        body.mindcare-high-contrast { filter: contrast(1.08); }
+        body.mindcare-focus-mode header,
+        body.mindcare-focus-mode .hero-badge,
+        body.mindcare-focus-mode .floating-circle { opacity: .96; }
+
+</style>
 </head>
 
 <body>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
 
     <!-- =========================================
          HEADER
@@ -2259,8 +2339,7 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
                                 <option value="sandstone">Gentle Sandstone</option>
                                 <option value="twilight">Quiet Twilight</option>
                                 <option value="forest-grounding">Forest Grounding</option>
-                                <option value="sunrise-peace">Sunrise Peace</option>
-                            </select>
+                                <option value="sunrise-peace">Sunrise Peace</option><option value="cloudy-lilac">Cloudy Lilac</option><option value="eucalyptus">Eucalyptus</option><option value="misty-blue">Misty Blue</option><option value="buttercream">Buttercream</option><option value="quiet-plum">Quiet Plum</option>\n                            </select>
 
                             <small style="display:block;color:var(--gray);margin-top:8px;line-height:1.5;">
                                 Choose a calm colour palette for your MindCare dashboard. Your choice is saved on this device.
@@ -2351,7 +2430,7 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
                     <div class="dashboard-heading"><h2>Therapist Settings</h2><p>Professional profile, workspace preferences and accessibility.</p></div>
                     <div class="settings-grid">
                         <div class="form-card"><h3>👤 Professional profile</h3><div class="form-group"><label>Display name</label><input id="therapistSettingsName" type="text" placeholder="Your professional name"></div><div class="form-group"><label>Speciality</label><input id="therapistSpeciality" type="text" placeholder="e.g. Student wellbeing"></div><div class="form-group"><label>Bio</label><textarea id="therapistBio" rows="4" placeholder="A short professional introduction"></textarea></div><button class="primary-button" onclick="saveTherapistSettings()">Save profile</button></div>
-                        <div class="settings-panel"><h3>🎨 Appearance</h3><p>Use the same calm themes as the student dashboard.</p><div class="form-group"><label>Theme</label><select id="therapistTheme" onchange="applyMindCareTheme(this.value)"><option value="soft-green">Sage</option><option value="lavender-calm">Lavender Calm</option><option value="sky-serenity">Sky Serenity</option><option value="peach-warmth">Peach Warmth</option><option value="rose-blush">Rose Blush</option><option value="ocean-calm">Ocean Calm</option><option value="mint-fresh">Mint Fresh</option><option value="sandstone">Gentle Sandstone</option><option value="twilight">Quiet Twilight</option><option value="forest-grounding">Forest Grounding</option><option value="sunrise-peace">Sunrise Peace</option></select></div><div class="toggle-row"><div><label>Reduce motion</label><small>Keep the workspace calm and still.</small></div><label class="switch"><input id="therapistReduceMotion" type="checkbox" onchange="toggleTherapistMotion(this.checked)"><span class="slider"></span></label></div><div class="toggle-row"><div><label>Compact lists</label><small>Use tighter client and appointment lists.</small></div><label class="switch"><input id="therapistCompact" type="checkbox" onchange="toggleTherapistCompact(this.checked)"><span class="slider"></span></label></div></div>
+                        <div class="settings-panel"><h3>🎨 Appearance</h3><p>Use the same calm themes as the student dashboard.</p><div class="form-group"><label>Theme</label><select id="therapistTheme" onchange="applyMindCareTheme(this.value)"><option value="soft-green">Sage</option><option value="lavender-calm">Lavender Calm</option><option value="sky-serenity">Sky Serenity</option><option value="peach-warmth">Peach Warmth</option><option value="rose-blush">Rose Blush</option><option value="ocean-calm">Ocean Calm</option><option value="mint-fresh">Mint Fresh</option><option value="sandstone">Gentle Sandstone</option><option value="twilight">Quiet Twilight</option><option value="forest-grounding">Forest Grounding</option><option value="sunrise-peace">Sunrise Peace</option><option value="cloudy-lilac">Cloudy Lilac</option><option value="eucalyptus">Eucalyptus</option><option value="misty-blue">Misty Blue</option><option value="buttercream">Buttercream</option><option value="quiet-plum">Quiet Plum</option></select></div><div class="toggle-row"><div><label>Reduce motion</label><small>Keep the workspace calm and still.</small></div><label class="switch"><input id="therapistReduceMotion" type="checkbox" onchange="toggleTherapistMotion(this.checked)"><span class="slider"></span></label></div><div class="toggle-row"><div><label>Compact lists</label><small>Use tighter client and appointment lists.</small></div><label class="switch"><input id="therapistCompact" type="checkbox" onchange="toggleTherapistCompact(this.checked)"><span class="slider"></span></label></div></div>
                         <div class="settings-panel"><h3>🔔 Notifications</h3><div class="toggle-row"><div><label>Appointment requests</label><small>Notify me about new requests.</small></div><label class="switch"><input id="therapistNotifyRequests" type="checkbox" checked><span class="slider"></span></label></div><div class="toggle-row"><div><label>Messages</label><small>Notify me about client messages.</small></div><label class="switch"><input id="therapistNotifyMessages" type="checkbox" checked><span class="slider"></span></label></div></div>
                         <div class="settings-panel"><h3>🔐 Privacy</h3><p>Therapist-only notes and professional data should be protected with Supabase RLS in production. Do not rely on hidden frontend sections for access control.</p></div>
                     </div>
@@ -2731,7 +2810,11 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
 
                 if (currentUser) {
 
-                    showDashboard();
+                    if (selectedLoginRole === "therapist") {
+                        showTherapistDashboard();
+                    } else {
+                        showStudentDashboard();
+                    }
 
                     refreshDashboard();
 
@@ -3156,7 +3239,11 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
 
                 updateHeader();
 
-                showDashboard();
+                if (selectedLoginRole === "therapist") {
+                    showTherapistDashboard();
+                } else {
+                    showStudentDashboard();
+                }
 
                 refreshDashboard();
 
@@ -3226,6 +3313,8 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
                 "dashboard"
             ).style.display = "none";
 
+            const therapistDashboard = document.getElementById("therapistDashboard");
+            if (therapistDashboard) therapistDashboard.style.display = "none";
 
             updateHeader();
 
@@ -4662,6 +4751,51 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
                 border: "#eee2ca",
                 dark: "#40372a",
                 gray: "#776f62"
+            },
+            "cloudy-lilac": {
+                green: "#b8b4d9",
+                darkGreen: "#625d84",
+                lightGreen: "#f1f0fb",
+                lighterGreen: "#fbfaff",
+                border: "#e2e0f1",
+                dark: "#37334d",
+                gray: "#747080"
+            },
+            "eucalyptus": {
+                green: "#94c7ad",
+                darkGreen: "#3f725b",
+                lightGreen: "#e9f5ef",
+                lighterGreen: "#f9fcfa",
+                border: "#d7e9df",
+                dark: "#29463a",
+                gray: "#6b7770"
+            },
+            "misty-blue": {
+                green: "#a5c7d8",
+                darkGreen: "#4c7180",
+                lightGreen: "#edf6fa",
+                lighterGreen: "#fafdfd",
+                border: "#dbeaf0",
+                dark: "#30444c",
+                gray: "#6f7b81"
+            },
+            "buttercream": {
+                green: "#dfc995",
+                darkGreen: "#786843",
+                lightGreen: "#faf4e4",
+                lighterGreen: "#fffdf8",
+                border: "#eee4cd",
+                dark: "#463d2f",
+                gray: "#777065"
+            },
+            "quiet-plum": {
+                green: "#c3a9c8",
+                darkGreen: "#765779",
+                lightGreen: "#f5edf6",
+                lighterGreen: "#fcf9fd",
+                border: "#e8dce9",
+                dark: "#403244",
+                gray: "#756c78"
             }
         };
 
@@ -4806,6 +4940,96 @@ body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-cl
 
 </script>
 
+
+<script>
+(function () {
+    function setupMindCareScrollInteractions() {
+        const progress = document.getElementById("scrollProgress");
+        const backToTop = document.getElementById("backToTop");
+        const header = document.querySelector("header");
+
+        function updateScrollUI() {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const percent = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
+            if (progress) progress.style.width = percent + "%";
+            if (backToTop) backToTop.classList.toggle("show", scrollTop > 500);
+            if (header) header.classList.toggle("scrolled", scrollTop > 20);
+        }
+
+        function observeReveals() {
+            const reduceMotion =
+                document.documentElement.style.getPropertyValue("--mindcare-motion") === "0ms" ||
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+            const elements = document.querySelectorAll(".reveal-on-scroll:not([data-reveal-bound])");
+
+            if (reduceMotion) {
+                elements.forEach(el => {
+                    el.classList.add("is-visible");
+                    el.dataset.revealBound = "1";
+                });
+                return;
+            }
+
+            if (!("IntersectionObserver" in window)) {
+                elements.forEach(el => {
+                    el.classList.add("is-visible");
+                    el.dataset.revealBound = "1";
+                });
+                return;
+            }
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+            elements.forEach(function(el, index) {
+                if (index % 4 === 1) el.classList.add("reveal-delay-1");
+                if (index % 4 === 2) el.classList.add("reveal-delay-2");
+                if (index % 4 === 3) el.classList.add("reveal-delay-3");
+                el.dataset.revealBound = "1";
+                observer.observe(el);
+            });
+        }
+
+        window.addEventListener("scroll", updateScrollUI, { passive: true });
+        window.addEventListener("resize", updateScrollUI);
+        updateScrollUI();
+        observeReveals();
+
+        // Re-scan after therapist cards or dashboard lists are rendered.
+        const observer = new MutationObserver(function() {
+            observeReveals();
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        document.addEventListener("click", function(event) {
+            const button = event.target.closest("button");
+            if (!button || button.disabled || !button.animate) return;
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+            button.animate(
+                [
+                    { transform: "scale(1)" },
+                    { transform: "scale(.97)" },
+                    { transform: "scale(1)" }
+                ],
+                { duration: 150, easing: "ease-out" }
+            );
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setupMindCareScrollInteractions);
+    } else {
+        setupMindCareScrollInteractions();
+    }
+})();
+</script>
 </body>
 
 </html>
