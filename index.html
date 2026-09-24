@@ -2688,6 +2688,7 @@
         let profileCache = {};
 
         let activeChatUser = null;
+        let friendChatRefreshTimer = null;
 
 
         /* ========================================
@@ -3837,46 +3838,42 @@
            FRIEND CHAT
         ======================================== */
 
-        function startFriendChat(
-            friendId
-        ) {
+        async function areFriends(userId, friendId) {
+            if (!userId || !friendId) return false;
+            const { data, error } = await supabaseClient
+                .from("friendships")
+                .select("id")
+                .or(`and(user1_id.eq.${userId},user2_id.eq.${friendId}),and(user1_id.eq.${friendId},user2_id.eq.${userId})`)
+                .limit(1);
+            if (error) {
+                console.error("Friendship check error:", error);
+                return false;
+            }
+            return !!(data && data.length);
+        }
 
-            const friend =
-                getUserById(
-                    friendId
-                );
+        async function startFriendChat(friendId) {
+            if (!currentUser || !friendId || friendId === currentUser.id) return;
 
+            await loadProfiles();
+            const friend = getUserById(friendId);
+            if (!friend) return;
 
-            if (!friend) {
+            const allowed = await areFriends(currentUser.id, friendId);
+            if (!allowed) {
+                alert("You can only message people who are your friends.");
                 return;
             }
 
-
             activeChatUser = {
-
-                id:
-                    friend.id,
-
-                name:
-                    friend.name,
-
-                therapist:
-                    false
-
+                id: friend.id,
+                name: friend.name || friend.username || "Friend",
+                therapist: false
             };
 
-
-            showSectionByName(
-                "messages"
-            );
-
-
-            openChat(
-                activeChatUser
-            );
-
+            showSectionByName("messages");
+            openChat(activeChatUser);
         }
-
 
         /* ========================================
            MESSAGES
@@ -3884,13 +3881,15 @@
 
         async function loadConversationMessages() {
             if (!currentUser || !activeChatUser) return [];
+
             const { data, error } = await supabaseClient
                 .from("messages")
-                .select("*")
+                .select("id,sender_id,receiver_id,message,created_at")
                 .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUser.id}),and(sender_id.eq.${activeChatUser.id},receiver_id.eq.${currentUser.id})`)
                 .order("created_at", { ascending: true });
+
             if (error) {
-                console.error(error);
+                console.error("Message load error:", error);
                 return [];
             }
             return data || [];
@@ -3902,17 +3901,29 @@
 
         function openChat(user) {
             activeChatUser = user;
-            document.getElementById("chatContainer").style.display = "block";
-            document.getElementById("chatHeader").innerHTML =
-                `💬 ${escapeHTML(user.name || "Student")} ${user.therapist ? '<span class="verified-badge">✓</span>' : ""}`;
+            const chatContainer = document.getElementById("chatContainer");
+            const chatHeader = document.getElementById("chatHeader");
+            const chatInput = document.getElementById("chatInput");
+
+            if (!chatContainer || !chatHeader) return;
+
+            chatContainer.style.display = "block";
+            chatHeader.innerHTML = `💬 ${escapeHTML(user.name || "Friend")}`;
             renderChat();
-            document.getElementById("chatInput").focus();
+            if (chatInput) chatInput.focus();
+
+            if (friendChatRefreshTimer) clearInterval(friendChatRefreshTimer);
+            friendChatRefreshTimer = setInterval(async () => {
+                if (currentUser && activeChatUser) await renderChat(true);
+            }, 2500);
         }
 
-        async function renderChat() {
+        async function renderChat(silent = false) {
             if (!currentUser || !activeChatUser) return;
-            const messages = await loadConversationMessages();
             const container = document.getElementById("chatMessages");
+            if (!container) return;
+
+            const messages = await loadConversationMessages();
 
             if (!messages.length) {
                 container.innerHTML = `<div class="empty-state">No messages yet.<br>Start the conversation.</div>`;
@@ -3929,18 +3940,30 @@
 
         async function sendMessage() {
             if (!currentUser || !activeChatUser) return;
+
             const input = document.getElementById("chatInput");
+            if (!input) return;
+
             const text = input.value.trim();
             if (!text) return;
 
-            const { error } = await supabaseClient.from("messages").insert({
-                sender_id: currentUser.id,
-                receiver_id: activeChatUser.id,
-                message: text
-            });
+            const allowed = await areFriends(currentUser.id, activeChatUser.id);
+            if (!allowed) {
+                alert("You can only message people who are your friends.");
+                return;
+            }
+
+            const { error } = await supabaseClient
+                .from("messages")
+                .insert({
+                    sender_id: currentUser.id,
+                    receiver_id: activeChatUser.id,
+                    message: text
+                });
 
             if (error) {
-                alert(error.message);
+                console.error("Message send error:", error);
+                alert("Could not send message: " + error.message);
                 return;
             }
 
@@ -3968,39 +3991,30 @@
                 .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
 
             if (error) {
-                console.error(error);
+                console.error("Conversation/friend load error:", error);
+                container.innerHTML = `<div class="empty-state">Could not load your conversations.</div>`;
                 return;
             }
 
-            const friends = (friendships || []).map(f => {
-                const id = f.user1_id === currentUser.id ? f.user2_id : f.user1_id;
-                return getUserById(id);
-            }).filter(Boolean);
+            const friends = (friendships || [])
+                .map(f => getUserById(f.user1_id === currentUser.id ? f.user2_id : f.user1_id))
+                .filter(Boolean);
 
-            let html = friends.map(friend => `
+            if (!friends.length) {
+                container.innerHTML = `<div class="empty-state">No conversations yet.<br>Add and accept a friend to start messaging.</div>`;
+                return;
+            }
+
+            container.innerHTML = friends.map(friend => `
                 <div class="friend-item reveal-on-scroll">
                     <div class="friend-info">
                         <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
-                        <strong>${escapeHTML(friend.name || "Student")}</strong>
+                        <strong>${escapeHTML(friend.name || "Friend")}</strong>
                     </div>
                     <button class="small-button" onclick="startFriendChat('${friend.id}')">Open Chat</button>
                 </div>`).join("");
 
-            therapists.forEach(therapist => {
-                html += `
-                    <div class="friend-item reveal-on-scroll">
-                        <div class="friend-info">
-                            <div class="friend-avatar">🧑‍⚕️</div>
-                            <div>
-                                <strong>${escapeHTML(therapist.name)} <span class="verified-badge">✓</span></strong><br>
-                                <small>${escapeHTML(therapist.specialty)}</small>
-                            </div>
-                        </div>
-                        <button class="small-button" onclick="startTherapistChat('${therapist.id}')">Open Chat</button>
-                    </div>`;
-            });
-
-            container.innerHTML = html || `<div class="empty-state">No conversations yet.</div>`;
+            if (window.observeMindCareReveals) window.observeMindCareReveals();
         }
 
         /* ========================================
