@@ -851,6 +851,42 @@
             color: white;
         }
 
+        .chat-call-activity {
+            width: fit-content;
+            min-width: 210px;
+            max-width: 78%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 16px;
+            background: #f3f5f4;
+            border: 1px solid rgba(0,0,0,.07);
+            animation: messageIn 0.2s ease;
+        }
+
+        .chat-call-activity.me {
+            margin-left: auto;
+            background: var(--lighter-green);
+        }
+
+        .chat-call-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-call-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: white;
+            font-size: 18px;
+        }
+
+        .chat-call-title { font-weight: 800; font-size: 14px; }
+        .chat-call-meta { font-size: 12px; opacity: .7; margin-top: 3px; }
+
         .chat-input {
             display: flex;
             gap: 10px;
@@ -2787,9 +2823,11 @@
         let voiceLocalStream = null;
         let voiceCallId = null;
         let voiceCallStartedAt = null;
+        let voiceConnectedAt = null;
         let voiceCallRole = null;
         let voicePendingOffer = null;
         let voiceSignalTimer = null;
+        let voicePollingStartedAt = Date.now();
         const voiceProcessedSignals = new Set();
         let voiceIceQueue = [];
 
@@ -4061,6 +4099,48 @@
             }, 2500);
         }
 
+        function parseCallActivity(message) {
+            const prefix = "[[MINDCARE_CALL]]";
+            if (!message || !message.startsWith(prefix)) return null;
+            try {
+                const value = JSON.parse(message.slice(prefix.length));
+                return value && value.call_id ? value : null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function formatCallDuration(seconds) {
+            const total = Math.max(0, Number(seconds) || 0);
+            const mins = Math.floor(total / 60);
+            const secs = Math.floor(total % 60);
+            return mins > 0 ? `${mins}:${String(secs).padStart(2, "0")}` : `0:${String(secs).padStart(2, "0")}`;
+        }
+
+        function renderMessageBubble(m) {
+            const isMe = m.sender_id === currentUser.id;
+            const call = parseCallActivity(m.message);
+            if (!call) {
+                return `<div class="chat-message ${isMe ? "me" : ""}">${escapeHTML(m.message)}</div>`;
+            }
+
+            const statusMap = { completed: "Voice call", missed: "Missed voice call", declined: "Declined voice call", cancelled: "Cancelled voice call" };
+            const title = statusMap[call.status] || "Voice call";
+            const meta = call.status === "completed"
+                ? `${formatCallDuration(call.duration)} · ${new Date(m.created_at).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})}`
+                : `${new Date(m.created_at).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"})}`;
+            const icon = call.status === "missed" ? "📵" : call.status === "declined" ? "🚫" : "📞";
+            return `<div class="chat-call-activity ${isMe ? "me" : ""}">
+                <div class="chat-call-row">
+                    <div class="chat-call-icon">${icon}</div>
+                    <div>
+                        <div class="chat-call-title">${title}</div>
+                        <div class="chat-call-meta">${escapeHTML(meta)}</div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
         async function renderChat(silent = false) {
             if (!currentUser || !activeChatUser) return;
             const container = document.getElementById("chatMessages");
@@ -4070,10 +4150,7 @@
                 container.innerHTML = `<div class="empty-state">No messages yet.<br>Start the conversation.</div>`;
                 return;
             }
-            container.innerHTML = messages.map(m => `
-                <div class="chat-message ${m.sender_id === currentUser.id ? "me" : ""}">
-                    ${escapeHTML(m.message)}
-                </div>`).join("");
+            container.innerHTML = messages.map(renderMessageBubble).join("");
             container.scrollTop = container.scrollHeight;
         }
 
@@ -4260,7 +4337,10 @@
                 try {
                     await audio.play();
                     const status = document.getElementById("callStatus");
-                    if (status && pc.connectionState === "connected") status.textContent = "Connected 🎙️🔊";
+                    if (status && pc.connectionState === "connected") {
+                        status.textContent = "Connected 🎙️🔊";
+                        if (!voiceConnectedAt) voiceConnectedAt = new Date().toISOString();
+                    }
                 } catch (e) {
                     console.warn("Remote audio autoplay was blocked:", e);
                     const actions = document.getElementById("callActions");
@@ -4280,7 +4360,10 @@
             pc.onconnectionstatechange = () => {
                 const state = pc.connectionState;
                 const status = document.getElementById("callStatus");
-                if (status && state === "connected") status.textContent = "Connected 🎙️";
+                if (status && state === "connected") {
+                    status.textContent = "Connected 🎙️";
+                    if (!voiceConnectedAt) voiceConnectedAt = new Date().toISOString();
+                }
                 if (status && state === "connecting") status.textContent = "Connecting…";
                 if (status && ["failed", "disconnected"].includes(state)) status.textContent = "Connection interrupted…";
                 if (state === "closed") endVoiceCall(false);
@@ -4345,12 +4428,43 @@
             if (btn) btn.textContent = track.enabled ? "🔇 Mute" : "🎙️ Unmute";
         }
 
+        async function saveCallActivity(status = "completed") {
+            if (!currentUser || !activeChatUser || !voiceCallId) return;
+            const callId = voiceCallId;
+            const started = voiceConnectedAt || voiceCallStartedAt;
+            const duration = status === "completed" && started ? Math.max(0, Math.round((Date.now() - new Date(started).getTime()) / 1000)) : 0;
+            const payload = { call_id: callId, status, duration };
+            const encoded = "[[MINDCARE_CALL]]" + JSON.stringify(payload);
+
+            const { data: existing, error: lookupError } = await supabaseClient
+                .from("messages")
+                .select("id")
+                .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUser.id}),and(sender_id.eq.${activeChatUser.id},receiver_id.eq.${currentUser.id})`)
+                .eq("message", encoded)
+                .limit(1);
+            if (lookupError) {
+                console.error("Call history lookup error:", lookupError);
+                return;
+            }
+            if (existing && existing.length) return;
+
+            const { error } = await supabaseClient.from("messages").insert({
+                sender_id: currentUser.id,
+                receiver_id: activeChatUser.id,
+                message: encoded
+            });
+            if (error) console.error("Call history save error:", error);
+            else if (activeChatUser) await renderChat(true);
+        }
+
         async function endVoiceCall(sendSignal = true) {
             const otherId = activeChatUser?.id || voicePendingOffer?.from;
             const id = voiceCallId || voicePendingOffer?.call_id;
+            const wasActive = !!voiceCallId;
             if (sendSignal && otherId && id) {
                 await sendCallSignal("hangup", { call_id: id }, otherId);
             }
+            if (wasActive) await saveCallActivity(voiceConnectedAt ? "completed" : "cancelled");
             if (voicePeer) voicePeer.close();
             if (voiceLocalStream) voiceLocalStream.getTracks().forEach(t => t.stop());
             const remoteAudio = document.getElementById("remoteCallAudio");
@@ -4363,6 +4477,7 @@
             voiceLocalStream = null;
             voiceCallId = null;
             voiceCallStartedAt = null;
+            voiceConnectedAt = null;
             voiceCallRole = null;
             voicePendingOffer = null;
             hideCallOverlay();
@@ -4385,6 +4500,11 @@
                 if (d.call_id && voiceCallId && d.call_id !== voiceCallId) continue;
 
                 if (signal.type === "offer") {
+                    // Only the receiver should ever see an incoming-call offer.
+                    // Also ignore old offers left in Supabase so refreshing the page
+                    // cannot make a previous call look like a new call.
+                    const ageMs = Date.now() - new Date(signal.created_at).getTime();
+                    if (signal.receiver_id !== currentUser.id || ageMs > 15000) continue;
                     if (voicePeer || voicePendingOffer) continue;
                     voicePendingOffer = { ...d, from: signal.caller_id, name: getUserById(signal.caller_id)?.name || "Friend" };
                     showCallOverlay(voicePendingOffer.name, "Incoming voice call…", `<button class="call-action accept" onclick="acceptIncomingCall()">📞 Accept</button><button class="call-action end" onclick="rejectIncomingCall()">Decline</button>`);
@@ -4407,6 +4527,8 @@
 
         function startVoiceSignalPolling() {
             if (voiceSignalTimer) clearInterval(voiceSignalTimer);
+            voicePollingStartedAt = Date.now();
+            voiceProcessedSignals.clear();
             voiceSignalTimer = setInterval(pollVoiceSignals, 1000);
             pollVoiceSignals();
         }
