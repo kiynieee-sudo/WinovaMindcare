@@ -1375,6 +1375,32 @@
             .reveal-on-scroll { opacity: 1; transform: none; }
         }
 
+    
+        /* ========================================
+           MINDCARE EXTENSIONS
+        ======================================== */
+        .role-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+        .role-choice{border:1px solid var(--border);background:var(--lighter-green);border-radius:16px;padding:16px;cursor:pointer;text-align:left;transition:.25s ease;color:var(--dark)}
+        .role-choice:hover,.role-choice.active{border-color:var(--green);box-shadow:0 10px 24px rgba(45,106,79,.10);transform:translateY(-2px)}
+        .role-choice strong{display:block;font-size:16px;margin-bottom:5px}.role-choice small{color:var(--gray);line-height:1.45}
+        .role-choice .role-icon{font-size:25px;margin-bottom:7px}
+        .dashboard-shell{display:grid;grid-template-columns:minmax(0,1fr);gap:22px}
+        .wellness-hero{position:relative;overflow:hidden;padding:30px;border-radius:28px;background:linear-gradient(135deg,var(--light-green),var(--lighter-green));border:1px solid var(--border);box-shadow:0 18px 50px rgba(45,106,79,.09)}
+        .wellness-hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-55px;top:-70px;background:rgba(155,216,176,.20)}
+        .wellness-hero h2{font-size:clamp(28px,4vw,42px);margin:0 0 8px;color:var(--dark)}.wellness-hero p{max-width:700px;color:var(--gray);margin:0;line-height:1.65}
+        .wellness-chip-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.wellness-chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid var(--border);font-size:13px;color:var(--dark)}
+        .wellness-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:18px}.wellness-card{grid-column:span 4;padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--white);box-shadow:0 12px 34px rgba(45,106,79,.07)}.wellness-card.wide{grid-column:span 8}.wellness-card h3{margin:0 0 8px;color:var(--dark)}.wellness-card p{color:var(--gray);line-height:1.55}.wellness-action{display:inline-flex;align-items:center;gap:7px;margin-top:8px}
+        .mood-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.mood-button{border:1px solid var(--border);background:var(--lighter-green);border-radius:14px;padding:12px 6px;cursor:pointer;font-size:20px}.mood-button span{display:block;font-size:11px;margin-top:4px;color:var(--gray)}.mood-button:hover{border-color:var(--green);transform:translateY(-2px)}
+        .friend-hero{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;padding:28px;border-radius:26px;background:linear-gradient(135deg,var(--light-green),var(--white));border:1px solid var(--border);margin-bottom:18px}.friend-hero h2{margin:0 0 6px;font-size:34px}.friend-hero p{margin:0;color:var(--gray)}.friend-stat{min-width:130px;text-align:center;padding:15px;border-radius:18px;background:var(--white);border:1px solid var(--border)}.friend-stat strong{font-size:28px;color:var(--dark)}.friend-stat small{display:block;color:var(--gray)}
+        .friend-add-card{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:20px;border-radius:22px;border:1px solid var(--border);background:var(--white);box-shadow:0 10px 30px rgba(45,106,79,.06);margin-bottom:18px}.friend-add-card input{margin:0}.friend-section-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.friend-panel{padding:20px;border:1px solid var(--border);border-radius:22px;background:var(--white);box-shadow:0 10px 30px rgba(45,106,79,.06)}.friend-panel h3{margin:0}.friend-panel .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.friend-list-modern{display:grid;gap:10px}.friend-item-modern{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid var(--border);border-radius:16px;background:var(--lighter-green)}.friend-info-modern{display:flex;align-items:center;gap:11px}.friend-avatar-modern{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--light-green);color:var(--dark-green);font-weight:800}.friend-actions-modern{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.empty-modern{padding:24px;text-align:center;border:1px dashed var(--border);border-radius:16px;color:var(--gray);background:var(--lighter-green)}
+        .resource-grid-modern{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.resource-card-modern{display:flex;flex-direction:column;min-height:230px;padding:24px;border:1px solid var(--border);border-radius:22px;background:var(--white);text-align:left;box-shadow:0 12px 32px rgba(45,106,79,.07);cursor:pointer}.resource-card-modern:hover{transform:translateY(-5px)}.resource-icon-modern{font-size:32px;margin-bottom:16px}.resource-card-modern h3{margin:0 0 9px}.resource-card-modern p{color:var(--gray);line-height:1.55;flex:1}.resource-link-modern{font-weight:700;color:var(--dark-green)}
+        .settings-modern{display:grid;gap:18px}.settings-block{padding:22px;border:1px solid var(--border);border-radius:22px;background:var(--white);box-shadow:0 10px 28px rgba(45,106,79,.06)}.settings-block h3{margin:0 0 5px}.settings-note{color:var(--gray);line-height:1.55;margin:0 0 16px}.settings-grid-modern{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.setting-row-modern{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px;border:1px solid var(--border);border-radius:16px;background:var(--lighter-green)}.setting-row-modern strong{display:block}.setting-row-modern small{display:block;color:var(--gray);margin-top:3px}.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.theme-swatch{border:1px solid var(--border);border-radius:16px;padding:10px;background:var(--white);cursor:pointer;text-align:left}.theme-swatch.active{outline:2px solid var(--dark-green);outline-offset:1px}.theme-preview{height:48px;border-radius:11px;margin-bottom:8px}.theme-swatch span{font-size:12px;font-weight:700}.toggle-mini{width:44px;height:24px;position:relative}.toggle-mini input{opacity:0;width:0;height:0}.toggle-mini span{position:absolute;inset:0;border-radius:20px;background:#cbd5cf;cursor:pointer}.toggle-mini span:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}.toggle-mini input:checked+span{background:var(--dark-green)}.toggle-mini input:checked+span:before{transform:translateX(20px)}
+        .therapist-dashboard{display:none}.therapist-layout{grid-template-columns:250px minmax(0,1fr)}.therapist-sidebar{background:linear-gradient(180deg,var(--lighter-green),var(--white));}.therapist-badge{font-size:11px;padding:3px 8px;border-radius:999px;background:var(--light-green);color:var(--dark-green);margin-left:5px}.therapist-content{padding-bottom:60px}.therapist-section{display:none}.therapist-section.active{display:block}.therapist-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:18px}.therapist-top h2{margin:0;font-size:34px}.therapist-top p{margin:6px 0 0;color:var(--gray)}.therapist-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.therapist-stat{padding:22px;border-radius:22px;border:1px solid var(--border);background:var(--white);box-shadow:0 12px 30px rgba(45,106,79,.07)}.therapist-stat strong{font-size:30px;display:block;color:var(--dark)}.therapist-stat span{color:var(--gray)}.therapist-panels{display:grid;grid-template-columns:1.3fr .7fr;gap:16px;margin-top:16px}.therapist-panel{padding:20px;border:1px solid var(--border);border-radius:22px;background:var(--white);box-shadow:0 10px 28px rgba(45,106,79,.06)}.therapist-panel h3{margin-top:0}.therapist-list-modern{display:grid;gap:10px}.therapist-list-item{padding:14px;border-radius:15px;background:var(--lighter-green);border:1px solid var(--border)}.therapist-actions{display:grid;gap:10px}.client-grid-modern{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.client-card-modern{padding:18px;border:1px solid var(--border);border-radius:20px;background:var(--white)}.client-card-modern .client-head{display:flex;align-items:center;gap:10px}.client-card-modern p{color:var(--gray);line-height:1.5}.availability-grid-modern{display:grid;grid-template-columns:1fr 1fr;gap:16px}.therapist-settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        @media(max-width:900px){.wellness-card,.wellness-card.wide{grid-column:span 12}.friend-section-grid,.settings-grid-modern,.availability-grid-modern,.therapist-settings-grid,.therapist-panels,.client-grid-modern{grid-template-columns:1fr}.resource-grid-modern{grid-template-columns:1fr}.theme-grid{grid-template-columns:repeat(2,1fr)}.therapist-layout{grid-template-columns:1fr}.therapist-stat-grid{grid-template-columns:1fr}.friend-hero{align-items:flex-start;flex-direction:column}.friend-add-card{grid-template-columns:1fr}.role-choice-grid{grid-template-columns:1fr}}
+
+    
+        body.mindcare-large-text{font-size:108%} body.mindcare-high-contrast{filter:contrast(1.08)} body.mindcare-focus-mode .wellness-card:not(:hover),body.mindcare-focus-mode .feature-card:not(:hover){opacity:.72} body.mindcare-reduce-motion *,body.mindcare-reduce-motion *::before,body.mindcare-reduce-motion *::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+
     </style>
 
 </head>
@@ -1768,73 +1794,22 @@
 
 
                 <!-- OVERVIEW -->
-
-                <div
-                    class="dashboard-section active"
-                    id="section-overview"
-                >
-
-                    <div class="dashboard-heading">
-
-                        <h2>
-                            Welcome back,
-                            <span id="welcomeName">
-                                Student
-                            </span> 👋
-                        </h2>
-
-                        <p>
-                            Here's what's happening with your
-                            MindCare account.
-                        </p>
-
+                <div class="dashboard-section active" id="section-overview">
+                    <div class="wellness-hero reveal-on-scroll">
+                        <h2>Welcome back, <span id="welcomeName">Student</span> 🌿</h2>
+                        <p>A calmer little corner for your day. Check in with yourself, stay connected, and reach for support whenever you need it.</p>
+                        <div class="wellness-chip-row">
+                            <span class="wellness-chip">🌱 Small steps count</span><span class="wellness-chip">💚 You don't have to do it alone</span><span class="wellness-chip">🫶 Be gentle with yourself</span>
+                        </div>
                     </div>
-
-
-                    <div class="dashboard-cards">
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                👥 Friends
-                            </h3>
-
-                            <p id="friendCount">
-                                0 friends
-                            </p>
-
-                        </div>
-
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                💬 Messages
-                            </h3>
-
-                            <p>
-                                Stay connected with your friends.
-                            </p>
-
-                        </div>
-
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                ✓ Verified Help
-                            </h3>
-
-                            <p>
-                                Professional support is available.
-                            </p>
-
-                        </div>
-
+                    <div class="wellness-grid">
+                        <div class="wellness-card reveal-on-scroll"><h3>🌤️ How are you feeling?</h3><p>Take a quick moment to check in with yourself.</p><div class="mood-row"><button class="mood-button" onclick="saveMood('Great')">😊<span>Great</span></button><button class="mood-button" onclick="saveMood('Okay')">🙂<span>Okay</span></button><button class="mood-button" onclick="saveMood('Low')">😕<span>Low</span></button><button class="mood-button" onclick="saveMood('Stressed')">😣<span>Stressed</span></button><button class="mood-button" onclick="saveMood('Overwhelmed')">😔<span>Overwhelmed</span></button></div><p id="moodStatus" style="margin:12px 0 0"></p></div>
+                        <div class="wellness-card reveal-on-scroll"><h3>👥 Your people</h3><p id="dashboardFriendSummary">Your friends and conversations will appear here.</p><button class="secondary-button wellness-action" onclick="showSectionByName('friends')">Open Friends →</button></div>
+                        <div class="wellness-card reveal-on-scroll"><h3>🩺 Professional support</h3><p>Browse verified professionals and find a support option that feels right for you.</p><button class="secondary-button wellness-action" onclick="showSectionByName('verified')">Explore Verified Help →</button></div>
+                        <div class="wellness-card wide reveal-on-scroll"><h3>🧘 A gentle reset</h3><p>Try a tiny reset before moving on: unclench your jaw, drop your shoulders, take one slow breath in, and let it out a little longer than the inhale.</p><button class="secondary-button wellness-action" onclick="startBreathingExercise()">Start 60-second breathing →</button></div>
+                        <div class="wellness-card reveal-on-scroll"><h3>🔔 Stay in the loop</h3><p>See your latest requests, reminders and MindCare updates.</p><button class="secondary-button wellness-action" onclick="showSectionByName('notifications')">View Notifications →</button></div>
                     </div>
-
                 </div>
-
 
                 <!-- SUPPORT -->
 
@@ -1919,97 +1894,21 @@
 
 
                 <!-- FRIENDS -->
-
-                <div
-                    class="dashboard-section"
-                    id="section-friends"
-                >
-
-                    <div class="dashboard-heading">
-
-                        <h2>
-                            Friends
-                        </h2>
-
-                        <p>
-                            Find students and connect with them.
-                        </p>
-
+                <div class="dashboard-section" id="section-friends">
+                    <div class="friend-hero reveal-on-scroll">
+                        <div><h2>Friends</h2><p>Build a small circle of people you feel comfortable connecting with.</p></div>
+                        <div class="friend-stat"><strong id="friendCount">0</strong><small>friends</small></div>
                     </div>
-
-
-                    <div class="form-card reveal-on-scroll">
-
-                        <h3>
-                            ➕ Add Friend
-                        </h3>
-
-                        <br>
-
-                        <div class="search-row">
-
-                            <input
-                                id="friendSearch"
-                                type="email"
-                                placeholder="Enter friend's email"
-                            >
-
-                            <button
-                                class="primary-button"
-                                onclick="sendFriendRequest()"
-                            >
-                                Add Friend
-                            </button>
-
-                        </div>
-
-                        <p
-                            id="friendResult"
-                            class="success-message"
-                        ></p>
-
+                    <div class="friend-add-card reveal-on-scroll">
+                        <div><strong style="display:block;margin-bottom:6px">➕ Add someone</strong><input id="friendSearch" type="email" placeholder="Enter your friend's email"></div>
+                        <button class="primary-button" onclick="sendFriendRequest()">Send Request</button>
                     </div>
-
-
-                    <br>
-
-
-                    <div class="form-card reveal-on-scroll">
-
-                        <h3>
-                            🔔 Friend Requests
-                        </h3>
-
-                        <br>
-
-                        <div
-                            id="friendRequests"
-                            class="friend-list"
-                        ></div>
-
+                    <p id="friendResult" class="success-message"></p>
+                    <div class="friend-section-grid">
+                        <div class="friend-panel reveal-on-scroll"><div class="panel-head"><h3>🔔 Requests</h3><button class="small-button" onclick="renderFriends()">↻ Refresh</button></div><div id="friendRequests" class="friend-list-modern"></div></div>
+                        <div class="friend-panel reveal-on-scroll"><div class="panel-head"><h3>💚 My Friends</h3><span class="wellness-chip">Your circle</span></div><div id="friendsList" class="friend-list-modern"></div></div>
                     </div>
-
-
-                    <br>
-
-
-                    <div class="form-card reveal-on-scroll">
-
-                        <h3>
-                            👥 My Friends
-                        </h3>
-
-                        <br>
-
-                        <div
-                            id="friendsList"
-                            class="friend-list"
-                        ></div>
-
-                    </div>
-
                 </div>
-
 
                 <!-- MESSAGES -->
 
@@ -2209,72 +2108,14 @@
 
 
                 <!-- RESOURCES -->
-
-                <div
-                    class="dashboard-section"
-                    id="section-resources"
-                >
-
-                    <div class="dashboard-heading">
-
-                        <h2>
-                            Resources
-                        </h2>
-
-                        <p>
-                            Useful information for students.
-                        </p>
-
+                <div class="dashboard-section" id="section-resources">
+                    <div class="dashboard-heading"><h2>Resources</h2><p>Useful support, learning and wellbeing material — with a little more room to breathe.</p></div>
+                    <div class="resource-grid-modern">
+                        <button class="resource-card-modern reveal-on-scroll" onclick="openResource('study')"><div class="resource-icon-modern">📖</div><h3>Study Resources</h3><p>Study methods, exam planning, focus tools, academic support ideas, and ways to ask for help.</p><span class="resource-link-modern">Open resource →</span></button>
+                        <button class="resource-card-modern reveal-on-scroll" onclick="openResource('wellbeing')"><div class="resource-icon-modern">🌱</div><h3>Wellbeing</h3><p>Everyday wellbeing information, healthy routines, stress-management ideas, and support options.</p><span class="resource-link-modern">Open resource →</span></button>
+                        <button class="resource-card-modern reveal-on-scroll" onclick="openResource('career')"><div class="resource-icon-modern">💼</div><h3>Career</h3><p>Career planning, CV preparation, interview practice, skill-building, and guidance on next steps.</p><span class="resource-link-modern">Open resource →</span></button>
                     </div>
-
-
-                    <div class="dashboard-cards">
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                📖 Study Resources
-                            </h3>
-
-                            <p>
-                                Find study techniques and academic
-                                support resources.
-                            </p>
-
-                        </div>
-
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                🌱 Wellbeing
-                            </h3>
-
-                            <p>
-                                Explore healthy routines and
-                                wellbeing information.
-                            </p>
-
-                        </div>
-
-
-                        <div class="dashboard-card reveal-on-scroll">
-
-                            <h3>
-                                💼 Career
-                            </h3>
-
-                            <p>
-                                Explore career planning and
-                                development resources.
-                            </p>
-
-                        </div>
-
-                    </div>
-
                 </div>
-
 
                 <!-- NOTIFICATIONS -->
 
@@ -2304,77 +2145,15 @@
 
 
                 <!-- SETTINGS -->
-
-                <div
-                    class="dashboard-section"
-                    id="section-settings"
-                >
-
-                    <div class="dashboard-heading">
-
-                        <h2>
-                            Settings
-                        </h2>
-
-                        <p>
-                            Manage your profile and account.
-                        </p>
-
+                <div class="dashboard-section" id="section-settings">
+                    <div class="dashboard-heading"><h2>Settings</h2><p>Shape your MindCare experience. These options stay inside Settings.</p></div>
+                    <div class="settings-modern">
+                        <div class="settings-block reveal-on-scroll"><h3>👤 Profile</h3><p class="settings-note">Update the name shown across your MindCare account.</p><div class="settings-grid-modern"><div class="form-group"><label>Name</label><input id="settingsName" type="text"></div><div class="form-group"><label>Email</label><input id="settingsEmail" type="email" disabled></div></div><button class="primary-button" onclick="saveSettings()">Save Profile</button></div>
+                        <div class="settings-block reveal-on-scroll"><h3>🎨 Calm themes</h3><p class="settings-note">Choose a palette that feels comfortable. Your choice is saved on this device.</p><div class="theme-grid" id="themeGrid"></div></div>
+                        <div class="settings-block reveal-on-scroll"><h3>♿ Comfort & accessibility</h3><div class="settings-grid-modern"><div class="setting-row-modern"><div><strong>Reduce motion</strong><small>Soften non-essential animations.</small></div><label class="toggle-mini"><input id="prefReduceMotion" type="checkbox" onchange="savePreference('reduceMotion',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>Larger text</strong><small>Increase readable interface text.</small></div><label class="toggle-mini"><input id="prefLargeText" type="checkbox" onchange="savePreference('largeText',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>High contrast</strong><small>Increase visual contrast.</small></div><label class="toggle-mini"><input id="prefHighContrast" type="checkbox" onchange="savePreference('highContrast',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>Focus mode</strong><small>Reduce dashboard visual clutter.</small></div><label class="toggle-mini"><input id="prefFocusMode" type="checkbox" onchange="savePreference('focusMode',this.checked)"><span></span></label></div></div></div>
+                        <div class="settings-block reveal-on-scroll"><h3>🔔 Notifications & wellbeing</h3><div class="settings-grid-modern"><div class="setting-row-modern"><div><strong>Appointment reminders</strong><small>Keep appointment reminders visible.</small></div><label class="toggle-mini"><input id="prefAppointmentReminders" type="checkbox" checked onchange="savePreference('appointmentReminders',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>Friend request alerts</strong><small>Show new connection updates.</small></div><label class="toggle-mini"><input id="prefFriendAlerts" type="checkbox" checked onchange="savePreference('friendAlerts',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>Wellness prompts</strong><small>Allow gentle check-in prompts.</small></div><label class="toggle-mini"><input id="prefWellnessPrompts" type="checkbox" checked onchange="savePreference('wellnessPrompts',this.checked)"><span></span></label></div><div class="setting-row-modern"><div><strong>Message alerts</strong><small>Keep new message notifications enabled.</small></div><label class="toggle-mini"><input id="prefMessageAlerts" type="checkbox" checked onchange="savePreference('messageAlerts',this.checked)"><span></span></label></div></div></div>
+                        <div class="settings-block reveal-on-scroll"><h3>🔐 Account</h3><p class="settings-note">Your email is managed by Supabase authentication. Log out here when you're finished.</p><button class="small-button danger" onclick="logout()">🚪 Log Out</button></div>
                     </div>
-
-
-                    <div class="form-card reveal-on-scroll">
-
-                        <div class="form-group">
-
-                            <label>
-                                Name
-                            </label>
-
-                            <input
-                                id="settingsName"
-                                type="text"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
-                                Email
-                            </label>
-
-                            <input
-                                id="settingsEmail"
-                                type="email"
-                                disabled
-                            >
-
-                        </div>
-
-
-                        <button
-                            class="primary-button"
-                            onclick="saveSettings()"
-                        >
-                            Save Changes
-                        </button>
-
-
-                        <br>
-                        <br>
-
-
-                        <button
-                            class="small-button danger"
-                            onclick="logout()"
-                        >
-                            🚪 Log Out
-                        </button>
-
-                    </div>
-
                 </div>
 
             </section>
@@ -2387,37 +2166,36 @@
     <!-- =========================================
          THERAPIST DASHBOARD
     ========================================== -->
-    <main id="therapistDashboard" style="display:none;">
+    <main id="therapistDashboard" class="therapist-dashboard">
         <div class="dashboard-layout therapist-layout">
             <aside class="sidebar therapist-sidebar">
-                <div class="sidebar-title">MindCare <small>Therapist</small></div>
-                <button class="sidebar-button active" onclick="showTherapistSection('overview', this)">🏠 Overview</button>
-                <button class="sidebar-button" onclick="showTherapistSection('appointments', this)">📅 Appointments</button>
-                <button class="sidebar-button" onclick="showTherapistSection('clients', this)">👥 My Clients</button>
-                <button class="sidebar-button" onclick="showTherapistSection('messages', this)">💬 Messages</button>
-                <button class="sidebar-button" onclick="showTherapistSection('availability', this)">🗓️ Availability</button>
-                <button class="sidebar-button" onclick="showTherapistSection('resources', this)">📚 Resources</button>
-                <button class="sidebar-button" onclick="showTherapistSection('notifications', this)">🔔 Notifications</button>
-                <button class="sidebar-button" onclick="showTherapistSection('settings', this)">⚙️ Settings</button>
+                <div class="sidebar-title">MindCare <span class="therapist-badge">Therapist</span></div>
+                <button class="sidebar-button active" onclick="showTherapistSection('overview',this)">🏠 Overview</button>
+                <button class="sidebar-button" onclick="showTherapistSection('appointments',this)">📅 Appointments</button>
+                <button class="sidebar-button" onclick="showTherapistSection('clients',this)">👥 My Clients</button>
+                <button class="sidebar-button" onclick="showTherapistSection('messages',this)">💬 Messages</button>
+                <button class="sidebar-button" onclick="showTherapistSection('availability',this)">🗓️ Availability</button>
+                <button class="sidebar-button" onclick="showTherapistSection('resources',this)">📚 Resources</button>
+                <button class="sidebar-button" onclick="showTherapistSection('notifications',this)">🔔 Notifications</button>
+                <button class="sidebar-button" onclick="showTherapistSection('settings',this)">⚙️ Settings</button>
                 <button class="sidebar-button therapist-logout" onclick="logout()">↩ Log Out</button>
             </aside>
             <section class="dashboard-content therapist-content">
                 <div class="dashboard-section therapist-section active" id="therapist-section-overview">
-                    <div class="dashboard-heading"><span class="eyebrow">PROFESSIONAL WORKSPACE</span><h2>Welcome back, <span id="therapistWelcomeName">Therapist</span> 🩺</h2><p>A calm, organised space for supporting your clients.</p></div>
-                    <div class="therapist-stat-grid"><div class="therapist-stat"><span>📅</span><div><small>Today</small><strong id="therapistTodayCount">0 sessions</strong></div></div><div class="therapist-stat"><span>👥</span><div><small>Clients</small><strong id="therapistClientCount">0 active</strong></div></div><div class="therapist-stat"><span>💬</span><div><small>Messages</small><strong>Stay connected</strong></div></div></div>
-                    <div class="therapist-panel-grid"><div class="therapist-panel"><div class="panel-heading"><h3>Upcoming sessions</h3><button class="text-button" onclick="showTherapistSection('appointments')">View all</button></div><div id="therapistUpcomingList" class="therapist-list"></div></div><div class="therapist-panel"><div class="panel-heading"><h3>Quick actions</h3></div><div class="therapist-actions"><button class="primary-button" onclick="showTherapistSection('appointments')">📅 View appointments</button><button class="secondary-button" onclick="showTherapistSection('availability')">🗓️ Manage availability</button><button class="secondary-button" onclick="showTherapistSection('settings')">⚙️ Professional settings</button></div></div></div>
+                    <div class="therapist-top"><div><h2>Welcome back, <span id="therapistWelcomeName">Therapist</span> 🩺</h2><p>Your professional MindCare workspace.</p></div></div>
+                    <div class="therapist-stat-grid"><div class="therapist-stat reveal-on-scroll"><strong id="therapistTodayCount">0</strong><span>today's sessions</span></div><div class="therapist-stat reveal-on-scroll"><strong id="therapistClientCount">0</strong><span>active clients</span></div><div class="therapist-stat reveal-on-scroll"><strong id="therapistMessageCount">0</strong><span>message threads</span></div></div>
+                    <div class="therapist-panels"><div class="therapist-panel reveal-on-scroll"><h3>Upcoming sessions</h3><div id="therapistUpcomingList" class="therapist-list-modern"></div></div><div class="therapist-panel reveal-on-scroll"><h3>Quick actions</h3><div class="therapist-actions"><button class="primary-button" onclick="showTherapistSection('appointments')">View appointments</button><button class="secondary-button" onclick="showTherapistSection('availability')">Manage availability</button><button class="secondary-button" onclick="showTherapistSection('clients')">Open my clients</button></div></div></div>
                 </div>
-                <div class="dashboard-section therapist-section" id="therapist-section-appointments"><div class="dashboard-heading"><span class="eyebrow">SCHEDULE</span><h2>Appointments</h2><p>Manage upcoming sessions and appointment requests.</p></div><div class="therapist-panel"><div id="therapistAppointmentsList" class="therapist-list"></div></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-clients"><div class="dashboard-heading"><span class="eyebrow">PEOPLE YOU SUPPORT</span><h2>My Clients</h2><p>Keep a simple overview of the people you support.</p></div><div class="therapist-client-grid" id="therapistClientsList"></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-messages"><div class="dashboard-heading"><span class="eyebrow">COMMUNICATION</span><h2>Messages</h2><p>Client communication for your professional workspace.</p></div><div class="therapist-panel"><p class="settings-note">Use the existing MindCare messaging tools for conversations.</p><button class="primary-button" onclick="openStudentMessagesForTherapist()">💬 Open Messages</button></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-availability"><div class="dashboard-heading"><span class="eyebrow">SCHEDULE</span><h2>Availability</h2><p>Set when clients can request sessions.</p></div><div class="therapist-settings-grid"><div class="therapist-panel"><h3>🗓️ Weekly schedule</h3><div class="form-group"><label>Working days</label><select id="therapistDays"><option>Monday – Friday</option><option>Monday – Thursday</option><option>Tuesday – Saturday</option><option>Custom schedule</option></select></div><div class="form-group"><label>Start time</label><input id="therapistStart" type="time" value="09:00"></div><div class="form-group"><label>End time</label><input id="therapistEnd" type="time" value="17:00"></div><button class="primary-button" onclick="saveTherapistAvailability()">Save availability</button></div><div class="therapist-panel"><h3>🌿 Practice preferences</h3><label class="toggle-row"><span><strong>Accept new clients</strong><small>Allow new appointment requests.</small></span><input id="therapistAccepting" type="checkbox" checked></label><label class="toggle-row"><span><strong>Appointment reminders</strong><small>Keep session reminders enabled.</small></span><input id="therapistReminders" type="checkbox" checked></label></div></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-resources"><div class="dashboard-heading"><span class="eyebrow">SUPPORT MATERIALS</span><h2>Resources</h2><p>Helpful student-facing resources close at hand.</p></div><div class="resource-clean-grid"><button class="resource-clean-card" onclick="openResource('study')"><span>📖</span><div><strong>Study Support</strong><small>Planning, focus and academic wellbeing.</small></div><b>Open →</b></button><button class="resource-clean-card" onclick="openResource('wellbeing')"><span>🌿</span><div><strong>Wellbeing</strong><small>Calm routines and coping resources.</small></div><b>Open →</b></button><button class="resource-clean-card" onclick="openResource('career')"><span>💼</span><div><strong>Career</strong><small>Planning and transition support.</small></div><b>Open →</b></button></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-notifications"><div class="dashboard-heading"><span class="eyebrow">UPDATES</span><h2>Notifications</h2><p>Professional updates and appointment reminders.</p></div><div class="therapist-panel"><div id="therapistNotificationsList"><div class="empty-state">No new therapist notifications.</div></div></div></div>
-                <div class="dashboard-section therapist-section" id="therapist-section-settings"><div class="dashboard-heading"><span class="eyebrow">PROFESSIONAL PROFILE</span><h2>Therapist Settings</h2><p>Manage your professional profile, workspace preferences and accessibility.</p></div><div class="therapist-settings-grid"><div class="therapist-panel"><h3>👤 Professional profile</h3><div class="form-group"><label>Display name</label><input id="therapistSettingsName" type="text" placeholder="Your professional name"></div><div class="form-group"><label>Speciality</label><input id="therapistSpeciality" type="text" placeholder="e.g. Student Counselling"></div><div class="form-group"><label>About</label><textarea id="therapistBio" rows="4" placeholder="A short professional introduction"></textarea></div><button class="primary-button" onclick="saveTherapistSettings()">Save profile</button></div><div class="therapist-panel"><h3>🎨 Workspace</h3><div class="form-group"><label>Theme</label><select id="therapistTheme" onchange="applyTheme(this.value)"><option value="default">MindCare Green</option><option value="lavender">Calm Lavender</option><option value="sage">Soft Sage</option><option value="ocean">Quiet Ocean</option><option value="sand">Warm Sand</option><option value="rose">Gentle Rose</option><option value="sky">Misty Sky</option><option value="plum">Quiet Plum</option><option value="eucalyptus">Eucalyptus</option><option value="sunrise">Sunrise Peace</option><option value="cream">Buttercream</option></select></div><div class="toggle-row"><span><strong>Reduce motion</strong><small>Use calmer transitions.</small></span><input id="therapistReduceMotion" type="checkbox" onchange="toggleReducedMotion(this.checked)"></div></div></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-appointments"><div class="dashboard-heading"><h2>Appointments</h2><p>Review sessions and appointment requests.</p></div><div class="therapist-panel reveal-on-scroll"><div id="therapistAppointmentsList" class="therapist-list-modern"></div></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-clients"><div class="dashboard-heading"><h2>My Clients</h2><p>Keep a simple professional overview of supported students.</p></div><div id="therapistClientsList" class="client-grid-modern"></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-messages"><div class="dashboard-heading"><h2>Messages</h2><p>Client communication for your professional workspace.</p></div><div class="therapist-panel reveal-on-scroll"><p class="settings-note">Use MindCare's existing messaging tools for conversations. Your therapist workspace keeps this area separate from student-only social navigation.</p><button class="primary-button" onclick="openTherapistMessages()">Open Messages</button></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-availability"><div class="dashboard-heading"><h2>Availability</h2><p>Set when clients can request sessions.</p></div><div class="availability-grid-modern"><div class="therapist-panel reveal-on-scroll"><h3>🗓️ Weekly schedule</h3><div class="form-group"><label>Working days</label><select id="therapistDays"><option>Monday – Friday</option><option>Monday – Thursday</option><option>Tuesday – Saturday</option><option>Custom schedule</option></select></div><div class="form-group"><label>Start time</label><input id="therapistStart" type="time" value="09:00"></div><div class="form-group"><label>End time</label><input id="therapistEnd" type="time" value="17:00"></div><button class="primary-button" onclick="saveTherapistAvailability()">Save availability</button></div><div class="therapist-panel reveal-on-scroll"><h3>🌿 Practice preferences</h3><div class="setting-row-modern"><div><strong>Accept new clients</strong><small>Allow new appointment requests.</small></div><label class="toggle-mini"><input id="therapistAccepting" type="checkbox" checked onchange="saveTherapistPrefs()"><span></span></label></div><br><div class="setting-row-modern"><div><strong>Appointment reminders</strong><small>Keep session reminders enabled.</small></div><label class="toggle-mini"><input id="therapistReminders" type="checkbox" checked onchange="saveTherapistPrefs()"><span></span></label></div></div></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-resources"><div class="dashboard-heading"><h2>Resources</h2><p>Helpful student-facing resources close at hand.</p></div><div class="resource-grid-modern"><button class="resource-card-modern reveal-on-scroll" onclick="openResource('study')"><div class="resource-icon-modern">📖</div><h3>Study Support</h3><p>Planning, focus and academic wellbeing.</p><span class="resource-link-modern">Open resource →</span></button><button class="resource-card-modern reveal-on-scroll" onclick="openResource('wellbeing')"><div class="resource-icon-modern">🌿</div><h3>Wellbeing</h3><p>Calm routines and coping resources.</p><span class="resource-link-modern">Open resource →</span></button><button class="resource-card-modern reveal-on-scroll" onclick="openResource('career')"><div class="resource-icon-modern">💼</div><h3>Career</h3><p>Planning and transition support.</p><span class="resource-link-modern">Open resource →</span></button></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-notifications"><div class="dashboard-heading"><h2>Notifications</h2><p>Professional updates and appointment reminders.</p></div><div class="therapist-panel reveal-on-scroll"><div id="therapistNotificationsList"></div></div></div>
+                <div class="dashboard-section therapist-section" id="therapist-section-settings"><div class="dashboard-heading"><h2>Therapist Settings</h2><p>Professional profile, privacy-friendly workspace preferences and accessibility.</p></div><div class="therapist-settings-grid"><div class="therapist-panel reveal-on-scroll"><h3>👤 Professional profile</h3><div class="form-group"><label>Display name</label><input id="therapistSettingsName" type="text" placeholder="Your professional name"></div><div class="form-group"><label>Speciality</label><input id="therapistSpeciality" type="text" placeholder="e.g. Student counselling"></div><div class="form-group"><label>Professional bio</label><textarea id="therapistBio" rows="4" placeholder="A short professional introduction"></textarea></div><button class="primary-button" onclick="saveTherapistSettings()">Save profile</button></div><div class="therapist-panel reveal-on-scroll"><h3>🔔 Workspace preferences</h3><div class="setting-row-modern"><div><strong>Client message alerts</strong><small>Keep professional conversations visible.</small></div><label class="toggle-mini"><input id="therapistMessageAlerts" type="checkbox" checked onchange="saveTherapistPrefs()"><span></span></label></div><br><div class="setting-row-modern"><div><strong>Compact client cards</strong><small>Use a denser client overview.</small></div><label class="toggle-mini"><input id="therapistCompact" type="checkbox" onchange="saveTherapistPrefs()"><span></span></label></div><br><button class="small-button danger" onclick="logout()">🚪 Log Out</button></div></div></div>
             </section>
         </div>
     </main>
-
 
     <!-- =========================================
          LOGIN MODAL
@@ -2572,20 +2350,6 @@
             <div class="form-group">
 
                 <label>
-                    Account Type
-                </label>
-
-                <select id="registerRole">
-                    <option value="student">🎓 Student</option>
-                    <option value="therapist">🩺 Therapist</option>
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
                     Password
                 </label>
 
@@ -2597,6 +2361,19 @@
 
             </div>
 
+
+
+            <div class="form-group">
+                <label>Account Type</label>
+                <div class="role-choice-grid">
+                    <button type="button" class="role-choice active" id="roleStudent" onclick="selectRegisterRole('student')">
+                        <div class="role-icon">🎓</div><strong>Student</strong><small>Connect with friends, resources and professional support.</small>
+                    </button>
+                    <button type="button" class="role-choice" id="roleTherapist" onclick="selectRegisterRole('therapist')">
+                        <div class="role-icon">🩺</div><strong>Therapist</strong><small>Manage clients, appointments, availability and professional tools.</small>
+                    </button>
+                </div>
+            </div>
 
             <button
                 class="primary-button"
@@ -2655,9 +2432,10 @@
 
 
         let currentUser = null;
-        let profileCache = {};
 
         let activeChatUser = null;
+        const profileCache = {};
+        let selectedRegisterRole = "student";
 
 
         /* ========================================
@@ -2697,7 +2475,7 @@
             {
                 id: "therapist_suhent",
                 name: "Dr Suhent",
-                specialty: "Mental Health & Student Counselling",
+                specialty: "Mental Health Professional",
                 online: true
             }
 
@@ -2757,7 +2535,8 @@
                             user.user_metadata?.name ||
                             user.email?.split("@")[0] ||
                             "Student",
-                        email: user.email || ""
+                        email: user.email || "",
+                        role: user.user_metadata?.role || "student"
                     };
 
                 } else {
@@ -2785,6 +2564,8 @@
             async function () {
 
                 await loadCurrentUser();
+                applyTheme('sage');
+                applyExtraAccessibility();
 
                 updateHeader();
 
@@ -2820,7 +2601,8 @@
                                     user.user_metadata?.name ||
                                     user.email?.split("@")[0] ||
                                     "Student",
-                                email: user.email || ""
+                                email: user.email || "",
+                                role: user.user_metadata?.role || "student"
                             };
 
                         } else {
@@ -2844,150 +2626,18 @@
         ======================================== */
 
         function updateHeader() {
-
-            const nav =
-                document.getElementById("navLinks");
-
-            if (!nav) {
-                return;
+            const nav=document.getElementById("navLinks"); if(!nav) return;
+            if(currentUser){
+                const isTherapist=currentUser.role==='therapist';
+                nav.innerHTML=`
+                    <a href="#" onclick="${isTherapist?'showTherapistDashboard()':'showDashboard()'}; return false;">Dashboard</a>
+                    ${isTherapist?`<a href="#" onclick="showTherapistSectionByName('appointments'); return false;">Appointments</a>`:`<a href="#" onclick="showSectionByName('friends'); return false;">Friends</a>`}
+                    <a href="#" onclick="${isTherapist?'openTherapistMessages()':'showSectionByName(\'messages\')'}; return false;">Messages</a>
+                    <div class="profile-wrapper"><button class="profile-button" onclick="toggleProfileMenu()">👤 ${escapeHTML(currentUser.name)} ▾</button><div class="profile-menu" id="profileMenu"><div class="profile-info"><strong>${escapeHTML(currentUser.name)}</strong><small>${escapeHTML(currentUser.email)}</small><small>${isTherapist?'🩺 Therapist':'🎓 Student'}</small></div><button onclick="${isTherapist?'showTherapistDashboard()':'showSectionByName(\'overview\')'}">🏠 Dashboard</button><button onclick="${isTherapist?'showTherapistSectionByName(\'settings\')':'showSectionByName(\'settings\')'}">⚙️ Settings</button><button class="logout-button" onclick="logout()">🚪 Log Out</button></div></div>`;
+            }else{
+                nav.innerHTML=`<a href="#home">Home</a><a href="#features">Features</a><a href="#verified-help">Verified Help <span class="verified-badge">✓</span></a><button class="login-button" onclick="openLogin()">Log In</button><button class="register-button" onclick="openRegister()">Create Account</button>`;
             }
-
-
-            /*
-             IMPORTANT FIX:
-
-             The header is completely rebuilt based
-             on whether currentUser exists.
-
-             Therefore Create Account and Log In
-             disappear after login.
-            */
-
-            if (currentUser) {
-
-                nav.innerHTML = `
-
-                    <a href="#"
-                       onclick="showDashboard(); return false;">
-                        Dashboard
-                    </a>
-
-                    <a href="#"
-                       onclick="showSectionByName('friends'); return false;">
-                        Friends
-                    </a>
-
-                    <a href="#"
-                       onclick="showSectionByName('messages'); return false;">
-                        Messages
-                    </a>
-
-                    <a href="#"
-                       onclick="showSectionByName('verified'); return false;">
-                        Verified Help
-                        <span class="verified-badge">✓</span>
-                    </a>
-
-
-                    <div class="profile-wrapper">
-
-                        <button
-                            class="profile-button"
-                            onclick="toggleProfileMenu()"
-                        >
-
-                            👤
-                            ${escapeHTML(currentUser.name)}
-
-                            ▾
-
-                        </button>
-
-
-                        <div
-                            class="profile-menu"
-                            id="profileMenu"
-                        >
-
-                            <div class="profile-info">
-
-                                <strong>
-                                    ${escapeHTML(currentUser.name)}
-                                </strong>
-
-                                <small>
-                                    ${escapeHTML(currentUser.email)}
-                                </small>
-
-                            </div>
-
-
-                            <button
-                                onclick="showSectionByName('overview')"
-                            >
-                                🏠 Dashboard
-                            </button>
-
-
-                            <button
-                                onclick="showSectionByName('settings')"
-                            >
-                                ⚙️ Settings
-                            </button>
-
-
-                            <button
-                                class="logout-button"
-                                onclick="logout()"
-                            >
-                                🚪 Log Out
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            } else {
-
-                nav.innerHTML = `
-
-                    <a href="#home">
-                        Home
-                    </a>
-
-                    <a href="#features">
-                        Features
-                    </a>
-
-                    <a href="#verified-help">
-                        Verified Help
-                        <span class="verified-badge">✓</span>
-                    </a>
-
-
-                    <button
-                        class="login-button"
-                        onclick="openLogin()"
-                    >
-                        Log In
-                    </button>
-
-
-                    <button
-                        class="register-button"
-                        onclick="openRegister()"
-                    >
-                        Create Account
-                    </button>
-
-                `;
-
-            }
-
         }
-
 
         /* ========================================
            PROFILE MENU
@@ -3039,65 +2689,108 @@
            REGISTER
         ======================================== */
 
-        async function register() {
-            const name = document.getElementById("registerName").value.trim();
-            const email = document.getElementById("registerEmail").value.trim().toLowerCase();
-            const password = document.getElementById("registerPassword").value;
-            const role = document.getElementById("registerRole")?.value || "student";
-            const error = document.getElementById("registerError");
-            error.textContent = "";
-
-            if (!name || !email || !password) { error.textContent = "Please fill in all fields."; return; }
-            if (password.length < 6) { error.textContent = "Password must be at least 6 characters."; return; }
-
-            try {
-                const { data, error: signUpError } = await supabaseClient.auth.signUp({
-                    email, password, options: { data: { full_name: name, role } }
-                });
-                if (signUpError) throw signUpError;
-                if (!data.session) {
-                    error.textContent = "Account created! Check your email to confirm your account.";
-                    return;
-                }
-                const user = data.user;
-                currentUser = { id: user.id, name, email: user.email || email, role };
-                localStorage.setItem("mindcare_role_" + user.id, role);
-                await ensureProfile(currentUser);
-                closeModals(); updateHeader();
-                if (role === "therapist") showTherapistDashboard(); else showDashboard();
-                if (role === "student") refreshDashboard();
-                addNotification("Welcome to MindCare!", "Your account has been created successfully.");
-            } catch (err) {
-                console.error("Registration error:", err);
-                error.textContent = err.message || "Could not create your account.";
-            }
+        function selectRegisterRole(role){
+            selectedRegisterRole=role;
+            document.getElementById('roleStudent')?.classList.toggle('active',role==='student');
+            document.getElementById('roleTherapist')?.classList.toggle('active',role==='therapist');
         }
 
+        async function register() {
+            const name=document.getElementById("registerName").value.trim();
+            const email=document.getElementById("registerEmail").value.trim().toLowerCase();
+            const password=document.getElementById("registerPassword").value;
+            const error=document.getElementById("registerError"); error.textContent="";
+            if(!name||!email||!password){error.textContent="Please fill in all fields.";return;}
+            if(password.length<6){error.textContent="Password must be at least 6 characters.";return;}
+            try{
+                const {data,error:signUpError}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:name,role:selectedRegisterRole}}});
+                if(signUpError) throw signUpError;
+                if(!data.session){error.textContent="Account created! Check your email to confirm your account.";return;}
+                const user=data.user;
+                currentUser={id:user.id,name,email:user.email||email,role:selectedRegisterRole};
+                await ensureProfile(currentUser);
+                closeModals(); updateHeader();
+                if(selectedRegisterRole==='therapist') showTherapistDashboard(); else showDashboard();
+                refreshDashboard();
+                addNotification("Welcome to MindCare!","Your account has been created successfully.");
+            }catch(err){console.error("Registration error:",err);error.textContent=err.message||"Could not create your account.";}
+        }
 
         /* ========================================
            LOGIN
         ======================================== */
 
         async function login() {
-            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
-            const password = document.getElementById("loginPassword").value;
-            const error = document.getElementById("loginError");
+
+            const email =
+                document.getElementById(
+                    "loginEmail"
+                ).value.trim().toLowerCase();
+
+            const password =
+                document.getElementById(
+                    "loginPassword"
+                ).value;
+
+            const error =
+                document.getElementById(
+                    "loginError"
+                );
+
             error.textContent = "";
-            if (!email || !password) { error.textContent = "Please enter your email and password."; return; }
-            try {
-                const { data, error: signInError } = await supabaseClient.auth.signInWithPassword({ email, password });
-                if (signInError) throw signInError;
-                const user = data.user;
-                const role = user.user_metadata?.role || localStorage.getItem("mindcare_role_" + user.id) || "student";
-                currentUser = { id: user.id, name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split("@")[0] || "Student", email: user.email || email, role };
-                localStorage.setItem("mindcare_role_" + user.id, role);
-                await ensureProfile(currentUser);
-                closeModals(); updateHeader();
-                if (role === "therapist") showTherapistDashboard(); else { showDashboard(); refreshDashboard(); }
-            } catch (err) {
-                console.error("Login error:", err);
-                error.textContent = err.message || "Could not log in.";
+
+            if (!email || !password) {
+
+                error.textContent =
+                    "Please enter your email and password.";
+
+                return;
+
             }
+
+            try {
+
+                const {
+                    data,
+                    error: signInError
+                } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (signInError) {
+                    throw signInError;
+                }
+
+                const user = data.user;
+
+                currentUser = {
+                    id: user.id,
+                    name:
+                        user.user_metadata?.full_name ||
+                        user.user_metadata?.name ||
+                        user.email?.split("@")[0] ||
+                        "Student",
+                    email: user.email || email,
+                    role: user.user_metadata?.role || "student"
+                };
+
+                await ensureProfile(currentUser);
+
+                closeModals();
+                updateHeader();
+                if(currentUser.role==='therapist') showTherapistDashboard(); else showDashboard();
+                refreshDashboard();
+
+            } catch (err) {
+
+                console.error("Login error:", err);
+
+                error.textContent =
+                    "Incorrect email or password.";
+
+            }
+
         }
 
 
@@ -3142,50 +2835,27 @@
         ======================================== */
 
         function showLandingPage() {
-
-            document.getElementById(
-                "landingPage"
-            ).style.display = "block";
-
-
-            document.getElementById(
-                "dashboard"
-            ).style.display = "none";
-
-
+            document.getElementById("landingPage").style.display="block";
+            document.getElementById("dashboard").style.display="none";
+            const t=document.getElementById("therapistDashboard"); if(t)t.style.display="none";
+            applyTheme('sage');
             updateHeader();
-
         }
-
-
         function showDashboard() {
-
-            if (!currentUser) {
-
-                openLogin();
-
-                return;
-
-            }
-
-
-            document.getElementById(
-                "landingPage"
-            ).style.display = "none";
-
-
-            document.getElementById(
-                "dashboard"
-            ).style.display = "block";
-
-
-            updateHeader();
-
-
-            refreshDashboard();
-
+            if(!currentUser){openLogin();return;}
+            if(currentUser.role==='therapist'){showTherapistDashboard();return;}
+            document.getElementById("landingPage").style.display="none";
+            document.getElementById("dashboard").style.display="block";
+            const t=document.getElementById("therapistDashboard"); if(t)t.style.display="none";
+            updateHeader(); applyTheme(localStorage.getItem('mindcare_theme') || 'sage'); refreshDashboard();
         }
-
+        function showTherapistDashboard(){
+            if(!currentUser){openLogin();return;}
+            document.getElementById("landingPage").style.display="none";
+            document.getElementById("dashboard").style.display="none";
+            const t=document.getElementById("therapistDashboard"); if(t)t.style.display="block";
+            updateHeader(); applyTheme(localStorage.getItem('mindcare_theme') || 'sage'); loadTherapistSettings(); renderTherapistWorkspace();
+        }
 
         /* ========================================
            MODALS
@@ -3533,13 +3203,9 @@
 
 
             if (dashboard) {
-
-                dashboard.innerHTML =
-                    therapists
-                        .map(therapistCard)
-                        .join("");
-
+                dashboard.innerHTML=therapists.map(therapistCard).join("");
             }
+            if(window.observeMindCareReveals) window.observeMindCareReveals();
 
         }
 
@@ -3598,13 +3264,21 @@
 
         async function ensureProfile(user) {
             if (!user || !user.id) return;
-            const username = (user.email || "").toLowerCase();
             const { data, error } = await supabaseClient
                 .from("profiles")
-                .upsert({ id: user.id, name: user.name || "Student", username }, { onConflict: "id" })
-                .select().single();
-            if (error) { console.error("Profile sync error:", error); return; }
-            profileCache[data.id] = { id: data.id, name: data.name, username: data.username || username, email: user.email || profileCache[data.id]?.email || "" };
+                .upsert({ id: user.id, name: user.name || "Student" }, { onConflict: "id" })
+                .select()
+                .single();
+            if (error) {
+                console.error("Profile sync error:", error);
+                return;
+            }
+            profileCache[data.id] = {
+                id: data.id,
+                name: data.name,
+                username: data.username || "",
+                email: user.email || profileCache[data.id]?.email || ""
+            };
         }
 
         async function loadProfiles() {
@@ -3625,22 +3299,19 @@
         }
 
         async function sendFriendRequest() {
-            const input = document.getElementById("friendSearch");
-            const email = input.value.trim().toLowerCase();
+            const email = document.getElementById("friendSearch").value.trim().toLowerCase();
             const result = document.getElementById("friendResult");
-            result.textContent = ""; result.className = "success-message";
-            if (!email || !currentUser) { result.textContent = "Enter an email address."; result.className = "error-message"; return; }
-            await loadProfiles();
-            const target = Object.values(profileCache).find(p => (p.username || p.email || "").toLowerCase() === email);
-            if (!target) { result.textContent = "No account was found with that email."; result.className = "error-message"; return; }
-            if (target.id === currentUser.id) { result.textContent = "You cannot add yourself."; result.className = "error-message"; return; }
-            const { data: existing } = await supabaseClient.from("friend_requests").select("id,status").eq("sender_id", currentUser.id).eq("receiver_id", target.id).eq("status","pending");
-            if (existing && existing.length) { result.textContent = "Friend request already sent."; return; }
-            const { error } = await supabaseClient.from("friend_requests").insert({ sender_id: currentUser.id, receiver_id: target.id, status: "pending" });
-            if (error) { result.textContent = error.message; result.className = "error-message"; return; }
-            result.textContent = "Friend request sent successfully.";
-            input.value = "";
-            await renderFriends();
+            result.textContent = "";
+
+            if (!email || !currentUser) {
+                result.textContent = "Enter an email address.";
+                result.className = "error-message";
+                return;
+            }
+
+            result.textContent =
+                "Friend search by email needs an email field in profiles. Your request area is working; add that field in Supabase to enable email lookup.";
+            result.className = "error-message";
         }
 
         async function acceptFriendRequest(requestId) {
@@ -3703,129 +3374,24 @@
         }
 
         async function renderFriends() {
-            if (!currentUser) return;
-
+            if(!currentUser) return;
             await loadProfiles();
-
-            const requestsContainer = document.getElementById("friendRequests");
-            const friendsContainer = document.getElementById("friendsList");
-
-            const { data: requests, error: requestError } = await supabaseClient
-                .from("friend_requests")
-                .select("*")
-                .eq("receiver_id", currentUser.id)
-                .eq("status", "pending")
-                .order("created_at", { ascending: false });
-
-            if (requestError) {
-                console.error(requestError);
-                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.</div>`;
-            } else if (!requests?.length) {
-                requestsContainer.innerHTML = `<div class="empty-state">No pending friend requests.</div>`;
-            } else {
-                requestsContainer.innerHTML = requests.map(r => {
-                    const sender = getUserById(r.sender_id);
-                    if (!sender) return "";
-                    return `
-                        <div class="friend-item reveal-on-scroll">
-                            <div class="friend-info">
-                                <div class="friend-avatar">${escapeHTML((sender.name || "?").charAt(0).toUpperCase())}</div>
-                                <div>
-                                    <strong>${escapeHTML(sender.name || "Student")}</strong><br>
-                                    <small>${escapeHTML(sender.email || "")}</small>
-                                </div>
-                            </div>
-                            <div class="friend-actions">
-                                <button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
-                                <button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button>
-                            </div>
-                        </div>`;
-                }).join("");
-            }
-
-            const { data: friendships, error: friendshipError } = await supabaseClient
-                .from("friendships")
-                .select("*")
-                .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
-
-            if (friendshipError) {
-                console.error(friendshipError);
-                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.</div>`;
-                return;
-            }
-
-            const friends = (friendships || []).map(f => {
-                const id = f.user1_id === currentUser.id ? f.user2_id : f.user1_id;
-                return getUserById(id);
-            }).filter(Boolean);
-
-            document.getElementById("friendCount").textContent =
-                friends.length + (friends.length === 1 ? " friend" : " friends");
-
-            if (!friends.length) {
-                friendsContainer.innerHTML = `<div class="empty-state">You don't have any friends yet. Use Add Friend above to find someone.</div>`;
-                return;
-            }
-
-            friendsContainer.innerHTML = friends.map(friend => `
-                <div class="friend-item reveal-on-scroll">
-                    <div class="friend-info">
-                        <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
-                        <div>
-                            <strong>${escapeHTML(friend.name || "Student")}</strong><br>
-                            <small>${escapeHTML(friend.email || "")}</small>
-                        </div>
-                    </div>
-                    <div class="friend-actions">
-                        <button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
-                    </div>
-                </div>`).join("");
+            const requestsContainer=document.getElementById("friendRequests");
+            const friendsContainer=document.getElementById("friendsList");
+            if(!requestsContainer||!friendsContainer) return;
+            const {data:requests,error:requestError}=await supabaseClient.from("friend_requests").select("*").eq("receiver_id",currentUser.id).eq("status","pending").order("created_at",{ascending:false});
+            if(requestError){console.error(requestError);requestsContainer.innerHTML=`<div class="empty-modern">Could not load friend requests right now.</div>`;}
+            else if(!requests?.length){requestsContainer.innerHTML=`<div class="empty-modern">No pending requests. You're all caught up.</div>`;}
+            else{requestsContainer.innerHTML=requests.map(r=>{const sender=getUserById(r.sender_id);if(!sender)return "";return `<div class="friend-item-modern reveal-on-scroll"><div class="friend-info-modern"><div class="friend-avatar-modern">${escapeHTML((sender.name||"?").charAt(0).toUpperCase())}</div><div><strong>${escapeHTML(sender.name||"Student")}</strong><br><small>${escapeHTML(sender.username||"MindCare member")}</small></div></div><div class="friend-actions-modern"><button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button><button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button></div></div>`;}).join("");}
+            const {data:friendships,error:friendshipError}=await supabaseClient.from("friendships").select("*").or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+            if(friendshipError){console.error(friendshipError);friendsContainer.innerHTML=`<div class="empty-modern">Could not load your friends.</div>`;return;}
+            const friends=(friendships||[]).map(f=>getUserById(f.user1_id===currentUser.id?f.user2_id:f.user1_id)).filter(Boolean);
+            document.getElementById("friendCount").textContent=friends.length;
+            const summary=document.getElementById('dashboardFriendSummary'); if(summary)summary.textContent=friends.length?`You have ${friends.length} ${friends.length===1?'friend':'friends'} in your MindCare circle.`:'Your circle is still growing — add someone you trust.';
+            if(!friends.length){friendsContainer.innerHTML=`<div class="empty-modern">You don't have any friends yet. Send a request to someone you trust.</div>`;return;}
+            friendsContainer.innerHTML=friends.map(friend=>`<div class="friend-item-modern reveal-on-scroll"><div class="friend-info-modern"><div class="friend-avatar-modern">${escapeHTML((friend.name||"?").charAt(0).toUpperCase())}</div><div><strong>${escapeHTML(friend.name||"Student")}</strong><br><small>${escapeHTML(friend.username||"MindCare member")}</small></div></div><div class="friend-actions-modern"><button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button></div></div>`).join("");
+            if(window.observeMindCareReveals) window.observeMindCareReveals();
         }
-
-        /* ========================================
-           FRIEND CHAT
-        ======================================== */
-
-        function startFriendChat(
-            friendId
-        ) {
-
-            const friend =
-                getUserById(
-                    friendId
-                );
-
-
-            if (!friend) {
-                return;
-            }
-
-
-            activeChatUser = {
-
-                id:
-                    friend.id,
-
-                name:
-                    friend.name,
-
-                therapist:
-                    false
-
-            };
-
-
-            showSectionByName(
-                "messages"
-            );
-
-
-            openChat(
-                activeChatUser
-            );
-
-        }
-
 
         /* ========================================
            MESSAGES
@@ -3950,6 +3516,12 @@
             });
 
             container.innerHTML = html || `<div class="empty-state">No conversations yet.</div>`;
+        }
+
+        function openResource(type){
+            const titles={study:'Study Support',wellbeing:'Wellbeing',career:'Career'};
+            const text={study:'Try a small study plan, one focused task, and a short break. Asking for academic help is a strength.',wellbeing:'Choose one gentle action: hydrate, stretch, step outside, breathe slowly, or talk to someone you trust.',career:'Break your next career step into something tiny: update one CV line, research one option, or practise one interview answer.'};
+            alert((titles[type]||'MindCare Resource')+'\n\n'+(text[type]||'MindCare resources are here to help.'));
         }
 
         /* ========================================
@@ -4368,45 +3940,50 @@
            SETTINGS
         ======================================== */
 
-        function loadSettings() {
-            if (!currentUser) return;
-            document.getElementById("settingsName").value = currentUser.name || "";
-            document.getElementById("settingsEmail").value = currentUser.email || "";
-        }
+        const mindCareThemes={
+            sage:{name:'Sage Calm',vars:['#9bd8b0','#2d6a4f','#e9f7ee','#f8fcf9','#dcefe2','#183b27','#68756d']},
+            lavender:{name:'Soft Lavender',vars:['#c9b8e8','#5d477e','#f2ecfa','#fbf9fe','#e3d9f1','#302442','#70687b']},
+            ocean:{name:'Quiet Ocean',vars:['#9ccfe0','#2c6475','#e8f6fa','#f7fcfd','#d8ebf0','#183d48','#62747a']},
+            mist:{name:'Misty Blue',vars:['#a9c8e7','#3c6287','#eaf3fb','#f8fbfe','#dce8f4','#203b56','#687887']},
+            eucalyptus:{name:'Eucalyptus',vars:['#9ecbb8','#326451','#e8f5ef','#f7fcf9','#d6e9df','#1f3e31','#66766d']},
+            blush:{name:'Gentle Blush',vars:['#e8b9c5','#855264','#fdf0f3','#fffafb','#f0d9df','#4b2834','#786d71']},
+            sandstone:{name:'Gentle Sandstone',vars:['#d8b98a','#76552d','#f7f0e4','#fdfbf7','#eadfcd','#45331e','#756e64']},
+            buttercream:{name:'Buttercream',vars:['#e4d58d','#75671f','#fbf7dc','#fffef7','#eee7bd','#454016','#77735d']},
+            twilight:{name:'Quiet Twilight',vars:['#a9a7d8','#57547d','#efeffa','#fafaff','#dddcef','#303047','#6c6b7b']},
+            forest:{name:'Forest Grounding',vars:['#88b89b','#2c5d43','#e6f1ea','#f7fbf8','#d3e4d8','#193827','#68756d']},
+            sunrise:{name:'Sunrise Peace',vars:['#e8b48d','#8b5d3b','#fff1e7','#fffaf6','#f1dfd0','#4b3020','#786f69']},
+            plum:{name:'Quiet Plum',vars:['#c1a1c9','#704879','#f5edf7','#fcf9fd','#e4d6e8','#422b49','#756c77']},
+            sky:{name:'Open Sky',vars:['#a9d8d7','#3d7775','#eaf8f7','#f8fdfd','#d8eeed','#244a49','#687878']},
+            midnight:{name:'Midnight Calm',vars:['#6f7fa8','#394566','#dfe5f2','#f4f6fb','#cbd3e5','#20283d','#5f687b']},
+            deepforest:{name:'Deep Forest',vars:['#5f9274','#28533f','#dcebe2','#f3f8f5','#c3d9cb','#183628','#596b61']},
+            charcoal:{name:'Soft Charcoal',vars:['#87908f','#4b5353','#e4e8e7','#f5f7f7','#cfd5d4','#252b2b','#626b6a']},
+            moodyplum:{name:'Moody Plum',vars:['#8e6f9d','#573d62','#eee6f1','#f8f4fa','#d8c9de','#302236','#6b6470']},
+            deepocean:{name:'Deep Ocean',vars:['#5d9ca5','#35636b','#dceff1','#f3f9fa','#c4e0e3','#1f3d42','#5f7174']},
+            darksage:{name:'Dark Sage',vars:['#708f7b','#3e5f4b','#dfe9e2','#f4f8f5','#cbd9ce','#25392d','#626f67']},
+            duskmauve:{name:'Dusk Mauve',vars:['#9a7c8f','#624c5b','#eee5ea','#f8f4f6','#d9cbd2','#382a33','#6d646a']},
+            nightblue:{name:'Night Blue',vars:['#7188ae','#435979','#e0e7f1','#f5f7fb','#c9d4e3','#263348','#626d7d']},
+            espresso:{name:'Warm Espresso',vars:['#9a7b67','#604a3a','#eee6df','#f8f5f2','#d8cbbf','#35271f','#6d655f']},
+            darklavender:{name:'Deep Lavender',vars:['#827ca9','#504a73','#e6e3f1','#f6f5fa','#d0cce1','#29253e','#656274']}
+        };
+        function applyTheme(name){const t=mindCareThemes[name]||mindCareThemes.sage;const r=document.documentElement;['--green','--dark-green','--light-green','--lighter-green','--border','--dark','--gray'].forEach((v,i)=>r.style.setProperty(v,t.vars[i]));localStorage.setItem('mindcare_theme',name);document.querySelectorAll('.theme-swatch').forEach(x=>x.classList.toggle('active',x.dataset.theme===name));}
+        function renderThemeGrid(){const el=document.getElementById('themeGrid');if(!el)return;el.innerHTML=Object.entries(mindCareThemes).map(([key,t])=>`<button type="button" class="theme-swatch" data-theme="${key}" onclick="applyTheme('${key}')"><div class="theme-preview" style="background:linear-gradient(135deg,${t.vars[2]},${t.vars[0]})"></div><span>${t.name}</span></button>`).join('');applyTheme(localStorage.getItem('mindcare_theme')||'sage');}
+        function savePreference(key,value){const prefs=JSON.parse(localStorage.getItem('mindcare_preferences')||'{}');prefs[key]=value;localStorage.setItem('mindcare_preferences',JSON.stringify(prefs));applyExtraAccessibility();}
+        function applyExtraAccessibility(){const p=JSON.parse(localStorage.getItem('mindcare_preferences')||'{}');document.body.classList.toggle('mindcare-large-text',!!p.largeText);document.body.classList.toggle('mindcare-high-contrast',!!p.highContrast);document.body.classList.toggle('mindcare-focus-mode',!!p.focusMode);document.body.classList.toggle('mindcare-reduce-motion',!!p.reduceMotion);}
+        function loadSettings(){if(!currentUser)return;const n=document.getElementById('settingsName');const e=document.getElementById('settingsEmail');if(n)n.value=currentUser.name||'';if(e)e.value=currentUser.email||'';renderThemeGrid();const p=JSON.parse(localStorage.getItem('mindcare_preferences')||'{}');['reduceMotion','largeText','highContrast','focusMode','appointmentReminders','friendAlerts','wellnessPrompts','messageAlerts'].forEach(k=>{const el=document.getElementById('pref'+k.charAt(0).toUpperCase()+k.slice(1));if(el)el.checked=p[k]!==undefined?p[k]:['appointmentReminders','friendAlerts','wellnessPrompts','messageAlerts'].includes(k)});applyExtraAccessibility();}
+        async function saveSettings(){if(!currentUser)return;const name=document.getElementById('settingsName').value.trim();if(!name){alert('Name cannot be empty.');return;}const {data,error}=await supabaseClient.from('profiles').update({name}).eq('id',currentUser.id).select().single();if(error){alert(error.message);return;}currentUser.name=data.name;profileCache[currentUser.id]={...(profileCache[currentUser.id]||{}),id:currentUser.id,name:data.name,email:currentUser.email};updateHeader();const w=document.getElementById('welcomeName');if(w)w.textContent=name;const tw=document.getElementById('therapistWelcomeName');if(tw)tw.textContent=name;alert('Your profile has been updated.');}
+        function saveMood(mood){localStorage.setItem('mindcare_last_mood',JSON.stringify({mood,at:new Date().toISOString()}));const el=document.getElementById('moodStatus');if(el)el.textContent=`Check-in saved: ${mood}. Be gentle with yourself today.`;addNotification('Mood check-in saved',`You marked yourself as ${mood}.`);}
+        function startBreathingExercise(){let n=0;const original=document.querySelector('.wellness-hero p');if(!original)return;const old=original.textContent;const steps=['Breathe in slowly…','Hold gently…','Breathe out slowly…','Let your shoulders soften…'];let i=0;original.textContent=steps[i];const timer=setInterval(()=>{i++;if(i<steps.length)original.textContent=steps[i];else{clearInterval(timer);original.textContent=old;alert('Nice work. Take that calm feeling with you.');}},15000);alert('For the next minute, follow the gentle breathing prompts on your dashboard.');}
 
-        async function saveSettings() {
-            if (!currentUser) return;
-
-            const name = document.getElementById("settingsName").value.trim();
-            if (!name) {
-                alert("Name cannot be empty.");
-                return;
-            }
-
-            const { data, error } = await supabaseClient
-                .from("profiles")
-                .update({ name })
-                .eq("id", currentUser.id)
-                .select()
-                .single();
-
-            if (error) {
-                alert(error.message);
-                return;
-            }
-
-            currentUser.name = data.name;
-            profileCache[currentUser.id] = {
-                ...(profileCache[currentUser.id] || {}),
-                id: currentUser.id,
-                name: data.name,
-                email: currentUser.email
-            };
-
-            updateHeader();
-            document.getElementById("welcomeName").textContent = name;
-            alert("Your profile has been updated.");
-        }
+        function getTherapistStore(key,fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback));}catch{return fallback;}}
+        function therapistSave(key,value){localStorage.setItem(key,JSON.stringify(value));}
+        function loadTherapistSettings(){const s=getTherapistStore('mindcare_therapist_settings',{});const a=getTherapistStore('mindcare_therapist_availability',{days:'Monday – Friday',start:'09:00',end:'17:00',accepting:true,reminders:true});const n=document.getElementById('therapistSettingsName');if(n)n.value=s.name||currentUser?.name||'';const sp=document.getElementById('therapistSpeciality');if(sp)sp.value=s.speciality||'';const b=document.getElementById('therapistBio');if(b)b.value=s.bio||'';const d=document.getElementById('therapistDays');if(d)d.value=a.days||'Monday – Friday';const st=document.getElementById('therapistStart');if(st)st.value=a.start||'09:00';const en=document.getElementById('therapistEnd');if(en)en.value=a.end||'17:00';const ac=document.getElementById('therapistAccepting');if(ac)ac.checked=a.accepting!==false;const rm=document.getElementById('therapistReminders');if(rm)rm.checked=a.reminders!==false;const ma=document.getElementById('therapistMessageAlerts');if(ma)ma.checked=s.messageAlerts!==false;const co=document.getElementById('therapistCompact');if(co)co.checked=!!s.compact;}
+        function saveTherapistSettings(){const s=getTherapistStore('mindcare_therapist_settings',{});s.name=document.getElementById('therapistSettingsName').value.trim()||currentUser.name;s.speciality=document.getElementById('therapistSpeciality').value.trim();s.bio=document.getElementById('therapistBio').value.trim();s.messageAlerts=document.getElementById('therapistMessageAlerts').checked;s.compact=document.getElementById('therapistCompact').checked;therapistSave('mindcare_therapist_settings',s);currentUser.name=s.name;updateHeader();const w=document.getElementById('therapistWelcomeName');if(w)w.textContent=s.name;alert('Therapist profile saved.');}
+        function saveTherapistAvailability(){const a={days:document.getElementById('therapistDays').value,start:document.getElementById('therapistStart').value,end:document.getElementById('therapistEnd').value,accepting:document.getElementById('therapistAccepting').checked,reminders:document.getElementById('therapistReminders').checked};therapistSave('mindcare_therapist_availability',a);alert('Availability saved.');}
+        function saveTherapistPrefs(){const s=getTherapistStore('mindcare_therapist_settings',{});s.messageAlerts=document.getElementById('therapistMessageAlerts')?.checked??true;s.compact=document.getElementById('therapistCompact')?.checked??false;therapistSave('mindcare_therapist_settings',s);const a=getTherapistStore('mindcare_therapist_availability',{});if(document.getElementById('therapistAccepting'))a.accepting=document.getElementById('therapistAccepting').checked;if(document.getElementById('therapistReminders'))a.reminders=document.getElementById('therapistReminders').checked;therapistSave('mindcare_therapist_availability',a);}
+        function showTherapistSection(name,button){document.querySelectorAll('.therapist-section').forEach(s=>s.classList.remove('active'));const target=document.getElementById('therapist-section-'+name);if(target)target.classList.add('active');document.querySelectorAll('.therapist-sidebar .sidebar-button').forEach(b=>b.classList.remove('active'));if(button)button.classList.add('active');if(name==='overview'||name==='appointments'||name==='clients')renderTherapistWorkspace();if(name==='settings')loadTherapistSettings();}
+        function showTherapistSectionByName(name){showTherapistSection(name);}
+        function openTherapistMessages(){if(currentUser?.role==='therapist'){showTherapistSection('messages');}else{showSectionByName('messages');}}
+        function renderTherapistWorkspace(){if(!currentUser)return;const name=currentUser.name||'Therapist';const w=document.getElementById('therapistWelcomeName');if(w)w.textContent=name;const appointments=getTherapistStore('appointments',[]);const clients=getTherapistStore('mindcare_therapist_clients',[]);const todayCount=document.getElementById('therapistTodayCount');if(todayCount)todayCount.textContent=appointments.length;const cc=document.getElementById('therapistClientCount');if(cc)cc.textContent=clients.length;const mc=document.getElementById('therapistMessageCount');if(mc)mc.textContent=0;const upcoming=document.getElementById('therapistUpcomingList');const list=document.getElementById('therapistAppointmentsList');const html=appointments.length?appointments.map(a=>`<div class="therapist-list-item"><strong>📅 ${escapeHTML(a.date||'Upcoming session')}</strong><br><small>${escapeHTML(a.time||'Time to be confirmed')} · ${escapeHTML(a.reason||'Support appointment')}</small></div>`).join(''):`<div class="empty-modern">No sessions have been booked yet.</div>`;if(upcoming)upcoming.innerHTML=html;if(list)list.innerHTML=html;const cl=document.getElementById('therapistClientsList');if(cl)cl.innerHTML=clients.length?clients.map(c=>`<div class="client-card-modern"><div class="client-head"><div class="friend-avatar-modern">${escapeHTML((c.name||'S').charAt(0).toUpperCase())}</div><div><strong>${escapeHTML(c.name||'Student')}</strong><br><small>${escapeHTML(c.email||'MindCare client')}</small></div></div><p>${escapeHTML(c.note||'No client note has been added.')}</p></div>`).join(''):`<div class="empty-modern" style="grid-column:1/-1">Client profiles will appear here as your professional workflow grows.</div>`;const n=document.getElementById('therapistNotificationsList');if(n)n.innerHTML=`<div class="empty-modern">No new therapist notifications.</div>`;if(window.observeMindCareReveals)window.observeMindCareReveals();}
 
         /* ========================================
            REFRESH DASHBOARD
@@ -4414,6 +3991,7 @@
 
         async function refreshDashboard() {
             if (!currentUser) return;
+            if (currentUser.role === 'therapist') { renderTherapistWorkspace(); loadTherapistSettings(); return; }
 
             document.getElementById("welcomeName").textContent = currentUser.name;
 
@@ -4426,6 +4004,12 @@
             renderAppointments();
             loadSettings();
         }
+
+        window.observeMindCareReveals=function(){
+            document.querySelectorAll('.reveal-on-scroll:not(.is-visible)').forEach(function(el){
+                if('IntersectionObserver' in window){const o=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('is-visible');o.unobserve(entry.target);}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});o.observe(el);}else{el.classList.add('is-visible');}
+            });
+        };
 
         /* =========================
            ELEGANT MOTION + INTERACTIONS
@@ -4502,34 +4086,6 @@
         })();
 </script>
 
-
-<style>
-/* MindCare requested enhancement layer — landing page preserved */
-.login-role-button{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--lighter-green);color:var(--dark);font-weight:700;text-align:left}.login-role-button.active{border-color:var(--green);background:var(--light-green);color:var(--dark-green)}
-.therapist-layout{background:linear-gradient(135deg,#fbfffc,#f2fbf5)}.therapist-sidebar{background:rgba(248,252,249,.94);position:sticky;top:75px;height:calc(100vh - 75px)}.therapist-sidebar .sidebar-title small{display:block;font-size:.72rem;color:var(--gray);font-weight:600;margin-top:3px}.therapist-logout{margin-top:20px;color:var(--red)!important}.therapist-content{background:transparent;padding:42px 5%}.eyebrow{display:inline-block;font-size:.72rem;letter-spacing:.13em;font-weight:800;color:var(--dark-green);background:var(--light-green);padding:7px 10px;border-radius:999px;margin-bottom:12px}.therapist-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:24px 0}.therapist-stat{display:flex;gap:15px;align-items:center;padding:22px;border-radius:20px;background:white;border:1px solid var(--border);box-shadow:var(--shadow)}.therapist-stat>span{font-size:1.7rem}.therapist-stat small,.therapist-stat strong{display:block}.therapist-stat small{color:var(--gray);margin-bottom:4px}.therapist-panel-grid,.therapist-settings-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:20px}.therapist-panel{background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.text-button{border:0;background:none;color:var(--dark-green);font-weight:800}.therapist-actions{display:grid;gap:12px}.therapist-list{display:grid;gap:10px}.therapist-list-item{padding:14px;border-radius:14px;background:var(--lighter-green);border:1px solid var(--border)}.therapist-client-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.therapist-client{padding:20px;background:white;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}.toggle-row{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:15px 0;border-bottom:1px solid var(--border)}.toggle-row:last-child{border-bottom:0}.toggle-row small{display:block;color:var(--gray);margin-top:4px}.resource-clean-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.resource-clean-card{border:1px solid var(--border);background:white;border-radius:20px;padding:22px;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:15px;align-items:center;box-shadow:var(--shadow);transition:.25s ease}.resource-clean-card:hover{transform:translateY(-4px);border-color:var(--green)}.resource-clean-card>span{font-size:2rem}.resource-clean-card strong,.resource-clean-card small{display:block}.resource-clean-card small{color:var(--gray);line-height:1.5;margin-top:5px}.resource-clean-card b{white-space:nowrap;color:var(--dark-green);font-size:.88rem}.therapist-content textarea{resize:vertical;width:100%;padding:13px;border:1px solid #cfe3d5;border-radius:10px}.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.theme-choice{padding:14px;border:1px solid var(--border);border-radius:14px;background:white;text-align:left;font-weight:700}.theme-choice:hover{border-color:var(--green);transform:translateY(-2px)}.settings-extra-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:18px}.settings-extra-grid .form-card{max-width:none}.friends-redesign{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.friends-hero{padding:28px;border-radius:24px;background:linear-gradient(135deg,#e9f7ee,#f8fcf9);border:1px solid var(--border);margin-bottom:20px}.friends-hero h2{font-size:2rem;margin-bottom:7px}.friends-hero p{color:var(--gray);line-height:1.6}.friends-search{display:flex;gap:10px;margin-top:20px}.friends-search input{flex:1;padding:14px;border:1px solid #cfe3d5;border-radius:12px}.friends-box{background:white;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow)}.friends-box h3{margin-bottom:15px}.friends-box.full{grid-column:1/-1}.overview-hero{padding:30px;border-radius:25px;background:linear-gradient(135deg,#e9f7ee,#f8fcf9);border:1px solid var(--border);margin-bottom:20px}.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.overview-feature{padding:24px;border-radius:20px;background:white;border:1px solid var(--border);box-shadow:var(--shadow)}.overview-feature span{font-size:1.8rem}.overview-feature h3{margin:12px 0 7px}.overview-feature p{color:var(--gray);line-height:1.6}.overview-feature button{margin-top:15px}.overview-feature,.friends-box,.therapist-stat,.therapist-panel{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.overview-feature.is-visible,.friends-box.is-visible,.therapist-stat.is-visible,.therapist-panel.is-visible{opacity:1;transform:translateY(0)}.reduce-motion *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.wellness-strip{margin-top:20px;padding:22px;border-radius:20px;background:#f5fbf7;border:1px solid var(--border)}
-@media(max-width:900px){.therapist-sidebar{position:static;height:auto}.therapist-stat-grid,.overview-grid,.resource-clean-grid,.therapist-client-grid,.therapist-panel-grid,.therapist-settings-grid,.friends-redesign{grid-template-columns:1fr}.friends-box.full{grid-column:auto}.friends-search{flex-direction:column}}
-</style>
-<script>
-(function(){
- const themes={default:['#9bd8b0','#2d6a4f','#e9f7ee','#f8fcf9','#dcefe2','#183b27'],lavender:['#c9b7e8','#5b477d','#f3effb','#fbf9fe','#e4daf3','#342845'],sage:['#a9c7b0','#45634d','#edf6ef','#f9fcfa','#d8e8db','#263b2b'],ocean:['#9ccbd8','#2e6170','#eaf7fa','#f8fcfd','#d5eaf0','#24434d'],sand:['#dcc49b','#735c36','#f7f0e2','#fcfaf5','#e9dcc2','#493b26'],rose:['#e5b8c4','#7b4b59','#f9edf1','#fffafb','#efd7de','#4a3038'],sky:['#b8d8ed','#42637a','#edf6fc','#fbfdff','#d9eaf5','#2c4557'],plum:['#c7a9c9','#684a6b','#f4edf5','#fcf9fc','#e5d7e7','#423045'],eucalyptus:['#a7c9bf','#35665b','#eaf5f2','#f8fcfb','#d6e9e4','#284840'],sunrise:['#f1c39d','#815c42','#fff2e7','#fffaf6','#eedbc9','#513a2c'],cream:['#e8d79f','#776532','#faf6e7','#fffdf7','#eee5c6','#514720']};
- window.applyTheme=function(name){const t=themes[name]||themes.default;const r=document.documentElement;r.style.setProperty('--green',t[0]);r.style.setProperty('--dark-green',t[1]);r.style.setProperty('--light-green',t[2]);r.style.setProperty('--lighter-green',t[3]);r.style.setProperty('--border',t[4]);r.style.setProperty('--dark',t[5]);localStorage.setItem('mindcare_theme',name);};
- window.toggleReducedMotion=function(on){document.body.classList.toggle('reduce-motion',on);localStorage.setItem('mindcare_reduce_motion',on?'1':'0');};
- window.showTherapistDashboard=function(){document.getElementById('landingPage').style.display='none';document.getElementById('dashboard').style.display='none';document.getElementById('therapistDashboard').style.display='block';loadTherapistSettings();renderTherapistWorkspace();};
- window.showStudentDashboard=function(){document.getElementById('therapistDashboard').style.display='none';showDashboard();};
- window.showTherapistSection=function(name,button){document.querySelectorAll('.therapist-section').forEach(x=>x.classList.remove('active'));const t=document.getElementById('therapist-section-'+name);if(t)t.classList.add('active');document.querySelectorAll('.therapist-sidebar .sidebar-button').forEach(x=>x.classList.remove('active'));if(button)button.classList.add('active');renderTherapistWorkspace();};
- window.renderTherapistWorkspace=function(){const name=currentUser?.name||'Therapist';const n=document.getElementById('therapistWelcomeName');if(n)n.textContent=name;const apps=JSON.parse(localStorage.getItem('mindcare_therapist_appointments')||'[]');const clients=JSON.parse(localStorage.getItem('mindcare_therapist_clients')||'[]');const tc=document.getElementById('therapistTodayCount');if(tc)tc.textContent=(apps.length||0)+' sessions';const cc=document.getElementById('therapistClientCount');if(cc)cc.textContent=(clients.length||0)+' active clients';const up=document.getElementById('therapistUpcomingList');if(up)up.innerHTML=apps.length?apps.map(a=>`<div class="therapist-list-item"><strong>📅 ${escapeHTML(a.date||'Upcoming session')}</strong><br><small>${escapeHTML(a.time||'Time to be confirmed')} · ${escapeHTML(a.reason||'Session')}</small></div>`).join(''):'<div class="empty-state">No upcoming sessions yet.</div>';const al=document.getElementById('therapistAppointmentsList');if(al)al.innerHTML=apps.length?apps.map(a=>`<div class="therapist-list-item"><strong>${escapeHTML(a.date||'Session')}</strong><br><small>${escapeHTML(a.time||'')} · ${escapeHTML(a.reason||'Appointment')}</small></div>`).join(''):'<div class="empty-state">No appointments scheduled.</div>';const cl=document.getElementById('therapistClientsList');if(cl)cl.innerHTML=clients.length?clients.map(c=>`<div class="therapist-client"><strong>👤 ${escapeHTML(c.name||'Client')}</strong><p>${escapeHTML(c.note||'MindCare client')}</p></div>`).join(''):'<div class="empty-state" style="grid-column:1/-1">No clients have been added yet.</div>';};
- window.saveTherapistAvailability=function(){localStorage.setItem('mindcare_therapist_availability',JSON.stringify({days:document.getElementById('therapistDays').value,start:document.getElementById('therapistStart').value,end:document.getElementById('therapistEnd').value,accepting:document.getElementById('therapistAccepting').checked,reminders:document.getElementById('therapistReminders').checked}));alert('Availability saved.');};
- window.saveTherapistSettings=function(){const d={name:document.getElementById('therapistSettingsName').value.trim(),speciality:document.getElementById('therapistSpeciality').value.trim(),bio:document.getElementById('therapistBio').value.trim()};localStorage.setItem('mindcare_therapist_settings',JSON.stringify(d));if(currentUser&&d.name){currentUser.name=d.name;updateHeader();}alert('Therapist settings saved.');};
- window.loadTherapistSettings=function(){const d=JSON.parse(localStorage.getItem('mindcare_therapist_settings')||'{}');const a=JSON.parse(localStorage.getItem('mindcare_therapist_availability')||'{}');['therapistSettingsName','therapistSpeciality','therapistBio'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.value=[d.name||currentUser?.name||'',d.speciality||'',d.bio||''][i]});if(document.getElementById('therapistDays'))document.getElementById('therapistDays').value=a.days||'Monday – Friday';if(document.getElementById('therapistStart'))document.getElementById('therapistStart').value=a.start||'09:00';if(document.getElementById('therapistEnd'))document.getElementById('therapistEnd').value=a.end||'17:00';if(document.getElementById('therapistAccepting'))document.getElementById('therapistAccepting').checked=a.accepting!==false;if(document.getElementById('therapistReminders'))document.getElementById('therapistReminders').checked=a.reminders!==false;};
- window.openStudentMessagesForTherapist=function(){document.getElementById('therapistDashboard').style.display='none';showDashboard();showSectionByName('messages');};
- window.openResource=window.openResource||function(type){alert('Resource: '+type);};
- // Preserve the original page while upgrading only dashboard internals.
- function buildOverview(){const s=document.getElementById('section-overview');if(!s)return;s.innerHTML=`<div class="overview-hero"><span class="eyebrow">YOUR MINDCARE SPACE</span><h2>Welcome back, <span id="welcomeName">Student</span> 👋</h2><p style="color:var(--gray);margin-top:8px;line-height:1.7">A gentle place to stay connected, find support and take care of yourself.</p></div><div class="overview-grid"><div class="overview-feature"><span>👥</span><h3>Friends</h3><p id="friendCount">0 friends</p><button class="secondary-button" onclick="showSectionByName('friends')">Open Friends</button></div><div class="overview-feature"><span>💬</span><h3>Messages</h3><p>Stay connected with people you trust.</p><button class="secondary-button" onclick="showSectionByName('messages')">Open Messages</button></div><div class="overview-feature"><span>🌿</span><h3>Verified Help</h3><p>Professional support is available when you need it.</p><button class="secondary-button" onclick="showSectionByName('verified')">Find Support</button></div></div><div class="wellness-strip"><strong>🌱 A small reminder</strong><p style="color:var(--gray);margin-top:6px">You don't have to handle everything at once. One small step is still progress.</p></div>`;};
- function buildFriends(){const s=document.getElementById('section-friends');if(!s)return;s.innerHTML=`<div class="friends-hero"><span class="eyebrow">CONNECTION</span><h2>Friends</h2><p>Build a supportive circle and stay connected with people you trust.</p><div class="friends-search"><input id="friendSearch" type="email" placeholder="Enter your friend's email"><button class="primary-button" onclick="sendFriendRequest()">Add Friend</button></div><p id="friendResult" class="success-message"></p></div><div class="friends-redesign"><div class="friends-box"><h3>🔔 Friend Requests</h3><div id="friendRequests" class="friend-list"></div></div><div class="friends-box"><h3>💚 My Friends</h3><div id="friendsList" class="friend-list"></div></div><div class="friends-box full"><h3>✨ A supportive space</h3><p style="color:var(--gray);line-height:1.7">Keep your circle kind, respectful and supportive. You can accept, decline or manage requests whenever you're ready.</p></div></div>`;};
- function buildSettings(){const s=document.getElementById('section-settings');if(!s)return;const old=s.querySelector('.form-card');if(!old)return;const extra=document.createElement('div');extra.className='settings-extra-grid';extra.innerHTML=`<div class="form-card"><h3>🎨 Appearance</h3><p style="color:var(--gray);margin:8px 0 16px">Choose a calm colour palette for your MindCare dashboard.</p><select id="mindcareThemeSelect" style="width:100%;padding:13px;border:1px solid #cfe3d5;border-radius:10px"><option value="default">🌿 MindCare Green</option><option value="lavender">💜 Calm Lavender</option><option value="sage">🌱 Soft Sage</option><option value="ocean">🌊 Quiet Ocean</option><option value="sand">🏜️ Warm Sand</option><option value="rose">🌸 Gentle Rose</option><option value="sky">☁️ Misty Sky</option><option value="plum">🍇 Quiet Plum</option><option value="eucalyptus">🌿 Eucalyptus</option><option value="sunrise">🌅 Sunrise Peace</option><option value="cream">🕯️ Buttercream</option></select></div><div class="form-card"><h3>♿ Accessibility & comfort</h3><label class="toggle-row"><span><strong>Reduce motion</strong><small>Use calmer transitions and animations.</small></span><input id="reduceMotionToggle" type="checkbox"></label><label class="toggle-row"><span><strong>Focus mode</strong><small>Reduce visual distractions in the dashboard.</small></span><input id="focusModeToggle" type="checkbox"></label></div><div class="form-card"><h3>🔔 Notifications</h3><label class="toggle-row"><span><strong>Friend requests</strong><small>Keep social updates visible.</small></span><input type="checkbox" checked></label><label class="toggle-row"><span><strong>Appointment reminders</strong><small>Receive helpful reminders.</small></span><input type="checkbox" checked></label></div><div class="form-card"><h3>🔒 Privacy & account</h3><p style="color:var(--gray);line-height:1.6">Keep your account details private and only share information you are comfortable sharing.</p></div>`;old.parentNode.appendChild(extra);const sel=document.getElementById('mindcareThemeSelect');if(sel){sel.value=localStorage.getItem('mindcare_theme')||'default';sel.onchange=()=>applyTheme(sel.value);}const rm=document.getElementById('reduceMotionToggle');if(rm){rm.checked=localStorage.getItem('mindcare_reduce_motion')==='1';rm.onchange=()=>toggleReducedMotion(rm.checked);}}
- document.addEventListener('DOMContentLoaded',()=>{buildOverview();buildFriends();buildSettings();applyTheme(localStorage.getItem('mindcare_theme')||'default');toggleReducedMotion(localStorage.getItem('mindcare_reduce_motion')==='1'); const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12}); document.querySelectorAll('.overview-feature,.friends-box,.therapist-stat,.therapist-panel').forEach(e=>io.observe(e));});
-})();
-</script>
 </body>
 
 </html>
