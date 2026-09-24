@@ -2136,6 +2136,9 @@
                         <p>
                             Find students and connect with them.
                         </p>
+                        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+                            <button class="small-button secondary" type="button" onclick="refreshFriendsNow()">↻ Refresh Requests</button>
+                        </div>
 
                     </div>
 
@@ -2666,6 +2669,15 @@
                             </button>
                         </div>
 
+                    </div>
+
+                    <div class="settings-panel" style="margin-top:20px;">
+                        <h3>🧰 Local Data & App Controls</h3>
+                        <p>These controls only affect this browser. They do not delete your Supabase account, messages, friends, or appointments stored in the database.</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+                            <button class="small-button secondary" type="button" onclick="refreshAllData()">↻ Refresh app data</button>
+                            <button class="small-button secondary" type="button" onclick="resetLocalPreferences()">Reset local preferences</button>
+                        </div>
                     </div>
 
                     <div class="form-card" style="margin-top:20px;">
@@ -4064,7 +4076,9 @@
 
             if (targetError) {
                 console.error("Friend search error:", targetError);
-                result.textContent = targetError.message;
+                result.textContent = targetError.message?.includes("email")
+                    ? "Friend discovery needs the profiles.email column. Run the updated MindCare Supabase SQL migration first."
+                    : targetError.message;
                 result.className = "error-message";
                 return;
             }
@@ -4242,183 +4256,162 @@
             return profileCache[id] || null;
         }
 
+        async function getProfilesForIds(ids) {
+            const uniqueIds = [...new Set((ids || []).filter(Boolean))];
+            if (!uniqueIds.length) return;
+
+            // Keep this query compatible with the original profiles schema.
+            const { data, error } = await supabaseClient
+                .from("profiles")
+                .select("id,name,username")
+                .in("id", uniqueIds);
+
+            if (error) {
+                console.error("Friend profile load error:", error);
+                return;
+            }
+
+            (data || []).forEach(profile => {
+                profileCache[profile.id] = {
+                    ...(profileCache[profile.id] || {}),
+                    ...profile
+                };
+            });
+        }
+
         async function renderFriends() {
             if (!currentUser) return;
-
-            await loadProfiles();
 
             const requestsContainer = document.getElementById("friendRequests");
             const sentContainer = document.getElementById("sentFriendRequests");
             const friendsContainer = document.getElementById("friendsList");
+            if (!requestsContainer || !sentContainer || !friendsContainer) return;
 
-            // Query incoming and outgoing requests separately. This is more reliable with
-            // Supabase RLS because each query maps directly to one ownership policy.
-            const [incomingResult, outgoingResult] = await Promise.all([
-                supabaseClient
-                    .from("friend_requests")
-                    .select("id,sender_id,receiver_id,status,created_at")
-                    .eq("receiver_id", currentUser.id)
-                    .eq("status", "pending")
-                    .order("created_at", { ascending: false }),
-                supabaseClient
-                    .from("friend_requests")
-                    .select("id,sender_id,receiver_id,status,created_at")
-                    .eq("sender_id", currentUser.id)
-                    .eq("status", "pending")
-                    .order("created_at", { ascending: false })
-            ]);
+            // Always give the user visible feedback while the database is loading.
+            requestsContainer.innerHTML = `<div class="empty-state">Loading friend requests…</div>`;
+            sentContainer.innerHTML = `<div class="empty-state">Loading sent requests…</div>`;
+            friendsContainer.innerHTML = `<div class="empty-state">Loading friends…</div>`;
 
-            const requestError = incomingResult.error || outgoingResult.error;
-            const incoming = incomingResult.data || [];
-            const outgoing = outgoingResult.data || [];
+            try {
+                const [incomingResult, outgoingResult, friendshipResult] = await Promise.all([
+                    supabaseClient
+                        .from("friend_requests")
+                        .select("id,sender_id,receiver_id,status,created_at")
+                        .eq("receiver_id", currentUser.id)
+                        .eq("status", "pending")
+                        .order("created_at", { ascending: false }),
+                    supabaseClient
+                        .from("friend_requests")
+                        .select("id,sender_id,receiver_id,status,created_at")
+                        .eq("sender_id", currentUser.id)
+                        .eq("status", "pending")
+                        .order("created_at", { ascending: false }),
+                    supabaseClient
+                        .from("friendships")
+                        .select("user1_id,user2_id")
+                        .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+                ]);
 
-            if (requestError) {
-                console.error("Friend request load error:", requestError);
-                requestsContainer.innerHTML =
-                    `<div class="empty-state">Could not load friend requests. ${escapeHTML(requestError.message || "Check your Supabase RLS policies.")}</div>`;
-                sentContainer.innerHTML =
-                    `<div class="empty-state">Could not load sent requests. ${escapeHTML(requestError.message || "Check your Supabase RLS policies.")}</div>`;
-            } else {
+                const firstError = incomingResult.error || outgoingResult.error || friendshipResult.error;
+                if (firstError) {
+                    throw firstError;
+                }
+
+                const incoming = incomingResult.data || [];
+                const outgoing = outgoingResult.data || [];
+                const friendships = friendshipResult.data || [];
+
+                const profileIds = [
+                    ...incoming.map(r => r.sender_id),
+                    ...outgoing.map(r => r.receiver_id),
+                    ...friendships.map(f => f.user1_id === currentUser.id ? f.user2_id : f.user1_id)
+                ];
+                await getProfilesForIds(profileIds);
+
                 if (!incoming.length) {
-                    requestsContainer.innerHTML =
-                        `<div class="empty-state">No pending incoming friend requests.</div>`;
+                    requestsContainer.innerHTML = `<div class="empty-state">No pending incoming friend requests.</div>`;
                 } else {
                     requestsContainer.innerHTML = incoming.map(r => {
-                        const sender = getUserById(r.sender_id);
-                        const name = sender?.name || "MindCare student";
-                        const email = sender?.email || "";
-
+                        const sender = getUserById(r.sender_id) || {};
+                        const name = sender.name || sender.username || "MindCare student";
                         return `
                             <div class="friend-item reveal-on-scroll">
                                 <div class="friend-info">
                                     <div class="friend-avatar">${escapeHTML(name.charAt(0).toUpperCase())}</div>
                                     <div>
                                         <strong>${escapeHTML(name)}</strong><br>
-                                        <small>${escapeHTML(email)}</small>
+                                        <small>Pending friend request</small>
                                     </div>
                                 </div>
                                 <div class="friend-actions">
                                     <span class="request-status">Pending</span>
-                                    <button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
-                                    <button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button>
+                                    <button class="small-button" type="button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
+                                    <button class="small-button danger" type="button" onclick="declineFriendRequest('${r.id}')">Decline</button>
                                 </div>
                             </div>`;
                     }).join("");
                 }
 
                 if (!outgoing.length) {
-                    sentContainer.innerHTML =
-                        `<div class="empty-state">No sent requests waiting for a response.</div>`;
+                    sentContainer.innerHTML = `<div class="empty-state">No sent requests waiting for a response.</div>`;
                 } else {
                     sentContainer.innerHTML = outgoing.map(r => {
-                        const receiver = getUserById(r.receiver_id);
-                        const name = receiver?.name || "MindCare student";
-                        const email = receiver?.email || "";
-
+                        const receiver = getUserById(r.receiver_id) || {};
+                        const name = receiver.name || receiver.username || "MindCare student";
                         return `
                             <div class="friend-item reveal-on-scroll">
                                 <div class="friend-info">
                                     <div class="friend-avatar">${escapeHTML(name.charAt(0).toUpperCase())}</div>
                                     <div>
                                         <strong>${escapeHTML(name)}</strong><br>
-                                        <small>${escapeHTML(email)}</small>
+                                        <small>Waiting for response</small>
                                     </div>
                                 </div>
                                 <div class="friend-actions">
-                                    <span class="request-status">Waiting for response</span>
-                                    <button class="small-button secondary" onclick="cancelFriendRequest('${r.id}')">Cancel</button>
+                                    <span class="request-status">Pending</span>
+                                    <button class="small-button secondary" type="button" onclick="cancelFriendRequest('${r.id}')">Cancel</button>
                                 </div>
                             </div>`;
                     }).join("");
                 }
-            }
 
-            const { data: friendships, error: friendshipError } = await supabaseClient
-                .from("friendships")
-                .select("user1_id,user2_id")
-                .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
-
-            if (friendshipError) {
-                console.error("Friendship load error:", friendshipError);
-                friendsContainer.innerHTML =
-                    `<div class="empty-state">Could not load friends. ${escapeHTML(friendshipError.message)}</div>`;
-                return;
-            }
-
-            const friendIds = (friendships || []).map(f =>
-                f.user1_id === currentUser.id ? f.user2_id : f.user1_id
-            );
-
-            const friends = friendIds.map(getUserById).filter(Boolean);
-
-            document.getElementById("friendCount").textContent =
-                friends.length + (friends.length === 1 ? " friend" : " friends");
-
-            if (!friends.length) {
-                friendsContainer.innerHTML =
-                    `<div class="empty-state">You don't have any friends yet. Use Add Friend above to find someone.</div>`;
-                return;
-            }
-
-            friendsContainer.innerHTML = friends.map(friend => `
-                <div class="friend-item reveal-on-scroll">
-                    <div class="friend-info">
-                        <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
-                        <div>
-                            <strong>${escapeHTML(friend.name || "Student")}</strong><br>
-                            <small>${escapeHTML(friend.email || "")}</small>
-                        </div>
-                    </div>
-                    <div class="friend-actions">
-                        <button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
-                    </div>
-                </div>`).join("");
-        }
-
-        /* ========================================
-           FRIEND CHAT
-        ======================================== */
-
-        function startFriendChat(
-            friendId
-        ) {
-
-            const friend =
-                getUserById(
-                    friendId
+                const friendIds = friendships.map(f =>
+                    f.user1_id === currentUser.id ? f.user2_id : f.user1_id
                 );
+                const friends = friendIds.map(getUserById).filter(Boolean);
 
+                document.getElementById("friendCount").textContent =
+                    friends.length + (friends.length === 1 ? " friend" : " friends");
 
-            if (!friend) {
-                return;
+                if (!friends.length) {
+                    friendsContainer.innerHTML = `<div class="empty-state">You don't have any friends yet. Use Add Friend above to find someone.</div>`;
+                } else {
+                    friendsContainer.innerHTML = friends.map(friend => `
+                        <div class="friend-item reveal-on-scroll">
+                            <div class="friend-info">
+                                <div class="friend-avatar">${escapeHTML((friend.name || friend.username || "?").charAt(0).toUpperCase())}</div>
+                                <div>
+                                    <strong>${escapeHTML(friend.name || friend.username || "Student")}</strong><br>
+                                    <small>Connected on MindCare</small>
+                                </div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="small-button" type="button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
+                            </div>
+                        </div>`).join("");
+                }
+            } catch (error) {
+                console.error("Friend rendering failed:", error);
+                const message = error?.message || "Could not load friend data.";
+                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.<br><small>${escapeHTML(message)}</small></div>`;
+                sentContainer.innerHTML = `<div class="empty-state">Could not load sent requests.<br><small>${escapeHTML(message)}</small></div>`;
+                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.<br><small>${escapeHTML(message)}</small></div>`;
             }
-
-
-            activeChatUser = {
-
-                id:
-                    friend.id,
-
-                name:
-                    friend.name,
-
-                therapist:
-                    false
-
-            };
-
-
-            showSectionByName(
-                "messages"
-            );
-
-
-            openChat(
-                activeChatUser
-            );
-
         }
 
+        async function refreshFriendsNow() {
+            await renderFriends();
+        }
 
         /* ========================================
            MESSAGES
@@ -5115,6 +5108,24 @@
             if (welcome) welcome.textContent = name;
 
             alert("Your profile and preferences have been saved.");
+        }
+
+        async function refreshAllData() {
+            if (!currentUser) return;
+            await Promise.allSettled([
+                renderFriends(),
+                renderConversations(),
+                renderNotifications()
+            ]);
+            renderAppointments();
+            alert("MindCare data refreshed.");
+        }
+
+        function resetLocalPreferences() {
+            if (!currentUser) return;
+            if (!confirm("Reset your MindCare preferences on this browser? Your account data will not be deleted.")) return;
+            localStorage.removeItem("mindcare_preferences_" + currentUser.id);
+            loadSettings();
         }
 
         function subscribeToFriendRequests() {
