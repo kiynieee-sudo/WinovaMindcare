@@ -13,7 +13,11 @@
     <title>MindCare - by winova</title>
 
     <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">        setInterval(() => {
+            if (currentUser) pollVoiceSignals();
+        }, 1200);
+
+</script>
 
     <style>
 
@@ -867,6 +871,125 @@
 
             border: 1px solid #cfe3d5;
             border-radius: 10px;
+        }
+
+
+        /* =========================
+           INSTAGRAM-STYLE MESSAGES
+        ========================= */
+
+        .messages-shell {
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            min-height: 600px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 12px 35px rgba(0,0,0,.06);
+        }
+
+        .conversation-sidebar {
+            border-right: 1px solid var(--border);
+            background: #fbfdfb;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .conversation-sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .conversation-sidebar-header h3 { margin: 0 0 4px; }
+        .conversation-sidebar-header small { opacity: .7; }
+
+        .conversation-list {
+            overflow-y: auto;
+            flex: 1;
+            padding: 8px;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px;
+            border: 0;
+            border-radius: 14px;
+            background: transparent;
+            text-align: left;
+            cursor: pointer;
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .conversation-item:hover { background: var(--lighter-green); transform: translateY(-1px); }
+        .conversation-item.active { background: var(--light-green); }
+
+        .conversation-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: grid; place-items: center; flex: 0 0 48px;
+            background: var(--green); color: white; font-weight: 800;
+        }
+
+        .conversation-meta { min-width: 0; flex: 1; }
+        .conversation-name { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .conversation-preview { font-size: 13px; opacity: .65; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; }
+
+        .chat-panel { min-width: 0; display: flex; flex-direction: column; min-height: 600px; }
+
+        .chat-panel .chat-header {
+            min-height: 72px; box-sizing: border-box; display: flex; align-items: center;
+            justify-content: space-between; gap: 12px; background: white;
+        }
+
+        .chat-user-heading { display:flex; align-items:center; gap:10px; min-width:0; }
+        .chat-user-avatar { width:40px; height:40px; border-radius:50%; display:grid; place-items:center; background:var(--green); color:white; font-weight:800; }
+        .chat-user-name { font-weight:800; }
+        .chat-user-status { font-size:12px; opacity:.65; }
+
+        .chat-header-actions { display:flex; gap:8px; }
+        .call-button {
+            width:42px; height:42px; border-radius:50%; border:1px solid var(--border);
+            background:var(--lighter-green); cursor:pointer; font-size:18px;
+            transition: transform .2s ease, background .2s ease;
+        }
+        .call-button:hover { transform:scale(1.06); background:var(--light-green); }
+
+        .chat-panel .chat-messages { flex:1; height:auto; min-height:430px; background:#fff; }
+
+        .chat-composer { position:relative; display:flex; align-items:center; gap:8px; padding:12px; border-top:1px solid var(--border); background:white; }
+        .chat-composer .chat-input-wrap { flex:1; display:flex; align-items:center; gap:8px; border:1px solid #cfe3d5; border-radius:999px; padding:0 10px; background:#fbfdfb; }
+        .chat-composer input { border:0 !important; outline:0; background:transparent; padding:12px 4px !important; }
+        .emoji-button { border:0; background:transparent; cursor:pointer; font-size:21px; padding:5px; }
+        .emoji-picker { position:absolute; left:12px; bottom:66px; width:280px; max-height:210px; overflow:auto; padding:10px; border:1px solid var(--border); border-radius:16px; background:white; box-shadow:0 15px 40px rgba(0,0,0,.14); display:none; z-index:20; }
+        .emoji-picker.open { display:grid; grid-template-columns:repeat(8,1fr); gap:5px; }
+        .emoji-picker button { border:0; background:transparent; border-radius:8px; font-size:23px; padding:6px; cursor:pointer; }
+        .emoji-picker button:hover { background:var(--lighter-green); }
+
+        .empty-chat { flex:1; display:grid; place-items:center; padding:30px; text-align:center; opacity:.65; }
+
+        .call-overlay {
+            position:fixed; inset:0; background:rgba(16,35,24,.48); backdrop-filter:blur(5px);
+            display:none; align-items:center; justify-content:center; z-index:9999; padding:20px;
+        }
+        .call-overlay.show { display:flex; }
+        .call-card { width:min(390px,100%); background:white; border-radius:24px; padding:28px; text-align:center; box-shadow:0 25px 80px rgba(0,0,0,.25); }
+        .call-avatar { width:90px; height:90px; margin:0 auto 16px; border-radius:50%; display:grid; place-items:center; background:var(--green); color:white; font-size:34px; font-weight:800; }
+        .call-title { font-size:22px; font-weight:800; margin-bottom:6px; }
+        .call-status { opacity:.7; margin-bottom:22px; }
+        .call-actions { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+        .call-action { border:0; border-radius:999px; padding:12px 20px; font-weight:800; cursor:pointer; }
+        .call-action.accept { background:var(--green); color:white; }
+        .call-action.end { background:#fff0ef; color:var(--red); }
+        .call-action.mute { background:var(--lighter-green); color:var(--dark-green); }
+
+        @media (max-width: 800px) {
+            .messages-shell { grid-template-columns: 1fr; min-height:0; }
+            .conversation-sidebar { border-right:0; border-bottom:1px solid var(--border); max-height:260px; }
+            .chat-panel { min-height:560px; }
         }
 
         /* =========================
@@ -2031,63 +2154,36 @@
                     </div>
 
 
-                    <div class="form-card reveal-on-scroll">
+                    <div class="messages-shell reveal-on-scroll">
+                        <aside class="conversation-sidebar">
+                            <div class="conversation-sidebar-header">
+                                <h3>Messages</h3>
+                                <small>Your friends</small>
+                            </div>
+                            <div id="conversationList" class="conversation-list"></div>
+                        </aside>
 
-                        <h3>
-                            Conversations
-                        </h3>
+                        <section class="chat-panel" id="chatContainer">
+                            <div class="empty-chat" id="emptyChatState">
+                                <div>
+                                    <div style="font-size:42px;margin-bottom:10px;">💬</div>
+                                    <strong>Your messages</strong>
+                                    <div>Select a friend to start chatting.</div>
+                                </div>
+                            </div>
 
-                        <br>
+                            <div class="chat-header" id="chatHeader" style="display:none;"></div>
+                            <div class="chat-messages" id="chatMessages" style="display:none;"></div>
 
-                        <div
-                            id="conversationList"
-                            class="friend-list"
-                        ></div>
-
-                    </div>
-
-
-                    <br>
-
-
-                    <div
-                        class="chat-container"
-                        id="chatContainer"
-                        style="display: none;"
-                    >
-
-                        <div
-                            class="chat-header"
-                            id="chatHeader"
-                        >
-                        </div>
-
-
-                        <div
-                            class="chat-messages"
-                            id="chatMessages"
-                        >
-                        </div>
-
-
-                        <div class="chat-input">
-
-                            <input
-                                id="chatInput"
-                                type="text"
-                                placeholder="Write a message..."
-                                onkeydown="handleChatKey(event)"
-                            >
-
-                            <button
-                                class="primary-button"
-                                onclick="sendMessage()"
-                            >
-                                Send
-                            </button>
-
-                        </div>
-
+                            <div class="chat-composer" id="chatComposer" style="display:none;">
+                                <div class="emoji-picker" id="emojiPicker"></div>
+                                <button class="emoji-button" type="button" onclick="toggleEmojiPicker()" aria-label="Add emoji">😊</button>
+                                <div class="chat-input-wrap">
+                                    <input id="chatInput" type="text" placeholder="Message..." onkeydown="handleChatKey(event)">
+                                </div>
+                                <button class="primary-button" onclick="sendMessage()">Send</button>
+                            </div>
+                        </section>
                     </div>
 
                 </div>
@@ -2689,6 +2785,17 @@
 
         let activeChatUser = null;
         let friendChatRefreshTimer = null;
+
+        // Voice call state
+        let voicePeer = null;
+        let voiceLocalStream = null;
+        let voiceCallId = null;
+        let voiceCallStartedAt = null;
+        let voiceCallRole = null;
+        let voicePendingOffer = null;
+        let voiceSignalTimer = null;
+        const voiceProcessedSignals = new Set();
+
 
 
         /* ========================================
@@ -3700,43 +3807,34 @@
 
             const { data: request, error: requestError } = await supabaseClient
                 .from("friend_requests")
-                .select("id,sender_id,receiver_id,status")
+                .select("*")
                 .eq("id", requestId)
                 .eq("receiver_id", currentUser.id)
                 .eq("status", "pending")
                 .single();
 
-            if (requestError || !request) {
-                console.error("Accept request load error:", requestError);
-                alert(requestError?.message || "This friend request is no longer available.");
-                await renderFriends();
-                return;
-            }
-
-            const firstUser = request.sender_id < request.receiver_id ? request.sender_id : request.receiver_id;
-            const secondUser = request.sender_id < request.receiver_id ? request.receiver_id : request.sender_id;
-
-            const { error: friendshipError } = await supabaseClient
-                .from("friendships")
-                .insert({ user1_id: firstUser, user2_id: secondUser });
-
-            if (friendshipError) {
-                console.error("Friendship creation error:", friendshipError);
-                alert("Could not create the friendship: " + friendshipError.message);
-                return;
-            }
+            if (requestError || !request) return;
 
             const { error: updateError } = await supabaseClient
                 .from("friend_requests")
                 .update({ status: "accepted" })
-                .eq("id", requestId)
-                .eq("receiver_id", currentUser.id)
-                .eq("status", "pending");
+                .eq("id", requestId);
 
             if (updateError) {
-                console.error("Friend request update error:", updateError);
-                alert("The friendship was created, but the request status could not be updated: " + updateError.message);
-                await renderFriends();
+                alert(updateError.message);
+                return;
+            }
+
+            const { error: friendshipError } = await supabaseClient
+                .from("friendships")
+                .insert({
+                    user1_id: request.sender_id,
+                    user2_id: request.receiver_id
+                });
+
+            if (friendshipError) {
+                console.error(friendshipError);
+                alert(friendshipError.message);
                 return;
             }
 
@@ -3750,11 +3848,9 @@
                 .from("friend_requests")
                 .update({ status: "declined" })
                 .eq("id", requestId)
-                .eq("receiver_id", currentUser.id)
-                .eq("status", "pending");
+                .eq("receiver_id", currentUser.id);
 
             if (error) {
-                console.error("Decline request error:", error);
                 alert(error.message);
                 return;
             }
@@ -3768,44 +3864,39 @@
         async function renderFriends() {
             if (!currentUser) return;
 
+            await loadProfiles();
+
             const requestsContainer = document.getElementById("friendRequests");
             const friendsContainer = document.getElementById("friendsList");
-            if (!requestsContainer || !friendsContainer) return;
-
-            requestsContainer.innerHTML = `<div class="empty-state">Loading friend requests…</div>`;
-            friendsContainer.innerHTML = `<div class="empty-state">Loading friends…</div>`;
-
-            await loadProfiles();
 
             const { data: requests, error: requestError } = await supabaseClient
                 .from("friend_requests")
-                .select("id,sender_id,receiver_id,status,created_at")
+                .select("*")
                 .eq("receiver_id", currentUser.id)
                 .eq("status", "pending")
                 .order("created_at", { ascending: false });
 
             if (requestError) {
-                console.error("Incoming friend request error:", requestError);
-                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.<br><small>${escapeHTML(requestError.message || "Database error")}</small></div>`;
-            } else if (!requests || !requests.length) {
+                console.error(requestError);
+                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.</div>`;
+            } else if (!requests?.length) {
                 requestsContainer.innerHTML = `<div class="empty-state">No pending friend requests.</div>`;
             } else {
                 requestsContainer.innerHTML = requests.map(r => {
-                    const sender = getUserById(r.sender_id) || {};
-                    const senderName = sender.name || sender.username || "MindCare member";
-                    const senderEmail = sender.email || sender.username || "Friend request received";
+                    const sender = getUserById(r.sender_id);
+                    if (!sender) return "";
                     return `
-                        <div class="friend-item reveal-on-scroll is-visible">
+                        <div class="friend-item reveal-on-scroll">
                             <div class="friend-info">
-                                <div class="friend-avatar">${escapeHTML(senderName.charAt(0).toUpperCase())}</div>
+                                <div class="friend-avatar">${escapeHTML((sender.name || "?").charAt(0).toUpperCase())}</div>
                                 <div>
-                                    <strong>${escapeHTML(senderName)}</strong><br>
-                                    <small>${escapeHTML(senderEmail)}</small>
+                                    <strong>${escapeHTML(sender.name || "Student")}</strong><br>
+                                    <small>${escapeHTML(sender.email || "")}</small>
                                 </div>
                             </div>
                             <div class="friend-actions">
-                                <button class="small-button" type="button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
-                                <button class="small-button danger" type="button" onclick="declineFriendRequest('${r.id}')">Decline</button>
+                                <button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
+                                <button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button>
                             </div>
                         </div>`;
                 }).join("");
@@ -3813,20 +3904,19 @@
 
             const { data: friendships, error: friendshipError } = await supabaseClient
                 .from("friendships")
-                .select("user1_id,user2_id")
+                .select("*")
                 .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
 
             if (friendshipError) {
                 console.error(friendshipError);
-                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.<br><small>${escapeHTML(friendshipError.message || "Database error")}</small></div>`;
+                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.</div>`;
                 return;
             }
 
-            const friendIds = (friendships || []).map(f =>
-                f.user1_id === currentUser.id ? f.user2_id : f.user1_id
-            );
-            await loadProfiles();
-            const friends = friendIds.map(id => getUserById(id)).filter(Boolean);
+            const friends = (friendships || []).map(f => {
+                const id = f.user1_id === currentUser.id ? f.user2_id : f.user1_id;
+                return getUserById(id);
+            }).filter(Boolean);
 
             document.getElementById("friendCount").textContent =
                 friends.length + (friends.length === 1 ? " friend" : " friends");
@@ -3837,16 +3927,16 @@
             }
 
             friendsContainer.innerHTML = friends.map(friend => `
-                <div class="friend-item reveal-on-scroll is-visible">
+                <div class="friend-item reveal-on-scroll">
                     <div class="friend-info">
                         <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
                         <div>
                             <strong>${escapeHTML(friend.name || "Student")}</strong><br>
-                            <small>${escapeHTML(friend.email || friend.username || "MindCare member")}</small>
+                            <small>${escapeHTML(friend.email || "")}</small>
                         </div>
                     </div>
                     <div class="friend-actions">
-                        <button class="small-button" type="button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
+                        <button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
                     </div>
                 </div>`).join("");
         }
@@ -3916,18 +4006,49 @@
             return [user1, user2].sort().join("_");
         }
 
+        function showChatEmptyState() {
+            const empty = document.getElementById("emptyChatState");
+            const header = document.getElementById("chatHeader");
+            const messages = document.getElementById("chatMessages");
+            const composer = document.getElementById("chatComposer");
+            if (empty) empty.style.display = "grid";
+            if (header) header.style.display = "none";
+            if (messages) messages.style.display = "none";
+            if (composer) composer.style.display = "none";
+        }
+
+        function setChatActiveState(user) {
+            const empty = document.getElementById("emptyChatState");
+            const header = document.getElementById("chatHeader");
+            const messages = document.getElementById("chatMessages");
+            const composer = document.getElementById("chatComposer");
+            if (empty) empty.style.display = "none";
+            if (header) header.style.display = "flex";
+            if (messages) messages.style.display = "block";
+            if (composer) composer.style.display = "flex";
+            if (header) {
+                const initial = (user.name || "F").charAt(0).toUpperCase();
+                header.innerHTML = `
+                    <div class="chat-user-heading">
+                        <div class="chat-user-avatar">${escapeHTML(initial)}</div>
+                        <div>
+                            <div class="chat-user-name">${escapeHTML(user.name || "Friend")}</div>
+                            <div class="chat-user-status">Friend</div>
+                        </div>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="call-button" type="button" title="Voice call" onclick="startVoiceCall()">📞</button>
+                    </div>`;
+            }
+        }
+
         function openChat(user) {
             activeChatUser = user;
-            const chatContainer = document.getElementById("chatContainer");
-            const chatHeader = document.getElementById("chatHeader");
-            const chatInput = document.getElementById("chatInput");
-
-            if (!chatContainer || !chatHeader) return;
-
-            chatContainer.style.display = "block";
-            chatHeader.innerHTML = `💬 ${escapeHTML(user.name || "Friend")}`;
+            setChatActiveState(user);
             renderChat();
+            const chatInput = document.getElementById("chatInput");
             if (chatInput) chatInput.focus();
+            highlightActiveConversation();
 
             if (friendChatRefreshTimer) clearInterval(friendChatRefreshTimer);
             friendChatRefreshTimer = setInterval(async () => {
@@ -3939,54 +4060,40 @@
             if (!currentUser || !activeChatUser) return;
             const container = document.getElementById("chatMessages");
             if (!container) return;
-
             const messages = await loadConversationMessages();
-
             if (!messages.length) {
                 container.innerHTML = `<div class="empty-state">No messages yet.<br>Start the conversation.</div>`;
                 return;
             }
-
             container.innerHTML = messages.map(m => `
                 <div class="chat-message ${m.sender_id === currentUser.id ? "me" : ""}">
                     ${escapeHTML(m.message)}
                 </div>`).join("");
-
             container.scrollTop = container.scrollHeight;
         }
 
         async function sendMessage() {
             if (!currentUser || !activeChatUser) return;
-
             const input = document.getElementById("chatInput");
             if (!input) return;
-
             const text = input.value.trim();
             if (!text) return;
-
             const allowed = await areFriends(currentUser.id, activeChatUser.id);
-            if (!allowed) {
-                alert("You can only message people who are your friends.");
-                return;
-            }
-
-            const { error } = await supabaseClient
-                .from("messages")
-                .insert({
-                    sender_id: currentUser.id,
-                    receiver_id: activeChatUser.id,
-                    message: text
-                });
-
+            if (!allowed) return;
+            const { error } = await supabaseClient.from("messages").insert({
+                sender_id: currentUser.id,
+                receiver_id: activeChatUser.id,
+                message: text
+            });
             if (error) {
                 console.error("Message send error:", error);
-                alert("Could not send message: " + error.message);
                 return;
             }
-
             input.value = "";
+            closeEmojiPicker();
             await renderChat();
             await renderConversations();
+            highlightActiveConversation();
         }
 
         function handleChatKey(event) {
@@ -3996,42 +4103,250 @@
             }
         }
 
+        function toggleEmojiPicker() {
+            const picker = document.getElementById("emojiPicker");
+            if (!picker) return;
+            picker.classList.toggle("open");
+            if (picker.innerHTML) return;
+            const emojis = "😀 😃 😄 😁 😆 😅 😂 🙂 🙃 😉 😊 😍 🥰 😘 😎 🤗 🤔 😭 😢 😡 😤 😴 🤍 ❤️ 💚 💙 💜 🫶 👍 👎 👋 🙏 ✨ 🌸 🌿 ☀️ 🌙 ⭐ 🎉 🥹 😭 😂 🤝 💪 🧠 📚 ☕ 🎵 🫂".split(" ");
+            picker.innerHTML = emojis.map(e => `<button type="button" onclick="insertEmoji('${e}')">${e}</button>`).join("");
+        }
+
+        function closeEmojiPicker() {
+            const picker = document.getElementById("emojiPicker");
+            if (picker) picker.classList.remove("open");
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById("chatInput");
+            if (!input) return;
+            const start = input.selectionStart ?? input.value.length;
+            const end = input.selectionEnd ?? input.value.length;
+            input.value = input.value.slice(0, start) + emoji + input.value.slice(end);
+            input.focus();
+            const pos = start + emoji.length;
+            input.setSelectionRange(pos, pos);
+        }
+
+        function highlightActiveConversation() {
+            document.querySelectorAll(".conversation-item").forEach(el => {
+                el.classList.toggle("active", !!activeChatUser && el.dataset.userId === activeChatUser.id);
+            });
+        }
+
         async function renderConversations() {
             const container = document.getElementById("conversationList");
             if (!container || !currentUser) return;
-
             await loadProfiles();
-
             const { data: friendships, error } = await supabaseClient
                 .from("friendships")
                 .select("*")
                 .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
-
             if (error) {
                 console.error("Conversation/friend load error:", error);
                 container.innerHTML = `<div class="empty-state">Could not load your conversations.</div>`;
                 return;
             }
-
             const friends = (friendships || [])
                 .map(f => getUserById(f.user1_id === currentUser.id ? f.user2_id : f.user1_id))
                 .filter(Boolean);
-
             if (!friends.length) {
-                container.innerHTML = `<div class="empty-state">No conversations yet.<br>Add and accept a friend to start messaging.</div>`;
+                container.innerHTML = `<div class="empty-state" style="padding:25px 10px;">No conversations yet.<br>Add and accept a friend to start messaging.</div>`;
+                return;
+            }
+            container.innerHTML = friends.map(friend => {
+                const initial = (friend.name || "?").charAt(0).toUpperCase();
+                return `<button class="conversation-item" data-user-id="${friend.id}" onclick="startFriendChat('${friend.id}')">
+                    <div class="conversation-avatar">${escapeHTML(initial)}</div>
+                    <div class="conversation-meta">
+                        <div class="conversation-name">${escapeHTML(friend.name || "Friend")}</div>
+                        <div class="conversation-preview">Tap to open conversation</div>
+                    </div>
+                </button>`;
+            }).join("");
+            highlightActiveConversation();
+        }
+
+        /* ========================================
+           VOICE CALLS
+        ======================================== */
+
+        function showCallOverlay(title, status, actions) {
+            const overlay = document.getElementById("callOverlay");
+            const name = document.getElementById("callTitle");
+            const stat = document.getElementById("callStatus");
+            const avatar = document.getElementById("callAvatar");
+            const actionBox = document.getElementById("callActions");
+            if (!overlay) return;
+            name.textContent = title;
+            stat.textContent = status;
+            avatar.textContent = ((title || "?").replace(/^Voice call$/, "?").charAt(0) || "?").toUpperCase();
+            actionBox.innerHTML = actions || "";
+            overlay.classList.add("show");
+        }
+
+        function hideCallOverlay() {
+            const overlay = document.getElementById("callOverlay");
+            if (overlay) overlay.classList.remove("show");
+        }
+
+        async function sendCallSignal(type, data, receiverId) {
+            if (!currentUser || !receiverId) return;
+            const { error } = await supabaseClient.from("call_signals").insert({
+                caller_id: currentUser.id,
+                receiver_id: receiverId,
+                type,
+                data
+            });
+            if (error) console.error("Call signal error:", error);
+        }
+
+        async function startVoiceCall() {
+            if (!currentUser || !activeChatUser) return;
+            const allowed = await areFriends(currentUser.id, activeChatUser.id);
+            if (!allowed) return;
+            if (voicePeer) return;
+
+            try {
+                voiceLocalStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            } catch (err) {
+                console.error(err);
+                showCallOverlay(activeChatUser.name || "Friend", "Microphone permission is required.", `<button class="call-action end" onclick="endVoiceCall()">Close</button>`);
                 return;
             }
 
-            container.innerHTML = friends.map(friend => `
-                <div class="friend-item reveal-on-scroll">
-                    <div class="friend-info">
-                        <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
-                        <strong>${escapeHTML(friend.name || "Friend")}</strong>
-                    </div>
-                    <button class="small-button" onclick="startFriendChat('${friend.id}')">Open Chat</button>
-                </div>`).join("");
+            voiceCallId = crypto.randomUUID();
+            voiceCallStartedAt = new Date().toISOString();
+            voiceCallRole = "caller";
+            voicePeer = createVoicePeer(activeChatUser.id);
+            voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
 
-            if (window.observeMindCareReveals) window.observeMindCareReveals();
+            const offer = await voicePeer.createOffer();
+            await voicePeer.setLocalDescription(offer);
+            await sendCallSignal("offer", { call_id: voiceCallId, sdp: offer }, activeChatUser.id);
+            showCallOverlay(activeChatUser.name || "Friend", "Calling…", `<button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
+        }
+
+        function createVoicePeer(otherUserId) {
+            const pc = new RTCPeerConnection({
+                iceServers: [
+                    { urls: "stun:stun.l.google.com:19302" },
+                    { urls: "stun:stun.cloudflare.com:3478" }
+                ]
+            });
+            pc.onicecandidate = async event => {
+                if (event.candidate) {
+                    await sendCallSignal("ice", { call_id: voiceCallId, candidate: event.candidate }, otherUserId);
+                }
+            };
+            pc.ontrack = event => {
+                const audio = document.getElementById("remoteCallAudio");
+                if (audio) {
+                    audio.srcObject = event.streams[0];
+                    audio.play().catch(() => {});
+                }
+            };
+            pc.onconnectionstatechange = () => {
+                const state = pc.connectionState;
+                const status = document.getElementById("callStatus");
+                if (status && state === "connected") status.textContent = "Connected";
+                if (status && ["failed", "disconnected"].includes(state)) status.textContent = "Connection interrupted…";
+                if (state === "closed") endVoiceCall(false);
+            };
+            return pc;
+        }
+
+        async function acceptIncomingCall() {
+            if (!voicePendingOffer || !currentUser) return;
+            const offer = voicePendingOffer;
+            voicePendingOffer = null;
+            try {
+                voiceLocalStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            } catch (err) {
+                showCallOverlay(offer.name, "Microphone permission is required.", `<button class="call-action end" onclick="endVoiceCall()">Close</button>`);
+                return;
+            }
+            voiceCallId = offer.call_id;
+            voiceCallStartedAt = new Date().toISOString();
+            voiceCallRole = "callee";
+            voicePeer = createVoicePeer(offer.from);
+            voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
+            await voicePeer.setRemoteDescription(new RTCSessionDescription(offer.sdp));
+            const answer = await voicePeer.createAnswer();
+            await voicePeer.setLocalDescription(answer);
+            await sendCallSignal("answer", { call_id: voiceCallId, sdp: answer }, offer.from);
+            showCallOverlay(offer.name, "Connecting…", `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button><button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
+        }
+
+        async function rejectIncomingCall() {
+            const offer = voicePendingOffer;
+            voicePendingOffer = null;
+            hideCallOverlay();
+            if (offer) await sendCallSignal("hangup", { call_id: offer.call_id }, offer.from);
+        }
+
+        async function toggleCallMute() {
+            if (!voiceLocalStream) return;
+            const track = voiceLocalStream.getAudioTracks()[0];
+            if (!track) return;
+            track.enabled = !track.enabled;
+            const btn = document.getElementById("muteCallButton");
+            if (btn) btn.textContent = track.enabled ? "🔇 Mute" : "🎙️ Unmute";
+        }
+
+        async function endVoiceCall(sendSignal = true) {
+            const otherId = activeChatUser?.id || voicePendingOffer?.from;
+            const id = voiceCallId || voicePendingOffer?.call_id;
+            if (sendSignal && otherId && id) {
+                await sendCallSignal("hangup", { call_id: id }, otherId);
+            }
+            if (voicePeer) voicePeer.close();
+            if (voiceLocalStream) voiceLocalStream.getTracks().forEach(t => t.stop());
+            voicePeer = null;
+            voiceLocalStream = null;
+            voiceCallId = null;
+            voiceCallStartedAt = null;
+            voiceCallRole = null;
+            voicePendingOffer = null;
+            hideCallOverlay();
+        }
+
+        async function pollVoiceSignals() {
+            if (!currentUser) return;
+            const { data, error } = await supabaseClient
+                .from("call_signals")
+                .select("id,caller_id,receiver_id,type,data,created_at")
+                .eq("receiver_id", currentUser.id)
+                .order("created_at", { ascending: true })
+                .limit(100);
+            if (error) return;
+
+            for (const signal of (data || [])) {
+                if (voiceProcessedSignals.has(signal.id)) continue;
+                voiceProcessedSignals.add(signal.id);
+                const d = signal.data || {};
+                if (d.call_id && voiceCallId && d.call_id !== voiceCallId) continue;
+
+                if (signal.type === "offer") {
+                    if (voicePeer || voicePendingOffer) continue;
+                    voicePendingOffer = { ...d, from: signal.caller_id, name: getUserById(signal.caller_id)?.name || "Friend" };
+                    showCallOverlay(voicePendingOffer.name, "Incoming voice call…", `<button class="call-action accept" onclick="acceptIncomingCall()">📞 Accept</button><button class="call-action end" onclick="rejectIncomingCall()">Decline</button>`);
+                } else if (signal.type === "answer" && voicePeer && voiceCallId === d.call_id && voiceCallRole === "caller") {
+                    await voicePeer.setRemoteDescription(new RTCSessionDescription(d.sdp));
+                    const status = document.getElementById("callStatus");
+                    if (status) status.textContent = "Connecting…";
+                } else if (signal.type === "ice" && voicePeer && voiceCallId === d.call_id && d.candidate) {
+                    try { await voicePeer.addIceCandidate(new RTCIceCandidate(d.candidate)); } catch (e) { console.debug("ICE candidate queued/ignored", e); }
+                } else if (signal.type === "hangup" && d.call_id && d.call_id === voiceCallId) {
+                    await endVoiceCall(false);
+                }
+            }
+        }
+
+        function startVoiceSignalPolling() {
+            if (voiceSignalTimer) clearInterval(voiceSignalTimer);
+            voiceSignalTimer = setInterval(pollVoiceSignals, 1000);
+            pollVoiceSignals();
         }
 
         /* ========================================
@@ -4614,6 +4929,17 @@
  document.addEventListener('DOMContentLoaded',()=>{buildOverview();buildFriends();buildSettings();applyTheme(localStorage.getItem('mindcare_theme')||'default');toggleReducedMotion(localStorage.getItem('mindcare_reduce_motion')==='1'); const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12}); document.querySelectorAll('.overview-feature,.friends-box,.therapist-stat,.therapist-panel').forEach(e=>io.observe(e));});
 })();
 </script>
+
+    <div class="call-overlay" id="callOverlay">
+        <div class="call-card">
+            <div class="call-avatar" id="callAvatar">?</div>
+            <div class="call-title" id="callTitle">Voice call</div>
+            <div class="call-status" id="callStatus">Calling...</div>
+            <div class="call-actions" id="callActions"></div>
+        </div>
+    </div>
+    <audio id="remoteCallAudio" autoplay playsinline></audio>
+
 </body>
 
 </html>
