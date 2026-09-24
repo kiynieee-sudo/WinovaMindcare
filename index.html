@@ -1121,15 +1121,6 @@
            RESPONSIVE
         ========================= */
 
-
-        .compact-mode .friend-item {
-            padding: 10px 12px;
-        }
-
-        .compact-mode .friend-list {
-            gap: 8px;
-        }
-
         @media (max-width: 1050px) {
 
             .therapist-grid {
@@ -1242,350 +1233,34 @@
 
         }
 
-        /* =========================
-           ELEGANT INTERACTION LAYER
-           Added without removing existing styles
-        ========================= */
-
-        body {
-            background:
-                radial-gradient(circle at 8% 8%, rgba(155,216,176,0.16), transparent 24%),
-                radial-gradient(circle at 92% 35%, rgba(233,247,238,0.85), transparent 30%),
-                var(--white);
-        }
-
-        header {
-            transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.35s ease;
-        }
-
-        header.scrolled {
-            background: rgba(255,255,255,0.98);
-            box-shadow: 0 10px 30px rgba(45,106,79,0.10);
-            padding-top: 11px;
-            padding-bottom: 11px;
-        }
-
-        .hero {
-            isolation: isolate;
-        }
-
-        .hero-content {
-            animation: elegantHeroIn 1s cubic-bezier(.22,1,.36,1) both;
-        }
-
-        .hero-badge {
-            animation: badgeFloat 3.5s ease-in-out infinite;
-        }
-
-        .feature-card,
-        .therapist-card,
-        .dashboard-card,
-        .form-card,
-        .friend-item,
-        .notification,
-        .chat-container {
-            will-change: transform;
-            transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
-        }
-
-        .feature-card:hover,
-        .therapist-card:hover,
-        .dashboard-card:hover,
-        .form-card:hover,
-        .friend-item:hover,
-        .notification:hover {
-            border-color: rgba(155,216,176,0.95);
-            box-shadow: 0 18px 45px rgba(45,106,79,0.13);
-        }
-
-        .primary-button,
-        .secondary-button,
-        .small-button,
-        .sidebar-button,
-        .profile-button,
-        .login-button,
-        .register-button,
-        .close-button {
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-        }
-
-        button:active {
-            transform: scale(0.97);
-        }
-
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.75s ease, transform 0.75s cubic-bezier(.22,1,.36,1);
-        }
-
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.08s; }
-        .reveal-delay-2 { transition-delay: 0.16s; }
-        .reveal-delay-3 { transition-delay: 0.24s; }
-        .reveal-delay-4 { transition-delay: 0.32s; }
-
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #9bd8b0, #2d6a4f);
-            z-index: 5000;
-            transition: width 0.08s linear;
-        }
-
-        .back-to-top {
-            position: fixed;
-            right: 24px;
-            bottom: 24px;
-            width: 46px;
-            height: 46px;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            background: rgba(255,255,255,0.94);
-            color: var(--dark-green);
-            box-shadow: 0 12px 30px rgba(45,106,79,0.14);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(12px);
-            transition: 0.3s ease;
-            z-index: 2000;
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        @keyframes elegantHeroIn {
-            from { opacity: 0; transform: translateY(35px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes badgeFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-            }
-            .reveal-on-scroll { opacity: 1; transform: none; }
-        }
-
-
-        /* =========================
-           REQUESTS / RESOURCES / SETTINGS
-        ========================= */
-
-        .request-summary {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 12px 14px;
-            margin-bottom: 14px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: var(--lighter-green);
-        }
-
-        .request-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 9px;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            background: #fff8df;
-            color: #856404;
-        }
-
-        .resource-card {
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .resource-card::after {
-            content: "Open resource →";
-            position: absolute;
-            right: 22px;
-            bottom: 18px;
-            color: var(--dark-green);
-            font-size: 0.82rem;
-            font-weight: 800;
-            opacity: 0.8;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .settings-panel {
-            padding: 22px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--lighter-green);
-        }
-
-        .settings-panel h3 {
-            margin-bottom: 7px;
-        }
-
-        .settings-panel > p {
-            color: var(--gray);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .toggle-row:last-child {
-            border-bottom: none;
-        }
-
-        .toggle-row label {
-            font-weight: 700;
-        }
-
-        .toggle-row small {
-            display: block;
-            margin-top: 3px;
-            color: var(--gray);
-            font-weight: 400;
-        }
-
-        .switch {
-            position: relative;
-            width: 48px;
-            height: 26px;
-            flex: 0 0 auto;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            inset: 0;
-            cursor: pointer;
-            border-radius: 999px;
-            background: #cfdad3;
-            transition: 0.2s ease;
-        }
-
-        .slider::before {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            left: 3px;
-            top: 3px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
-
-        .switch input:checked + .slider {
-            background: var(--dark-green);
-        }
-
-        .switch input:checked + .slider::before {
-            transform: translateX(22px);
-        }
-
-        .resource-modal .modal {
-            width: min(720px, 100%);
-            max-height: 82vh;
-            overflow-y: auto;
-        }
-
-        .resource-content {
-            color: var(--gray);
-            line-height: 1.75;
-        }
-
-        .resource-content h3 {
-            color: var(--dark);
-            margin: 18px 0 8px;
-        }
-
-        .resource-content ul {
-            padding-left: 22px;
-            margin: 8px 0 18px;
-        }
-
-        .resource-content li {
-            margin-bottom: 8px;
-        }
-
-        @media (max-width: 700px) {
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        body[data-theme="classic"] {
-            background: var(--white);
-        }
-
-        body[data-theme="dim"] {
-            --white: #f4f8f5;
-            --lighter-green: #edf5ef;
-            --light-green: #dcefe2;
-            --dark: #163224;
-            --gray: #59675f;
-        }
-
-        body.reduce-motion *,
-        body.reduce-motion *::before,
-        body.reduce-motion *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-        }
-
     </style>
 
+<style id="mindcare-final-enhancements">
+/* Calm polish without changing the existing layout */
+.reveal-on-scroll{opacity:1 !important;transform:none !important;visibility:visible !important;}
+.dashboard-card,.form-card,.settings-panel,.therapist-card,.feature-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.dashboard-card:hover,.form-card:hover,.settings-panel:hover,.therapist-card:hover,.feature-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(34,65,50,.08);}
+.login-role-picker{margin:0 0 18px;padding:14px;border:1px solid var(--border);border-radius:16px;background:var(--lighter-green);}
+.login-role-label{margin:0 0 10px;font-weight:700;color:var(--dark);}
+.login-role-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.login-role-button{border:1px solid var(--border);background:white;border-radius:12px;padding:11px;font-weight:700;cursor:pointer;color:var(--dark);}
+.login-role-button.active{background:var(--light-green);border-color:var(--green);box-shadow:0 4px 12px rgba(34,65,50,.07);}
+.therapist-sidebar .sidebar-title small{display:block;font-size:11px;opacity:.7;margin-top:2px;}
+.therapist-panel-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-top:22px;}
+.therapist-list{display:grid;gap:12px;}
+.therapist-list-item,.therapist-client-card{padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--lighter-green);}
+.therapist-client-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;}
+.therapist-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.therapist-logout{margin-top:auto;}
+.secondary-button{border:1px solid var(--border);background:white;color:var(--dark);border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700;}
+.settings-note{color:var(--gray);line-height:1.6;}
+body.therapist-compact .therapist-list-item,body.therapist-compact .therapist-client-card{padding:10px;}
+@media(max-width:850px){.therapist-panel-grid{grid-template-columns:1fr;}.login-role-buttons{grid-template-columns:1fr;}}
+</style>
+<style>body.mindcare-large-text{font-size:106%;}body.mindcare-large-text .dashboard-card p,body.mindcare-large-text .settings-panel p{line-height:1.75;}body.mindcare-high-contrast{--border:#b7c9bd;}body.mindcare-focus-mode .dashboard-card:not(:hover),body.mindcare-focus-mode .feature-card:not(:hover){box-shadow:none;} </style>
 </head>
 
 <body>
-
-    <div class="scroll-progress" id="scrollProgress"></div>
-    <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
-
 
     <!-- =========================================
          HEADER
@@ -2136,9 +1811,6 @@
                         <p>
                             Find students and connect with them.
                         </p>
-                        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-                            <button class="small-button secondary" type="button" onclick="refreshFriendsNow()">↻ Refresh Requests</button>
-                        </div>
 
                     </div>
 
@@ -2191,22 +1863,6 @@
                             id="friendRequests"
                             class="friend-list"
                         ></div>
-
-                    </div>
-
-
-                    <br>
-
-
-                    <div class="form-card reveal-on-scroll">
-
-                        <h3>
-                            📤 Sent Requests
-                        </h3>
-
-                        <br>
-
-                        <div id="sentFriendRequests" class="friend-list"></div>
 
                     </div>
 
@@ -2396,21 +2052,6 @@
                         <div class="form-group">
 
                             <label>
-                                Place
-                            </label>
-
-                            <input
-                                type="text"
-                                id="appointmentPlace"
-                                placeholder="Clinic, campus room, online, etc."
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label>
                                 Reason
                             </label>
 
@@ -2453,10 +2094,12 @@
 
                     <div class="dashboard-heading">
 
-                        <h2>Resources</h2>
+                        <h2>
+                            Resources
+                        </h2>
 
                         <p>
-                            Practical student resources. Select a category to see what is available and how MindCare can help.
+                            Useful information for students.
                         </p>
 
                     </div>
@@ -2464,29 +2107,46 @@
 
                     <div class="dashboard-cards">
 
-                        <button class="dashboard-card resource-card reveal-on-scroll"
-                            onclick="openResource('study')">
-                            <h3>📖 Study Resources</h3>
-                            <p>
-                                Study methods, exam planning, focus tools, academic support ideas, and ways to ask for help.
-                            </p>
-                        </button>
+                        <div class="dashboard-card reveal-on-scroll">
 
-                        <button class="dashboard-card resource-card reveal-on-scroll"
-                            onclick="openResource('wellbeing')">
-                            <h3>🌱 Wellbeing</h3>
-                            <p>
-                                Everyday wellbeing information, healthy routines, stress-management ideas, and support options.
-                            </p>
-                        </button>
+                            <h3>
+                                📖 Study Resources
+                            </h3>
 
-                        <button class="dashboard-card resource-card reveal-on-scroll"
-                            onclick="openResource('career')">
-                            <h3>💼 Career</h3>
                             <p>
-                                Career planning, CV preparation, interview practice, skill-building, and guidance on next steps.
+                                Find study techniques and academic
+                                support resources.
                             </p>
-                        </button>
+
+                        </div>
+
+
+                        <div class="dashboard-card reveal-on-scroll">
+
+                            <h3>
+                                🌱 Wellbeing
+                            </h3>
+
+                            <p>
+                                Explore healthy routines and
+                                wellbeing information.
+                            </p>
+
+                        </div>
+
+
+                        <div class="dashboard-card reveal-on-scroll">
+
+                            <h3>
+                                💼 Career
+                            </h3>
+
+                            <p>
+                                Explore career planning and
+                                development resources.
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -2528,168 +2188,99 @@
                 >
 
                     <div class="dashboard-heading">
-                        <h2>Settings</h2>
-                        <p>Manage your profile, notifications, appearance, and local preferences.</p>
-                    </div>
 
-                    <div class="settings-grid">
+                        <h2>
+                            Settings
+                        </h2>
 
-                        <div class="form-card reveal-on-scroll">
-                            <h3>👤 Profile</h3>
-                            <p style="color:var(--gray);margin:7px 0 20px;">
-                                Keep the information shown around MindCare up to date.
-                            </p>
-
-                            <div class="form-group">
-                                <label>Name</label>
-                                <input id="settingsName" type="text" placeholder="Your name">
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email</label>
-                                <input id="settingsEmail" type="email" disabled>
-                            </div>
-
-                            <button class="primary-button" onclick="saveSettings()">
-                                Save Profile
-                            </button>
-                        </div>
-
-                        <div class="settings-panel">
-                            <h3>🔔 Notifications</h3>
-                            <p>Choose which on-device notifications MindCare should show.</p>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefRequests">Friend requests</label>
-                                    <small>Show request-related notifications.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefRequests" type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefAppointments">Appointments</label>
-                                    <small>Show appointment confirmations.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefAppointments" type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefMessages">Messages</label>
-                                    <small>Show message-related notifications.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefMessages" type="checkbox">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="settings-panel">
-                            <h3>🎨 Appearance</h3>
-                            <p>Personalize the dashboard without changing your account data.</p>
-
-                            <div class="form-group">
-                                <label for="settingsTheme">Dashboard style</label>
-                                <select id="settingsTheme" onchange="savePreferences()">
-                                    <option value="soft">Soft green</option>
-                                    <option value="classic">Classic white</option>
-                                    <option value="dim">Dim green</option>
-                                </select>
-                            </div>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefReducedMotion">Reduce motion</label>
-                                    <small>Minimize animations and movement.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefReducedMotion" type="checkbox" onchange="savePreferences()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="settings-panel">
-                            <h3>🧭 Dashboard & Safety</h3>
-                            <p>Small controls for how MindCare behaves on this device.</p>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefCompact">Compact lists</label>
-                                    <small>Use tighter spacing in friends, requests, and appointments.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefCompact" type="checkbox" onchange="savePreferences()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefAutoRefresh">Live request refresh</label>
-                                    <small>Refresh friend requests when Supabase sends an update.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefAutoRefresh" type="checkbox" onchange="savePreferences()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="toggle-row">
-                                <div>
-                                    <label for="prefConfirmCancel">Confirm cancellations</label>
-                                    <small>Ask before cancelling an appointment or friend request.</small>
-                                </div>
-                                <label class="switch">
-                                    <input id="prefConfirmCancel" type="checkbox" onchange="savePreferences()">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="settings-panel">
-                            <h3>🛡️ Account & Privacy</h3>
-                            <p>
-                                Your email is used for account access and friend discovery. Do not share your password with anyone.
-                            </p>
-                            <button class="small-button secondary" onclick="showSectionByName('friends')">
-                                👥 Manage Friends
-                            </button>
-                            <button class="small-button secondary" onclick="showSectionByName('notifications')" style="margin-left:6px;">
-                                🔔 View Notifications
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <div class="settings-panel" style="margin-top:20px;">
-                        <h3>🧰 Local Data & App Controls</h3>
-                        <p>These controls only affect this browser. They do not delete your Supabase account, messages, friends, or appointments stored in the database.</p>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-                            <button class="small-button secondary" type="button" onclick="refreshAllData()">↻ Refresh app data</button>
-                            <button class="small-button secondary" type="button" onclick="resetLocalPreferences()">Reset local preferences</button>
-                        </div>
-                    </div>
-
-                    <div class="form-card" style="margin-top:20px;">
-                        <h3>Session</h3>
-                        <p style="color:var(--gray);margin:7px 0 18px;">
-                            Sign out from this browser when you are finished.
+                        <p>
+                            Manage your profile and account.
                         </p>
-                        <button class="small-button danger" onclick="logout()">🚪 Log Out</button>
+
                     </div>
 
-                </div>
 
+                    <div class="form-card reveal-on-scroll">
+
+                        <div class="form-group">
+
+                            <label>
+                                Name
+                            </label>
+
+                            <input
+                                id="settingsName"
+                                type="text"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                id="settingsEmail"
+                                type="email"
+                                disabled
+                            >
+
+                        </div>
+
+
+                        <button
+                            class="primary-button"
+                            onclick="saveSettings()"
+                        >
+                            Save Changes
+                        </button>
+
+
+                        <div class="form-group" style="margin-top:28px;">
+
+                            <label>
+                                🌿 MindCare Theme
+                            </label>
+
+                            <select
+                                id="settingsTheme"
+                                onchange="applyMindCareTheme(this.value)"
+                            >
+                                <option value="soft-green">Soft Green</option>
+                                <option value="lavender-calm">Lavender Calm</option>
+                                <option value="sky-serenity">Sky Serenity</option>
+                                <option value="peach-warmth">Peach Warmth</option>
+                                <option value="rose-blush">Rose Blush</option>
+                                <option value="ocean-calm">Ocean Calm</option>
+                                <option value="mint-fresh">Mint Fresh</option>
+                                <option value="sandstone">Gentle Sandstone</option>
+                                <option value="twilight">Quiet Twilight</option>
+                                <option value="forest-grounding">Forest Grounding</option>
+                                <option value="sunrise-peace">Sunrise Peace</option>
+                            </select>
+
+                            <small style="display:block;color:var(--gray);margin-top:8px;line-height:1.5;">
+                                Choose a calm colour palette for your MindCare dashboard. Your choice is saved on this device.
+                            </small>
+
+                        </div>
+
+
+                        <br>
+                        <br>
+
+
+                        <button
+                            class="small-button danger"
+                            onclick="logout()"
+                        >
+                            🚪 Log Out
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -2700,15 +2291,74 @@
     </main>
 
 
-    <div class="modal-overlay resource-modal" id="resourceModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="resourceModalTitle">Resource</h2>
-                <button class="close-button" onclick="closeResource()">×</button>
-            </div>
-            <div class="resource-content" id="resourceModalContent"></div>
+    <!-- =========================================
+         THERAPIST DASHBOARD
+    ========================================== -->
+    <main id="therapistDashboard" style="display:none;">
+        <div class="dashboard-layout therapist-layout">
+            <aside class="sidebar therapist-sidebar">
+                <div class="sidebar-title">MindCare <small>Therapist</small></div>
+                <button class="sidebar-button active" onclick="showTherapistSection('overview', this)">🏠 Overview</button>
+                <button class="sidebar-button" onclick="showTherapistSection('appointments', this)">📅 Appointments</button>
+                <button class="sidebar-button" onclick="showTherapistSection('clients', this)">👥 My Clients</button>
+                <button class="sidebar-button" onclick="showTherapistSection('messages', this)">💬 Messages</button>
+                <button class="sidebar-button" onclick="showTherapistSection('availability', this)">🗓️ Availability</button>
+                <button class="sidebar-button" onclick="showTherapistSection('resources', this)">📚 Resources</button>
+                <button class="sidebar-button" onclick="showTherapistSection('notifications', this)">🔔 Notifications</button>
+                <button class="sidebar-button" onclick="showTherapistSection('settings', this)">⚙️ Settings</button>
+                <button class="sidebar-button therapist-logout" onclick="logout()">↩ Log Out</button>
+            </aside>
+            <section class="dashboard-content therapist-content">
+                <div class="dashboard-section therapist-section active" id="therapist-section-overview">
+                    <div class="dashboard-heading"><h2>Welcome back, <span id="therapistWelcomeName">Therapist</span> 🩺</h2><p>Your professional MindCare workspace.</p></div>
+                    <div class="dashboard-cards">
+                        <div class="dashboard-card"><h3>📅 Today</h3><p id="therapistTodayCount">0 sessions</p></div>
+                        <div class="dashboard-card"><h3>👥 Clients</h3><p id="therapistClientCount">0 active clients</p></div>
+                        <div class="dashboard-card"><h3>💬 Messages</h3><p>Keep client conversations organised.</p></div>
+                    </div>
+                    <div class="therapist-panel-grid">
+                        <div class="form-card"><h3>Upcoming sessions</h3><div id="therapistUpcomingList" class="therapist-list"></div></div>
+                        <div class="form-card"><h3>Quick actions</h3><div class="therapist-actions"><button class="primary-button" onclick="showTherapistSection('appointments')">View appointments</button><button class="secondary-button" onclick="showTherapistSection('availability')">Manage availability</button></div></div>
+                    </div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-appointments">
+                    <div class="dashboard-heading"><h2>Appointments</h2><p>Manage upcoming sessions and appointment requests.</p></div>
+                    <div class="form-card"><div id="therapistAppointmentsList" class="therapist-list"></div></div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-clients">
+                    <div class="dashboard-heading"><h2>My Clients</h2><p>Keep a simple overview of the people you support.</p></div>
+                    <div class="therapist-client-grid" id="therapistClientsList"></div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-messages">
+                    <div class="dashboard-heading"><h2>Messages</h2><p>Client communication for your professional workspace.</p></div>
+                    <div class="form-card"><p class="settings-note">Use your existing MindCare messaging tools for conversations. Therapist-specific communication controls can be connected to your Supabase messaging policies.</p><button class="primary-button" onclick="openStudentMessagesForTherapist()">Open Messages</button></div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-availability">
+                    <div class="dashboard-heading"><h2>Availability</h2><p>Set when clients can request sessions.</p></div>
+                    <div class="settings-grid">
+                        <div class="settings-panel"><h3>🗓️ Weekly schedule</h3><div class="form-group"><label>Working days</label><select id="therapistDays"><option>Monday – Friday</option><option>Monday – Thursday</option><option>Tuesday – Saturday</option><option>Custom schedule</option></select></div><div class="form-group"><label>Start time</label><input id="therapistStart" type="time" value="09:00"></div><div class="form-group"><label>End time</label><input id="therapistEnd" type="time" value="17:00"></div><button class="primary-button" onclick="saveTherapistAvailability()">Save availability</button></div>
+                        <div class="settings-panel"><h3>🌿 Practice preferences</h3><div class="toggle-row"><div><label>Accept new clients</label><small>Allow new appointment requests.</small></div><label class="switch"><input id="therapistAccepting" type="checkbox" checked><span class="slider"></span></label></div><div class="toggle-row"><div><label>Appointment reminders</label><small>Keep session reminders enabled.</small></div><label class="switch"><input id="therapistReminders" type="checkbox" checked><span class="slider"></span></label></div></div>
+                    </div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-resources">
+                    <div class="dashboard-heading"><h2>Resources</h2><p>Keep helpful student-facing resources close at hand.</p></div>
+                    <div class="dashboard-cards"><button class="dashboard-card resource-card" onclick="openResource('study')"><h3>📖 Study Support</h3><p>Planning, focus and academic wellbeing.</p></button><button class="dashboard-card resource-card" onclick="openResource('wellbeing')"><h3>🌿 Wellbeing</h3><p>Calm routines and coping resources.</p></button><button class="dashboard-card resource-card" onclick="openResource('career')"><h3>💼 Career</h3><p>Planning and transition support.</p></button></div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-notifications">
+                    <div class="dashboard-heading"><h2>Notifications</h2><p>Professional updates and appointment reminders.</p></div><div class="form-card"><div id="therapistNotificationsList"><p class="settings-note">No new therapist notifications.</p></div></div>
+                </div>
+                <div class="dashboard-section therapist-section" id="therapist-section-settings">
+                    <div class="dashboard-heading"><h2>Therapist Settings</h2><p>Professional profile, workspace preferences and accessibility.</p></div>
+                    <div class="settings-grid">
+                        <div class="form-card"><h3>👤 Professional profile</h3><div class="form-group"><label>Display name</label><input id="therapistSettingsName" type="text" placeholder="Your professional name"></div><div class="form-group"><label>Speciality</label><input id="therapistSpeciality" type="text" placeholder="e.g. Student wellbeing"></div><div class="form-group"><label>Bio</label><textarea id="therapistBio" rows="4" placeholder="A short professional introduction"></textarea></div><button class="primary-button" onclick="saveTherapistSettings()">Save profile</button></div>
+                        <div class="settings-panel"><h3>🎨 Appearance</h3><p>Use the same calm themes as the student dashboard.</p><div class="form-group"><label>Theme</label><select id="therapistTheme" onchange="applyMindCareTheme(this.value)"><option value="soft-green">Sage</option><option value="lavender-calm">Lavender Calm</option><option value="sky-serenity">Sky Serenity</option><option value="peach-warmth">Peach Warmth</option><option value="rose-blush">Rose Blush</option><option value="ocean-calm">Ocean Calm</option><option value="mint-fresh">Mint Fresh</option><option value="sandstone">Gentle Sandstone</option><option value="twilight">Quiet Twilight</option><option value="forest-grounding">Forest Grounding</option><option value="sunrise-peace">Sunrise Peace</option></select></div><div class="toggle-row"><div><label>Reduce motion</label><small>Keep the workspace calm and still.</small></div><label class="switch"><input id="therapistReduceMotion" type="checkbox" onchange="toggleTherapistMotion(this.checked)"><span class="slider"></span></label></div><div class="toggle-row"><div><label>Compact lists</label><small>Use tighter client and appointment lists.</small></div><label class="switch"><input id="therapistCompact" type="checkbox" onchange="toggleTherapistCompact(this.checked)"><span class="slider"></span></label></div></div>
+                        <div class="settings-panel"><h3>🔔 Notifications</h3><div class="toggle-row"><div><label>Appointment requests</label><small>Notify me about new requests.</small></div><label class="switch"><input id="therapistNotifyRequests" type="checkbox" checked><span class="slider"></span></label></div><div class="toggle-row"><div><label>Messages</label><small>Notify me about client messages.</small></div><label class="switch"><input id="therapistNotifyMessages" type="checkbox" checked><span class="slider"></span></label></div></div>
+                        <div class="settings-panel"><h3>🔐 Privacy</h3><p>Therapist-only notes and professional data should be protected with Supabase RLS in production. Do not rely on hidden frontend sections for access control.</p></div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
 
     <!-- =========================================
          LOGIN MODAL
@@ -2736,6 +2386,14 @@
 
             </div>
 
+
+            <div class="login-role-picker">
+                <p class="login-role-label">Log in as</p>
+                <div class="login-role-buttons">
+                    <button type="button" class="login-role-button active" data-login-role="student" onclick="selectLoginRole('student', this)">🎓 Student</button>
+                    <button type="button" class="login-role-button" data-login-role="therapist" onclick="selectLoginRole('therapist', this)">🩺 Therapist</button>
+                </div>
+            </div>
 
             <p
                 id="loginError"
@@ -2933,8 +2591,12 @@
 
         let currentUser = null;
 
+        // Cache of Supabase profiles used by friends, requests, and messages.
+        let profileCache = {};
+
         let activeChatUser = null;
-        let friendRequestChannel = null;
+
+        loadMindCareTheme();
 
 
         /* ========================================
@@ -2947,6 +2609,13 @@
                 id: "therapist_maya",
                 name: "Dr Loopa",
                 specialty: "Student Counsellor",
+                online: true
+            },
+
+            {
+                id: "therapist_suhent",
+                name: "Dr Suhent",
+                specialty: "Mental Health Professional",
                 online: true
             },
 
@@ -3064,7 +2733,7 @@
 
                     showDashboard();
 
-                    await refreshDashboard();
+                    refreshDashboard();
 
                 } else {
 
@@ -3101,14 +2770,6 @@
                         }
 
                         updateHeader();
-
-                        if (currentUser) {
-                            await refreshDashboard();
-                            showDashboard();
-                        } else if (friendRequestChannel) {
-                            supabaseClient.removeChannel(friendRequestChannel);
-                            friendRequestChannel = null;
-                        }
 
                     }
                 );
@@ -3406,9 +3067,12 @@
 
                 updateHeader();
 
-                showDashboard();
-
-                refreshDashboard();
+                if (selectedLoginRole === "therapist") {
+                    showTherapistDashboard();
+                } else {
+                    showStudentDashboard();
+                    refreshDashboard();
+                }
 
                 addNotification(
                     "Welcome to MindCare!",
@@ -3526,6 +3190,9 @@
 
                 currentUser = null;
                 activeChatUser = null;
+
+                const therapist=document.getElementById("therapistDashboard");
+                if(therapist) therapist.style.display="none";
 
                 updateHeader();
 
@@ -4076,9 +3743,7 @@
 
             if (targetError) {
                 console.error("Friend search error:", targetError);
-                result.textContent = targetError.message?.includes("email")
-                    ? "Friend discovery needs the profiles.email column. Run the updated MindCare Supabase SQL migration first."
-                    : targetError.message;
+                result.textContent = targetError.message;
                 result.className = "error-message";
                 return;
             }
@@ -4089,61 +3754,39 @@
                 return;
             }
 
-            // Check both directions so duplicate requests cannot be created.
-            const { data: existingRequests, error: existingError } = await supabaseClient
+            const { data: existingRequest } = await supabaseClient
                 .from("friend_requests")
-                .select("id,sender_id,receiver_id,status")
+                .select("id,status")
                 .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${target.id}),and(sender_id.eq.${target.id},receiver_id.eq.${currentUser.id})`)
-                .in("status", ["pending", "accepted"]);
+                .in("status", ["pending", "accepted"])
+                .maybeSingle();
 
-            if (existingError) {
-                console.error("Friend request lookup error:", existingError);
-                result.textContent = "Could not check the existing friendship/request. Please try again.";
+            if (existingRequest) {
+                result.textContent = existingRequest.status === "accepted"
+                    ? "You are already friends with this user."
+                    : "A friend request already exists between you.";
                 result.className = "error-message";
                 return;
             }
 
-            const existing = existingRequests?.[0];
-
-            if (existing?.status === "accepted") {
-                result.textContent = "You are already friends with this user.";
-                result.className = "error-message";
-                return;
-            }
-
-            if (existing?.status === "pending") {
-                result.textContent =
-                    existing.sender_id === currentUser.id
-                        ? "You already sent a pending request to this user."
-                        : "This user already sent you a request. Check Friend Requests below.";
-                result.className = "error-message";
-                await renderFriends();
-                return;
-            }
-
-            const { data: insertedRequest, error: insertError } = await supabaseClient
+            const { error: insertError } = await supabaseClient
                 .from("friend_requests")
                 .insert({
                     sender_id: currentUser.id,
                     receiver_id: target.id,
                     status: "pending"
-                })
-                .select("id,sender_id,receiver_id,status,created_at")
-                .single();
+                });
 
             if (insertError) {
-                console.error("Friend request insert error:", insertError);
+                console.error("Friend request error:", insertError);
                 result.textContent = insertError.message;
                 result.className = "error-message";
                 return;
             }
 
-            console.info("Friend request created:", insertedRequest);
-
-            result.textContent = `Friend request sent to ${target.name || target.email}.`;
+            result.textContent = `Friend request sent to ${target.name}.`;
             result.className = "success-message";
             document.getElementById("friendSearch").value = "";
-
             await renderFriends();
         }
 
@@ -4152,64 +3795,36 @@
 
             const { data: request, error: requestError } = await supabaseClient
                 .from("friend_requests")
-                .select("id,sender_id,receiver_id,status")
+                .select("*")
                 .eq("id", requestId)
                 .eq("receiver_id", currentUser.id)
                 .eq("status", "pending")
-                .maybeSingle();
+                .single();
 
-            if (requestError) {
-                console.error("Could not load friend request:", requestError);
-                alert(requestError.message);
-                return;
-            }
-
-            if (!request) {
-                alert("That friend request is no longer pending.");
-                await renderFriends();
-                return;
-            }
+            if (requestError || !request) return;
 
             const { error: updateError } = await supabaseClient
                 .from("friend_requests")
                 .update({ status: "accepted" })
-                .eq("id", requestId)
-                .eq("receiver_id", currentUser.id)
-                .eq("status", "pending");
+                .eq("id", requestId);
 
             if (updateError) {
                 alert(updateError.message);
                 return;
             }
 
-            // Store the relationship in a stable order. This avoids A-B/B-A duplicates.
-            const firstUser = request.sender_id < request.receiver_id
-                ? request.sender_id
-                : request.receiver_id;
-            const secondUser = request.sender_id < request.receiver_id
-                ? request.receiver_id
-                : request.sender_id;
-
             const { error: friendshipError } = await supabaseClient
                 .from("friendships")
-                .upsert(
-                    {
-                        user1_id: firstUser,
-                        user2_id: secondUser
-                    },
-                    { onConflict: "user1_id,user2_id", ignoreDuplicates: true }
-                );
+                .insert({
+                    user1_id: request.sender_id,
+                    user2_id: request.receiver_id
+                });
 
             if (friendshipError) {
-                console.error("Friendship creation error:", friendshipError);
-                alert("The request was accepted, but the friendship could not be saved. Check your Supabase friendships RLS/unique constraint.");
+                console.error(friendshipError);
+                alert(friendshipError.message);
                 return;
             }
-
-            addNotification(
-                "Friend request accepted",
-                "You are now connected with this student."
-            );
 
             await renderFriends();
             await renderConversations();
@@ -4217,38 +3832,16 @@
 
         async function declineFriendRequest(requestId) {
             if (!currentUser) return;
-
             const { error } = await supabaseClient
                 .from("friend_requests")
                 .update({ status: "declined" })
                 .eq("id", requestId)
-                .eq("receiver_id", currentUser.id)
-                .eq("status", "pending");
+                .eq("receiver_id", currentUser.id);
 
             if (error) {
                 alert(error.message);
                 return;
             }
-
-            await renderFriends();
-        }
-
-        async function cancelFriendRequest(requestId) {
-            if (!currentUser) return;
-            if (getPreferences().confirmCancel && !confirm("Cancel this friend request?")) return;
-
-            const { error } = await supabaseClient
-                .from("friend_requests")
-                .delete()
-                .eq("id", requestId)
-                .eq("sender_id", currentUser.id)
-                .eq("status", "pending");
-
-            if (error) {
-                alert(error.message);
-                return;
-            }
-
             await renderFriends();
         }
 
@@ -4256,162 +3849,130 @@
             return profileCache[id] || null;
         }
 
-        async function getProfilesForIds(ids) {
-            const uniqueIds = [...new Set((ids || []).filter(Boolean))];
-            if (!uniqueIds.length) return;
-
-            // Keep this query compatible with the original profiles schema.
-            const { data, error } = await supabaseClient
-                .from("profiles")
-                .select("id,name,username")
-                .in("id", uniqueIds);
-
-            if (error) {
-                console.error("Friend profile load error:", error);
-                return;
-            }
-
-            (data || []).forEach(profile => {
-                profileCache[profile.id] = {
-                    ...(profileCache[profile.id] || {}),
-                    ...profile
-                };
-            });
-        }
-
         async function renderFriends() {
             if (!currentUser) return;
 
+            await loadProfiles();
+
             const requestsContainer = document.getElementById("friendRequests");
-            const sentContainer = document.getElementById("sentFriendRequests");
             const friendsContainer = document.getElementById("friendsList");
-            if (!requestsContainer || !sentContainer || !friendsContainer) return;
 
-            // Always give the user visible feedback while the database is loading.
-            requestsContainer.innerHTML = `<div class="empty-state">Loading friend requests…</div>`;
-            sentContainer.innerHTML = `<div class="empty-state">Loading sent requests…</div>`;
-            friendsContainer.innerHTML = `<div class="empty-state">Loading friends…</div>`;
+            const { data: requests, error: requestError } = await supabaseClient
+                .from("friend_requests")
+                .select("*")
+                .eq("receiver_id", currentUser.id)
+                .eq("status", "pending")
+                .order("created_at", { ascending: false });
 
-            try {
-                const [incomingResult, outgoingResult, friendshipResult] = await Promise.all([
-                    supabaseClient
-                        .from("friend_requests")
-                        .select("id,sender_id,receiver_id,status,created_at")
-                        .eq("receiver_id", currentUser.id)
-                        .eq("status", "pending")
-                        .order("created_at", { ascending: false }),
-                    supabaseClient
-                        .from("friend_requests")
-                        .select("id,sender_id,receiver_id,status,created_at")
-                        .eq("sender_id", currentUser.id)
-                        .eq("status", "pending")
-                        .order("created_at", { ascending: false }),
-                    supabaseClient
-                        .from("friendships")
-                        .select("user1_id,user2_id")
-                        .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-                ]);
-
-                const firstError = incomingResult.error || outgoingResult.error || friendshipResult.error;
-                if (firstError) {
-                    throw firstError;
-                }
-
-                const incoming = incomingResult.data || [];
-                const outgoing = outgoingResult.data || [];
-                const friendships = friendshipResult.data || [];
-
-                const profileIds = [
-                    ...incoming.map(r => r.sender_id),
-                    ...outgoing.map(r => r.receiver_id),
-                    ...friendships.map(f => f.user1_id === currentUser.id ? f.user2_id : f.user1_id)
-                ];
-                await getProfilesForIds(profileIds);
-
-                if (!incoming.length) {
-                    requestsContainer.innerHTML = `<div class="empty-state">No pending incoming friend requests.</div>`;
-                } else {
-                    requestsContainer.innerHTML = incoming.map(r => {
-                        const sender = getUserById(r.sender_id) || {};
-                        const name = sender.name || sender.username || "MindCare student";
-                        return `
-                            <div class="friend-item reveal-on-scroll">
-                                <div class="friend-info">
-                                    <div class="friend-avatar">${escapeHTML(name.charAt(0).toUpperCase())}</div>
-                                    <div>
-                                        <strong>${escapeHTML(name)}</strong><br>
-                                        <small>Pending friend request</small>
-                                    </div>
-                                </div>
-                                <div class="friend-actions">
-                                    <span class="request-status">Pending</span>
-                                    <button class="small-button" type="button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
-                                    <button class="small-button danger" type="button" onclick="declineFriendRequest('${r.id}')">Decline</button>
-                                </div>
-                            </div>`;
-                    }).join("");
-                }
-
-                if (!outgoing.length) {
-                    sentContainer.innerHTML = `<div class="empty-state">No sent requests waiting for a response.</div>`;
-                } else {
-                    sentContainer.innerHTML = outgoing.map(r => {
-                        const receiver = getUserById(r.receiver_id) || {};
-                        const name = receiver.name || receiver.username || "MindCare student";
-                        return `
-                            <div class="friend-item reveal-on-scroll">
-                                <div class="friend-info">
-                                    <div class="friend-avatar">${escapeHTML(name.charAt(0).toUpperCase())}</div>
-                                    <div>
-                                        <strong>${escapeHTML(name)}</strong><br>
-                                        <small>Waiting for response</small>
-                                    </div>
-                                </div>
-                                <div class="friend-actions">
-                                    <span class="request-status">Pending</span>
-                                    <button class="small-button secondary" type="button" onclick="cancelFriendRequest('${r.id}')">Cancel</button>
-                                </div>
-                            </div>`;
-                    }).join("");
-                }
-
-                const friendIds = friendships.map(f =>
-                    f.user1_id === currentUser.id ? f.user2_id : f.user1_id
-                );
-                const friends = friendIds.map(getUserById).filter(Boolean);
-
-                document.getElementById("friendCount").textContent =
-                    friends.length + (friends.length === 1 ? " friend" : " friends");
-
-                if (!friends.length) {
-                    friendsContainer.innerHTML = `<div class="empty-state">You don't have any friends yet. Use Add Friend above to find someone.</div>`;
-                } else {
-                    friendsContainer.innerHTML = friends.map(friend => `
+            if (requestError) {
+                console.error(requestError);
+                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.</div>`;
+            } else if (!requests?.length) {
+                requestsContainer.innerHTML = `<div class="empty-state">No pending friend requests.</div>`;
+            } else {
+                requestsContainer.innerHTML = requests.map(r => {
+                    const sender = getUserById(r.sender_id);
+                    if (!sender) return "";
+                    return `
                         <div class="friend-item reveal-on-scroll">
                             <div class="friend-info">
-                                <div class="friend-avatar">${escapeHTML((friend.name || friend.username || "?").charAt(0).toUpperCase())}</div>
+                                <div class="friend-avatar">${escapeHTML((sender.name || "?").charAt(0).toUpperCase())}</div>
                                 <div>
-                                    <strong>${escapeHTML(friend.name || friend.username || "Student")}</strong><br>
-                                    <small>Connected on MindCare</small>
+                                    <strong>${escapeHTML(sender.name || "Student")}</strong><br>
+                                    <small>${escapeHTML(sender.email || "")}</small>
                                 </div>
                             </div>
                             <div class="friend-actions">
-                                <button class="small-button" type="button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
+                                <button class="small-button" onclick="acceptFriendRequest('${r.id}')">✓ Accept</button>
+                                <button class="small-button danger" onclick="declineFriendRequest('${r.id}')">Decline</button>
                             </div>
-                        </div>`).join("");
-                }
-            } catch (error) {
-                console.error("Friend rendering failed:", error);
-                const message = error?.message || "Could not load friend data.";
-                requestsContainer.innerHTML = `<div class="empty-state">Could not load friend requests.<br><small>${escapeHTML(message)}</small></div>`;
-                sentContainer.innerHTML = `<div class="empty-state">Could not load sent requests.<br><small>${escapeHTML(message)}</small></div>`;
-                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.<br><small>${escapeHTML(message)}</small></div>`;
+                        </div>`;
+                }).join("");
             }
+
+            const { data: friendships, error: friendshipError } = await supabaseClient
+                .from("friendships")
+                .select("*")
+                .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`);
+
+            if (friendshipError) {
+                console.error(friendshipError);
+                friendsContainer.innerHTML = `<div class="empty-state">Could not load friends.</div>`;
+                return;
+            }
+
+            const friends = (friendships || []).map(f => {
+                const id = f.user1_id === currentUser.id ? f.user2_id : f.user1_id;
+                return getUserById(id);
+            }).filter(Boolean);
+
+            document.getElementById("friendCount").textContent =
+                friends.length + (friends.length === 1 ? " friend" : " friends");
+
+            if (!friends.length) {
+                friendsContainer.innerHTML = `<div class="empty-state">You don't have any friends yet. Use Add Friend above to find someone.</div>`;
+                return;
+            }
+
+            friendsContainer.innerHTML = friends.map(friend => `
+                <div class="friend-item reveal-on-scroll">
+                    <div class="friend-info">
+                        <div class="friend-avatar">${escapeHTML((friend.name || "?").charAt(0).toUpperCase())}</div>
+                        <div>
+                            <strong>${escapeHTML(friend.name || "Student")}</strong><br>
+                            <small>${escapeHTML(friend.email || "")}</small>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="small-button" onclick="startFriendChat('${friend.id}')">💬 Message</button>
+                    </div>
+                </div>`).join("");
         }
 
-        async function refreshFriendsNow() {
-            await renderFriends();
+        /* ========================================
+           FRIEND CHAT
+        ======================================== */
+
+        function startFriendChat(
+            friendId
+        ) {
+
+            const friend =
+                getUserById(
+                    friendId
+                );
+
+
+            if (!friend) {
+                return;
+            }
+
+
+            activeChatUser = {
+
+                id:
+                    friend.id,
+
+                name:
+                    friend.name,
+
+                therapist:
+                    false
+
+            };
+
+
+            showSectionByName(
+                "messages"
+            );
+
+
+            openChat(
+                activeChatUser
+            );
+
         }
+
 
         /* ========================================
            MESSAGES
@@ -4768,312 +4329,206 @@
            APPOINTMENTS
         ======================================== */
 
-        function getAppointments() {
-            return JSON.parse(
-                localStorage.getItem("appointments_" + (currentUser?.id || "guest")) || "[]"
-            );
-        }
-
-        function saveAppointments(appointments) {
-            localStorage.setItem(
-                "appointments_" + currentUser.id,
-                JSON.stringify(appointments)
-            );
-        }
-
         function bookAppointment() {
-            if (!currentUser) return;
 
-            const date = document.getElementById("appointmentDate").value;
-            const time = document.getElementById("appointmentTime").value;
-            const place = document.getElementById("appointmentPlace").value.trim();
-            const reason = document.getElementById("appointmentReason").value.trim();
+            const date =
+                document.getElementById(
+                    "appointmentDate"
+                ).value;
 
-            if (!date || !time || !place || !reason) {
-                alert("Please fill in the date, time, place, and reason.");
+
+            const time =
+                document.getElementById(
+                    "appointmentTime"
+                ).value;
+
+
+            const reason =
+                document.getElementById(
+                    "appointmentReason"
+                ).value.trim();
+
+
+            if (
+                !date ||
+                !time ||
+                !reason
+            ) {
+
+                alert(
+                    "Please fill in all appointment fields."
+                );
+
                 return;
+
             }
 
-            const appointments = getAppointments();
+
+            const appointments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "appointments"
+                    ) || "[]"
+                );
+
 
             appointments.push({
-                id: "appointment_" + Date.now(),
-                userId: currentUser.id,
-                date,
-                time,
-                place,
-                reason
+
+                id:
+                    "appointment_" +
+                    Date.now(),
+
+                userId:
+                    currentUser.id,
+
+                date:
+                    date,
+
+                time:
+                    time,
+
+                reason:
+                    reason
+
             });
 
-            saveAppointments(appointments);
 
-            document.getElementById("appointmentDate").value = "";
-            document.getElementById("appointmentTime").value = "";
-            document.getElementById("appointmentPlace").value = "";
-            document.getElementById("appointmentReason").value = "";
-
-            if (getPreferences().appointments !== false) {
-                addNotification(
-                    "Appointment Booked",
-                    `${formatAppointmentDate(date)} at ${formatTime(time)} — ${place}`
-                );
-            }
-
-            renderAppointments();
-        }
-
-        function formatAppointmentDate(dateString) {
-            const date = new Date(dateString + "T00:00:00");
-            if (Number.isNaN(date.getTime())) return dateString;
-            return date.toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            });
-        }
-
-        function formatTime(timeString) {
-            const [hours, minutes] = timeString.split(":").map(Number);
-            if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return timeString;
-
-            const date = new Date();
-            date.setHours(hours, minutes, 0, 0);
-
-            return date.toLocaleTimeString([], {
-                hour: "numeric",
-                minute: "2-digit"
-            });
-        }
-
-        function renderAppointments() {
-            const container = document.getElementById("appointmentList");
-            if (!container || !currentUser) return;
-
-            const appointments = getAppointments().sort((a, b) =>
-                `${a.date}T${a.time}`.localeCompare(`${b.date}T${b.time}`)
+            localStorage.setItem(
+                "appointments",
+                JSON.stringify(
+                    appointments
+                )
             );
 
-            if (!appointments.length) {
-                container.innerHTML =
-                    `<div class="empty-state">No appointments scheduled.</div>`;
+
+            document.getElementById(
+                "appointmentDate"
+            ).value = "";
+
+
+            document.getElementById(
+                "appointmentTime"
+            ).value = "";
+
+
+            document.getElementById(
+                "appointmentReason"
+            ).value = "";
+
+
+            addNotification(
+                "Appointment Booked",
+                "Your appointment has been added."
+            );
+
+
+            renderAppointments();
+
+        }
+
+
+        function renderAppointments() {
+
+            const container =
+                document.getElementById(
+                    "appointmentList"
+                );
+
+
+            if (!container || !currentUser) {
                 return;
             }
 
-            container.innerHTML = appointments.map(appointment => `
-                <div class="friend-item reveal-on-scroll">
-                    <div>
-                        <strong>📅 ${escapeHTML(formatAppointmentDate(appointment.date))}</strong>
-                        <br>
-                        <small>🕐 ${escapeHTML(formatTime(appointment.time))}</small>
-                        <br>
-                        <small>📍 ${escapeHTML(appointment.place || "Place not specified")}</small>
-                        <br>
-                        <small>💬 ${escapeHTML(appointment.reason)}</small>
+
+            const appointments =
+                JSON.parse(
+                    localStorage.getItem(
+                        "appointments"
+                    ) || "[]"
+                )
+                    .filter(
+                        appointment =>
+                            appointment.userId ===
+                            currentUser.id
+                    );
+
+
+            if (appointments.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        No appointments scheduled.
+
                     </div>
 
-                    <div class="friend-actions">
-                        <button class="small-button danger"
-                            onclick="deleteAppointment('${appointment.id}')">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            `).join("");
-        }
+                `;
 
-        function deleteAppointment(appointmentId) {
-            if (!currentUser) return;
-            if (getPreferences().confirmCancel && !confirm("Cancel this appointment?")) return;
+                return;
 
-            const appointments = getAppointments().filter(
-                appointment => appointment.id !== appointmentId
-            );
-
-            saveAppointments(appointments);
-            renderAppointments();
-        }
-
-        const RESOURCE_CONTENT = {
-            study: {
-                title: "📖 Study Resources",
-                html: `
-                    <p>Use this space for practical academic support rather than trying to study harder without a plan.</p>
-                    <h3>Planning & organisation</h3>
-                    <ul>
-                        <li>Break large assignments into small tasks with clear deadlines.</li>
-                        <li>Use a weekly study plan that includes classes, rest, meals, and realistic study blocks.</li>
-                        <li>Start with the most important or time-sensitive task instead of trying to do everything at once.</li>
-                    </ul>
-                    <h3>Study techniques</h3>
-                    <ul>
-                        <li>Use active recall: close your notes and explain the idea from memory.</li>
-                        <li>Use spaced practice by revisiting material across several days.</li>
-                        <li>Try practice questions before rereading a chapter repeatedly.</li>
-                    </ul>
-                    <h3>How MindCare can help</h3>
-                    <p>You can use Support to tell us what kind of academic help you need, and you can connect with other students through Friends and Messages.</p>
-                `
-            },
-            wellbeing: {
-                title: "🌱 Wellbeing",
-                html: `
-                    <p>Wellbeing support can start with small, repeatable habits. This information is general and is not a substitute for professional care.</p>
-                    <h3>Everyday routines</h3>
-                    <ul>
-                        <li>Keep a regular sleep and wake schedule when possible.</li>
-                        <li>Take short breaks during long study sessions and move around between blocks.</li>
-                        <li>Eat regularly, stay hydrated, and make room for activities that help you recharge.</li>
-                    </ul>
-                    <h3>When things feel overwhelming</h3>
-                    <ul>
-                        <li>Reduce the next step to something small and specific.</li>
-                        <li>Talk to someone you trust instead of carrying everything alone.</li>
-                        <li>Use MindCare's Support and Verified Help sections when you want additional support.</li>
-                    </ul>
-                    <h3>How MindCare can help</h3>
-                    <p>Verified Help connects you with the professionals listed by MindCare, while Friends and Messages provide ways to stay connected with people you trust.</p>
-                `
-            },
-            career: {
-                title: "💼 Career",
-                html: `
-                    <p>Career planning is a process. You do not need to have your entire future decided before taking the next step.</p>
-                    <h3>Getting started</h3>
-                    <ul>
-                        <li>List the subjects, activities, and projects you genuinely enjoy.</li>
-                        <li>Identify skills you already have and one or two skills you want to build next.</li>
-                        <li>Research roles, courses, internships, and organisations that match your interests.</li>
-                    </ul>
-                    <h3>Applications</h3>
-                    <ul>
-                        <li>Keep a simple CV with education, experience, projects, skills, and relevant achievements.</li>
-                        <li>Tailor your application to the role instead of sending the exact same version everywhere.</li>
-                        <li>Practise explaining your projects and what you learned from them.</li>
-                    </ul>
-                    <h3>How MindCare can help</h3>
-                    <p>Use the Support section and choose Career Guidance when you want help identifying what kind of guidance you need.</p>
-                `
             }
-        };
 
-        function openResource(type) {
-            const resource = RESOURCE_CONTENT[type];
-            if (!resource) return;
 
-            document.getElementById("resourceModalTitle").textContent = resource.title;
-            document.getElementById("resourceModalContent").innerHTML = resource.html;
-            document.getElementById("resourceModal").classList.add("show");
+            container.innerHTML =
+                appointments
+                    .map(
+                        appointment => `
+
+                            <div
+                                class="friend-item reveal-on-scroll"
+                            >
+
+                                <div>
+
+                                    <strong>
+                                        📅
+                                        ${escapeHTML(
+                                            appointment.date
+                                        )}
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+                                        ${escapeHTML(
+                                            appointment.time
+                                        )}
+                                        —
+                                        ${escapeHTML(
+                                            appointment.reason
+                                        )}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        `
+                    )
+                    .join("");
+
         }
 
-        function closeResource() {
-            document.getElementById("resourceModal").classList.remove("show");
-        }
-
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                closeResource();
-            }
-        });
 
         /* ========================================
            SETTINGS
         ======================================== */
 
-        const DEFAULT_PREFERENCES = {
-            requests: true,
-            appointments: true,
-            messages: true,
-            theme: "soft",
-            reducedMotion: false,
-            compact: false,
-            autoRefresh: true,
-            confirmCancel: true
-        };
-
-        function getPreferences() {
-            if (!currentUser) return { ...DEFAULT_PREFERENCES };
-
-            try {
-                return {
-                    ...DEFAULT_PREFERENCES,
-                    ...JSON.parse(
-                        localStorage.getItem("mindcare_preferences_" + currentUser.id) || "{}"
-                    )
-                };
-            } catch {
-                return { ...DEFAULT_PREFERENCES };
-            }
-        }
-
-        function savePreferences() {
-            if (!currentUser) return;
-
-            const preferences = {
-                requests: document.getElementById("prefRequests")?.checked ?? true,
-                appointments: document.getElementById("prefAppointments")?.checked ?? true,
-                messages: document.getElementById("prefMessages")?.checked ?? true,
-                theme: document.getElementById("settingsTheme")?.value || "soft",
-                reducedMotion: document.getElementById("prefReducedMotion")?.checked ?? false,
-                compact: document.getElementById("prefCompact")?.checked ?? false,
-                autoRefresh: document.getElementById("prefAutoRefresh")?.checked ?? true,
-                confirmCancel: document.getElementById("prefConfirmCancel")?.checked ?? true
-            };
-
-            localStorage.setItem(
-                "mindcare_preferences_" + currentUser.id,
-                JSON.stringify(preferences)
-            );
-
-            applyPreferences(preferences);
-        }
-
-        function applyPreferences(preferences = getPreferences()) {
-            document.body.dataset.theme = preferences.theme || "soft";
-            document.body.classList.toggle(
-                "reduce-motion",
-                Boolean(preferences.reducedMotion)
-            );
-            document.body.classList.toggle("compact-mode", Boolean(preferences.compact));
-        }
-
         function loadSettings() {
             if (!currentUser) return;
-
             document.getElementById("settingsName").value = currentUser.name || "";
             document.getElementById("settingsEmail").value = currentUser.email || "";
-
-            const preferences = getPreferences();
-
-            const ids = {
-                prefRequests: preferences.requests,
-                prefAppointments: preferences.appointments,
-                prefMessages: preferences.messages,
-                settingsTheme: preferences.theme,
-                prefReducedMotion: preferences.reducedMotion,
-                prefCompact: preferences.compact,
-                prefAutoRefresh: preferences.autoRefresh,
-                prefConfirmCancel: preferences.confirmCancel
-            };
-
-            Object.entries(ids).forEach(([id, value]) => {
-                const element = document.getElementById(id);
-                if (!element) return;
-
-                if (element.type === "checkbox") {
-                    element.checked = Boolean(value);
-                } else {
-                    element.value = value;
-                }
-            });
-
-            applyPreferences(preferences);
+            const savedTheme = localStorage.getItem("mindcare_theme") || "soft-green";
+            const themeSelect = document.getElementById("settingsTheme");
+            if (themeSelect) themeSelect.value = savedTheme;
+            loadExtraPreferences();
         }
 
         async function saveSettings() {
             if (!currentUser) return;
 
             const name = document.getElementById("settingsName").value.trim();
-
             if (!name) {
                 alert("Name cannot be empty.");
                 return;
@@ -5083,7 +4538,7 @@
                 .from("profiles")
                 .update({ name })
                 .eq("id", currentUser.id)
-                .select("id,name,email,username")
+                .select()
                 .single();
 
             if (error) {
@@ -5092,80 +4547,243 @@
             }
 
             currentUser.name = data.name;
-
             profileCache[currentUser.id] = {
                 ...(profileCache[currentUser.id] || {}),
                 id: currentUser.id,
                 name: data.name,
-                username: data.username || "",
                 email: currentUser.email
             };
 
-            savePreferences();
             updateHeader();
-
-            const welcome = document.getElementById("welcomeName");
-            if (welcome) welcome.textContent = name;
-
-            alert("Your profile and preferences have been saved.");
+            document.getElementById("welcomeName").textContent = name;
+            alert("Your profile has been updated.");
         }
 
-        async function refreshAllData() {
-            if (!currentUser) return;
-            await Promise.allSettled([
-                renderFriends(),
-                renderConversations(),
-                renderNotifications()
-            ]);
-            renderAppointments();
-            alert("MindCare data refreshed.");
-        }
+        /* ========================================
+           MINDCARE THEMES
+        ======================================== */
 
-        function resetLocalPreferences() {
-            if (!currentUser) return;
-            if (!confirm("Reset your MindCare preferences on this browser? Your account data will not be deleted.")) return;
-            localStorage.removeItem("mindcare_preferences_" + currentUser.id);
-            loadSettings();
-        }
-
-        function subscribeToFriendRequests() {
-            if (!currentUser) return;
-
-            if (friendRequestChannel) {
-                supabaseClient.removeChannel(friendRequestChannel);
-                friendRequestChannel = null;
+        const MINDCARE_THEMES = {
+            "soft-green": {
+                green: "#9bd8b0",
+                darkGreen: "#2d6a4f",
+                lightGreen: "#e9f7ee",
+                lighterGreen: "#f8fcf9",
+                border: "#dcefe2",
+                dark: "#183b27",
+                gray: "#68756d"
+            },
+            "lavender-calm": {
+                green: "#b9a7e8",
+                darkGreen: "#5d4a86",
+                lightGreen: "#f0ebfb",
+                lighterGreen: "#faf8fe",
+                border: "#e4dcf4",
+                dark: "#302844",
+                gray: "#756d80"
+            },
+            "sky-serenity": {
+                green: "#8fc9dc",
+                darkGreen: "#356b7a",
+                lightGreen: "#e8f6fa",
+                lighterGreen: "#f7fcfd",
+                border: "#d5ebf0",
+                dark: "#203c45",
+                gray: "#687980"
+            },
+            "peach-warmth": {
+                green: "#e7ae8b",
+                darkGreen: "#8b5a45",
+                lightGreen: "#fff0e8",
+                lighterGreen: "#fffaf7",
+                border: "#f1ddd1",
+                dark: "#443029",
+                gray: "#7c6b63"
+            },
+            "rose-blush": {
+                green: "#dfa4b8",
+                darkGreen: "#87516a",
+                lightGreen: "#fcecf2",
+                lighterGreen: "#fff8fa",
+                border: "#f0d9e2",
+                dark: "#432c35",
+                gray: "#796b70"
+            },
+            "ocean-calm": {
+                green: "#78c5bf",
+                darkGreen: "#2f6f6a",
+                lightGreen: "#e5f7f5",
+                lighterGreen: "#f6fcfb",
+                border: "#d2ebe8",
+                dark: "#203f3c",
+                gray: "#667b79"
+            },
+            "mint-fresh": {
+                green: "#8fd3bd",
+                darkGreen: "#397765",
+                lightGreen: "#e6f7f1",
+                lighterGreen: "#f7fcfa",
+                border: "#d4ebe2",
+                dark: "#25443b",
+                gray: "#687872"
+            },
+            "sandstone": {
+                green: "#c9b18a",
+                darkGreen: "#756044",
+                lightGreen: "#f5efe4",
+                lighterGreen: "#fcfaf6",
+                border: "#e9dfcf",
+                dark: "#40382d",
+                gray: "#777064"
+            },
+            "twilight": {
+                green: "#9fa8d8",
+                darkGreen: "#565d88",
+                lightGreen: "#eef0fb",
+                lighterGreen: "#f9f9fe",
+                border: "#dde0f2",
+                dark: "#2f334c",
+                gray: "#6d7080"
+            },
+            "forest-grounding": {
+                green: "#8fb59a",
+                darkGreen: "#3e684c",
+                lightGreen: "#eaf3eb",
+                lighterGreen: "#f8fbf8",
+                border: "#d8e6da",
+                dark: "#293b2e",
+                gray: "#68736b"
+            },
+            "sunrise-peace": {
+                green: "#d5b37c",
+                darkGreen: "#7b6542",
+                lightGreen: "#f8f0df",
+                lighterGreen: "#fdfbf7",
+                border: "#eee2ca",
+                dark: "#40372a",
+                gray: "#776f62"
             }
+        };
 
-            friendRequestChannel = supabaseClient
-                .channel("mindcare-friend-requests-" + currentUser.id)
-                .on(
-                    "postgres_changes",
-                    {
-                        event: "*",
-                        schema: "public",
-                        table: "friend_requests",
-                        filter: `receiver_id=eq.${currentUser.id}`
-                    },
-                    async () => {
-                        if (getPreferences().autoRefresh !== false) await renderFriends();
-                    }
-                )
-                .on(
-                    "postgres_changes",
-                    {
-                        event: "*",
-                        schema: "public",
-                        table: "friend_requests",
-                        filter: `sender_id=eq.${currentUser.id}`
-                    },
-                    async () => {
-                        if (getPreferences().autoRefresh !== false) await renderFriends();
-                    }
-                )
-                .subscribe((status) => {
-                    console.info("Friend request realtime status:", status);
-                });
+        function applyMindCareTheme(themeName, persist = true) {
+            const theme = MINDCARE_THEMES[themeName] || MINDCARE_THEMES["soft-green"];
+            const root = document.documentElement;
+
+            root.style.setProperty("--green", theme.green);
+            root.style.setProperty("--dark-green", theme.darkGreen);
+            root.style.setProperty("--light-green", theme.lightGreen);
+            root.style.setProperty("--lighter-green", theme.lighterGreen);
+            root.style.setProperty("--border", theme.border);
+            root.style.setProperty("--dark", theme.dark);
+            root.style.setProperty("--gray", theme.gray);
+
+            const select = document.getElementById("settingsTheme");
+            if (select) select.value = themeName;
+
+            if (persist) {
+                localStorage.setItem("mindcare_theme", themeName);
+            }
         }
+
+        function loadMindCareTheme() {
+            const savedTheme = localStorage.getItem("mindcare_theme") || "soft-green";
+            applyMindCareTheme(savedTheme, false);
+        }
+
+
+        function savePreferences(){
+            const prefs={
+                calmMode:document.getElementById('prefCalmMode')?.checked||false,
+                focusMode:document.getElementById('prefFocusMode')?.checked||false,
+                largeText:document.getElementById('prefLargeText')?.checked||false,
+                highContrast:document.getElementById('prefHighContrast')?.checked||false,
+                reducedMotion:document.getElementById('prefReducedMotion')?.checked||false
+            };
+            localStorage.setItem('mindcare_preferences',JSON.stringify(prefs));
+            if(prefs.reducedMotion) document.documentElement.style.setProperty('--mindcare-motion','0ms');
+            else document.documentElement.style.setProperty('--mindcare-motion','180ms');
+            applyExtraAccessibility();
+            const theme=document.getElementById('settingsTheme')?.value;
+            if(theme && MINDCARE_THEMES[theme]) applyMindCareTheme(theme);
+        }
+
+        function loadExtraPreferences(){
+            const prefs=JSON.parse(localStorage.getItem('mindcare_preferences')||'{}');
+            const map={prefCalmMode:'calmMode',prefFocusMode:'focusMode',prefLargeText:'largeText',prefHighContrast:'highContrast',prefReducedMotion:'reducedMotion'};
+            Object.entries(map).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.checked=!!prefs[key];});
+            applyExtraAccessibility();
+        }
+
+        function clearMindCarePreferences(){ if(!confirm('Reset MindCare appearance and local preferences on this device?'))return; ['mindcare_theme','mindcare_reduce_motion','mindcare_therapist_compact','mindcare_therapist_settings','mindcare_therapist_availability'].forEach(k=>localStorage.removeItem(k)); location.reload(); }
+        function applyExtraAccessibility(){ const prefs=JSON.parse(localStorage.getItem('mindcare_preferences')||'{}'); document.body.classList.toggle('mindcare-large-text',!!prefs.largeText); document.body.classList.toggle('mindcare-high-contrast',!!prefs.highContrast); document.body.classList.toggle('mindcare-focus-mode',!!prefs.focusMode); }
+
+
+        /* ========================================
+           LOGIN ROLE + THERAPIST WORKSPACE
+        ======================================== */
+        let selectedLoginRole = localStorage.getItem("mindcare_login_role") || "student";
+        function selectLoginRole(role, button){
+            selectedLoginRole = role;
+            localStorage.setItem("mindcare_login_role", role);
+            document.querySelectorAll(".login-role-button").forEach(b=>b.classList.toggle("active", b===button));
+        }
+        function showTherapistDashboard(){
+            const student=document.getElementById("dashboard");
+            const therapist=document.getElementById("therapistDashboard");
+            const landing=document.getElementById("landingPage");
+            if(landing) landing.style.display="none";
+            if(student) student.style.display="none";
+            if(therapist) therapist.style.display="block";
+            document.querySelectorAll("main").forEach(m=>{ if(m.id!=="therapistDashboard" && m.id!=="dashboard" && m.id!=="landing"){} });
+            loadTherapistSettings();
+            renderTherapistWorkspace();
+        }
+        function showStudentDashboard(){
+            const therapist=document.getElementById("therapistDashboard");
+            if(therapist) therapist.style.display="none";
+            if(typeof showDashboard==='function') showDashboard();
+        }
+        function showTherapistSection(name, button){
+            document.querySelectorAll(".therapist-section").forEach(s=>s.classList.remove("active"));
+            const target=document.getElementById("therapist-section-"+name);
+            if(target) target.classList.add("active");
+            document.querySelectorAll(".therapist-sidebar .sidebar-button").forEach(b=>b.classList.remove("active"));
+            if(button) button.classList.add("active");
+            if(name==='overview'||name==='appointments'||name==='clients') renderTherapistWorkspace();
+        }
+        function renderTherapistWorkspace(){
+            const name=(currentUser&&currentUser.name)||localStorage.getItem('therapist_name')||'Therapist';
+            const n=document.getElementById('therapistWelcomeName'); if(n)n.textContent=name;
+            const clients=JSON.parse(localStorage.getItem('mindcare_therapist_clients')||'[]');
+            const appointments=JSON.parse(localStorage.getItem('mindcare_therapist_appointments')||'[]');
+            const cc=document.getElementById('therapistClientCount'); if(cc)cc.textContent=clients.length+' active clients';
+            const tc=document.getElementById('therapistTodayCount'); if(tc)tc.textContent=appointments.length+' sessions';
+            const list=document.getElementById('therapistUpcomingList'); if(list)list.innerHTML=appointments.length?appointments.map(a=>`<div class="therapist-list-item"><strong>${escapeHTML(a.date||'Upcoming session')}</strong><br><small>${escapeHTML(a.time||'Time to be confirmed')} · ${escapeHTML(a.client||'Client')}</small><p>${escapeHTML(a.reason||'MindCare appointment')}</p></div>`).join(''):'<p class="settings-note">No upcoming sessions have been added yet.</p>';
+            const al=document.getElementById('therapistAppointmentsList'); if(al)al.innerHTML=list?list.innerHTML:'<p class="settings-note">No appointments yet.</p>';
+            const cl=document.getElementById('therapistClientsList'); if(cl)cl.innerHTML=clients.length?clients.map(c=>`<div class="therapist-client-card"><h3>👤 ${escapeHTML(c.name||'Client')}</h3><p>${escapeHTML(c.note||'No client note added.')}</p><small>Last session: ${escapeHTML(c.lastSession||'Not recorded')}</small></div>`).join(''):'<div class="form-card"><p class="settings-note">No clients have been added to this therapist workspace yet.</p></div>';
+        }
+        function loadTherapistSettings(){
+            const saved=JSON.parse(localStorage.getItem('mindcare_therapist_settings')||'{}');
+            const map={therapistSettingsName:saved.name||((currentUser&&currentUser.name)||''),therapistSpeciality:saved.speciality||'',therapistBio:saved.bio||''};
+            Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});
+            ['therapistAccepting','therapistReminders','therapistNotifyRequests','therapistNotifyMessages'].forEach(id=>{const el=document.getElementById(id);if(el&&saved[id]!==undefined)el.checked=saved[id];});
+            const theme=localStorage.getItem('mindcare_theme')||'soft-green'; const t=document.getElementById('therapistTheme');if(t)t.value=theme;
+            const rm=document.getElementById('therapistReduceMotion');if(rm)rm.checked=localStorage.getItem('mindcare_reduce_motion')==='1';
+            const cp=document.getElementById('therapistCompact');if(cp)cp.checked=localStorage.getItem('mindcare_therapist_compact')==='1';
+            document.body.classList.toggle('therapist-compact',cp&&cp.checked);
+        }
+        function saveTherapistSettings(){
+            const settings={name:document.getElementById('therapistSettingsName')?.value.trim()||'',speciality:document.getElementById('therapistSpeciality')?.value.trim()||'',bio:document.getElementById('therapistBio')?.value.trim()||'',therapistAccepting:document.getElementById('therapistAccepting')?.checked!==false,therapistReminders:document.getElementById('therapistReminders')?.checked!==false,therapistNotifyRequests:document.getElementById('therapistNotifyRequests')?.checked!==false,therapistNotifyMessages:document.getElementById('therapistNotifyMessages')?.checked!==false};
+            localStorage.setItem('mindcare_therapist_settings',JSON.stringify(settings)); if(currentUser&&settings.name)currentUser.name=settings.name; document.getElementById('therapistWelcomeName').textContent=settings.name||'Therapist'; alert('Therapist settings saved.');
+        }
+        function saveTherapistAvailability(){
+            const data={days:document.getElementById('therapistDays')?.value,start:document.getElementById('therapistStart')?.value,end:document.getElementById('therapistEnd')?.value,accepting:document.getElementById('therapistAccepting')?.checked};
+            localStorage.setItem('mindcare_therapist_availability',JSON.stringify(data)); alert('Availability saved.');
+        }
+        function toggleTherapistMotion(on){localStorage.setItem('mindcare_reduce_motion',on?'1':'0');document.documentElement.style.setProperty('--mindcare-motion',on?'0ms':'180ms');}
+        function toggleTherapistCompact(on){localStorage.setItem('mindcare_therapist_compact',on?'1':'0');document.body.classList.toggle('therapist-compact',on);}
+        function openStudentMessagesForTherapist(){ if(typeof showStudentDashboard==='function'){showStudentDashboard();setTimeout(()=>{const b=[...document.querySelectorAll('.sidebar-button')].find(x=>x.textContent.includes('Messages'));if(b)b.click();},50);} }
+        document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.login-role-button').forEach(b=>{if(b.dataset.loginRole===selectedLoginRole)b.classList.add('active');});loadMindCareTheme();});
 
         /* ========================================
            REFRESH DASHBOARD
@@ -5174,93 +4792,18 @@
         async function refreshDashboard() {
             if (!currentUser) return;
 
-            const welcome = document.getElementById("welcomeName");
-            if (welcome) welcome.textContent = currentUser.name;
+            document.getElementById("welcomeName").textContent = currentUser.name;
 
             await ensureProfile(currentUser);
             await renderFriends();
             await renderConversations();
 
+            // These remain local until their Supabase table schemas are provided.
             renderNotifications();
             renderAppointments();
             loadSettings();
-            subscribeToFriendRequests();
         }
 
-
-        /* =========================
-           ELEGANT MOTION + INTERACTIONS
-        ========================= */
-
-        (function initElegantInteractions() {
-
-            function setupMotion() {
-
-                const progress = document.getElementById("scrollProgress");
-                const backToTop = document.getElementById("backToTop");
-                const header = document.querySelector("header");
-
-                function updateScrollUI() {
-                    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    const percent = maxScroll > 0 ? (scrollTop / maxScroll) * 100 : 0;
-
-                    if (progress) progress.style.width = percent + "%";
-                    if (backToTop) backToTop.classList.toggle("show", scrollTop > 500);
-                    if (header) header.classList.toggle("scrolled", scrollTop > 20);
-                }
-
-                window.addEventListener("scroll", updateScrollUI, { passive: true });
-                updateScrollUI();
-
-                const observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("is-visible");
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-
-                document.querySelectorAll(".reveal-on-scroll").forEach(function(el, index) {
-                    if (index % 4 === 1) el.classList.add("reveal-delay-1");
-                    if (index % 4 === 2) el.classList.add("reveal-delay-2");
-                    if (index % 4 === 3) el.classList.add("reveal-delay-3");
-                    observer.observe(el);
-                });
-
-                document.querySelectorAll(".feature-card, .therapist-card, .dashboard-card").forEach(function(card) {
-                    card.addEventListener("mousemove", function(event) {
-                        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-                        const rect = card.getBoundingClientRect();
-                        const x = (event.clientX - rect.left) / rect.width - 0.5;
-                        const y = (event.clientY - rect.top) / rect.height - 0.5;
-                        card.style.transform = "perspective(700px) rotateX(" + (-y * 3) + "deg) rotateY(" + (x * 3) + "deg) translateY(-6px)";
-                    });
-                    card.addEventListener("mouseleave", function() {
-                        card.style.transform = "";
-                    });
-                });
-
-                document.addEventListener("click", function(event) {
-                    const button = event.target.closest("button");
-                    if (!button) return;
-                    button.animate([
-                        { transform: "scale(1)" },
-                        { transform: "scale(0.96)" },
-                        { transform: "scale(1)" }
-                    ], { duration: 180, easing: "ease-out" });
-                });
-
-            }
-
-            if (document.readyState === "loading") {
-                document.addEventListener("DOMContentLoaded", setupMotion);
-            } else {
-                setupMotion();
-            }
-
-        })();
 </script>
 
 </body>
