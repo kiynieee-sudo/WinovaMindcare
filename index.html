@@ -2791,6 +2791,7 @@
         let voicePendingOffer = null;
         let voiceSignalTimer = null;
         const voiceProcessedSignals = new Set();
+        let voiceIceQueue = [];
 
 
 
@@ -4228,7 +4229,7 @@
             const offer = await voicePeer.createOffer();
             await voicePeer.setLocalDescription(offer);
             await sendCallSignal("offer", { call_id: voiceCallId, sdp: offer }, activeChatUser.id);
-            showCallOverlay(activeChatUser.name || "Friend", "Calling…", `<button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
+            showCallOverlay(activeChatUser.name || "Friend", "Calling… 🎙️", `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button><button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
         }
 
         function createVoicePeer(otherUserId) {
@@ -4253,7 +4254,8 @@
             pc.onconnectionstatechange = () => {
                 const state = pc.connectionState;
                 const status = document.getElementById("callStatus");
-                if (status && state === "connected") status.textContent = "Connected";
+                if (status && state === "connected") status.textContent = "Connected 🎙️";
+                if (status && state === "connecting") status.textContent = "Connecting…";
                 if (status && ["failed", "disconnected"].includes(state)) status.textContent = "Connection interrupted…";
                 if (state === "closed") endVoiceCall(false);
             };
@@ -4276,6 +4278,7 @@
             voicePeer = createVoicePeer(offer.from);
             voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
             await voicePeer.setRemoteDescription(new RTCSessionDescription(offer.sdp));
+            await flushVoiceIceCandidates();
             const answer = await voicePeer.createAnswer();
             await voicePeer.setLocalDescription(answer);
             await sendCallSignal("answer", { call_id: voiceCallId, sdp: answer }, offer.from);
@@ -4285,8 +4288,21 @@
         async function rejectIncomingCall() {
             const offer = voicePendingOffer;
             voicePendingOffer = null;
+            voiceIceQueue = [];
             hideCallOverlay();
             if (offer) await sendCallSignal("hangup", { call_id: offer.call_id }, offer.from);
+        }
+
+        async function flushVoiceIceCandidates() {
+            if (!voicePeer || !voicePeer.remoteDescription) return;
+            const pending = voiceIceQueue.splice(0);
+            for (const candidate of pending) {
+                try {
+                    await voicePeer.addIceCandidate(new RTCIceCandidate(candidate));
+                } catch (e) {
+                    console.debug("Could not add queued ICE candidate", e);
+                }
+            }
         }
 
         async function toggleCallMute() {
@@ -4320,9 +4336,9 @@
             const { data, error } = await supabaseClient
                 .from("call_signals")
                 .select("id,caller_id,receiver_id,type,data,created_at")
-                .eq("receiver_id", currentUser.id)
+                .or(`caller_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
                 .order("created_at", { ascending: true })
-                .limit(100);
+                .limit(200);
             if (error) return;
 
             for (const signal of (data || [])) {
@@ -4337,10 +4353,15 @@
                     showCallOverlay(voicePendingOffer.name, "Incoming voice call…", `<button class="call-action accept" onclick="acceptIncomingCall()">📞 Accept</button><button class="call-action end" onclick="rejectIncomingCall()">Decline</button>`);
                 } else if (signal.type === "answer" && voicePeer && voiceCallId === d.call_id && voiceCallRole === "caller") {
                     await voicePeer.setRemoteDescription(new RTCSessionDescription(d.sdp));
+                    await flushVoiceIceCandidates();
                     const status = document.getElementById("callStatus");
                     if (status) status.textContent = "Connecting…";
                 } else if (signal.type === "ice" && voicePeer && voiceCallId === d.call_id && d.candidate) {
-                    try { await voicePeer.addIceCandidate(new RTCIceCandidate(d.candidate)); } catch (e) { console.debug("ICE candidate queued/ignored", e); }
+                    if (voicePeer.remoteDescription) {
+                        try { await voicePeer.addIceCandidate(new RTCIceCandidate(d.candidate)); } catch (e) { console.debug("ICE candidate ignored", e); }
+                    } else {
+                        voiceIceQueue.push(d.candidate);
+                    }
                 } else if (signal.type === "hangup" && d.call_id && d.call_id === voiceCallId) {
                     await endVoiceCall(false);
                 }
