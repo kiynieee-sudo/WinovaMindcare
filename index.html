@@ -2960,11 +2960,15 @@
         let voiceCallStartedAt = null;
         let voiceConnectedAt = null;
         let voiceCallRole = null;
+        let voiceOtherUserId = null;
+        let voiceOtherUserName = null;
         let voicePendingOffer = null;
         let voiceSignalTimer = null;
+        let voiceRealtimeChannel = null;
         let voicePollingStartedAt = Date.now();
         const voiceProcessedSignals = new Set();
         let voiceIceQueue = [];
+        const voiceEarlyIceQueue = new Map();
 
 
 
@@ -3152,7 +3156,7 @@
 
                             currentUser = null;
                             activeChatUser = null;
-                            if (voiceSignalTimer) { clearInterval(voiceSignalTimer); voiceSignalTimer = null; }
+                            await stopVoiceCalling();
 
                         }
 
@@ -4412,7 +4416,7 @@
         }
 
         /* ========================================
-           VOICE CALLS
+           VOICE CALLS - WEBRTC + SUPABASE SIGNALING
         ======================================== */
 
         function showCallOverlay(title, status, actions) {
@@ -4422,10 +4426,13 @@
             const avatar = document.getElementById("callAvatar");
             const actionBox = document.getElementById("callActions");
             if (!overlay) return;
-            name.textContent = title;
-            stat.textContent = status;
-            avatar.textContent = ((title || "?").replace(/^Voice call$/, "?").charAt(0) || "?").toUpperCase();
-            actionBox.innerHTML = actions || "";
+
+            if (name) name.textContent = title || "Voice call";
+            if (stat) stat.textContent = status || "";
+            if (avatar) {
+                avatar.textContent = ((title || "?").replace(/^Voice call$/, "?").charAt(0) || "?").toUpperCase();
+            }
+            if (actionBox) actionBox.innerHTML = actions || "";
             overlay.classList.add("show");
         }
 
@@ -4434,77 +4441,195 @@
             if (overlay) overlay.classList.remove("show");
         }
 
+        function setCallStatus(text) {
+            const status = document.getElementById("callStatus");
+            if (status) status.textContent = text;
+        }
+
+        function getVoiceOtherId() {
+            return voiceOtherUserId || activeChatUser?.id || voicePendingOffer?.from || null;
+        }
+
+        function makeVoiceCallId() {
+            if (window.crypto?.randomUUID) return crypto.randomUUID();
+            return "call-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+        }
+
         async function sendCallSignal(type, data, receiverId) {
-            if (!currentUser || !receiverId) return;
-            const { error } = await supabaseClient.from("call_signals").insert({
+            if (!currentUser || !receiverId) return false;
+
+            const payload = {
                 caller_id: currentUser.id,
                 receiver_id: receiverId,
                 type,
-                data
-            });
-            if (error) console.error("Call signal error:", error);
+                data: data || {}
+            };
+
+            const { error } = await supabaseClient
+                .from("call_signals")
+                .insert(payload);
+
+            if (error) {
+                console.error("Call signal error:", error);
+                setCallStatus("Call setup failed. Check Supabase call_signals policies.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function getVoiceIceServers() {
+            /*
+             * STUN is enough for many connections.
+             * For calls between restrictive/mobile networks, add a TURN server here.
+             * Example format:
+             * {
+             *   urls: "turn:YOUR_TURN_SERVER:3478",
+             *   username: "YOUR_TURN_USERNAME",
+             *   credential: "YOUR_TURN_PASSWORD"
+             * }
+             */
+            return [
+                { urls: "stun:stun.l.google.com:19302" },
+                { urls: "stun:stun.cloudflare.com:3478" }
+            ];
         }
 
         async function startVoiceCall() {
-            if (!currentUser || !activeChatUser) return;
-            const allowed = await areFriends(currentUser.id, activeChatUser.id);
-            if (!allowed) return;
-            if (voicePeer) return;
-
-            try {
-                voiceLocalStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            } catch (err) {
-                console.error(err);
-                showCallOverlay(activeChatUser.name || "Friend", "Microphone permission is required.", `<button class="call-action end" onclick="endVoiceCall()">Close</button>`);
+            if (!currentUser || !activeChatUser) {
+                console.warn("Cannot start call: no logged-in user or active chat.");
                 return;
             }
 
-            voiceCallId = crypto.randomUUID();
-            voiceCallStartedAt = new Date().toISOString();
-            voiceCallRole = "caller";
-            const remoteAudio = document.getElementById("remoteCallAudio");
-            if (remoteAudio) {
-                remoteAudio.muted = false;
-                remoteAudio.volume = 1;
-            }
-            voicePeer = createVoicePeer(activeChatUser.id);
-            voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
+            if (voicePeer || voicePendingOffer) return;
 
-            const offer = await voicePeer.createOffer();
-            await voicePeer.setLocalDescription(offer);
-            await sendCallSignal("offer", { call_id: voiceCallId, sdp: offer }, activeChatUser.id);
-            showCallOverlay(activeChatUser.name || "Friend", "Calling… 🎙️", `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button><button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
+            const allowed = await areFriends(currentUser.id, activeChatUser.id);
+            if (!allowed) {
+                alert("You can only call someone who is your friend.");
+                return;
+            }
+
+            if (!window.RTCPeerConnection) {
+                alert("Your browser does not support WebRTC voice calls.");
+                return;
+            }
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Microphone access is unavailable. Open the website over HTTPS or localhost.");
+                return;
+            }
+
+            try {
+                setCallStatus("Requesting microphone…");
+                voiceLocalStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                });
+            } catch (err) {
+                console.error("Microphone error:", err);
+                const message = err?.name === "NotAllowedError"
+                    ? "Microphone permission was denied. Allow microphone access and try again."
+                    : "Could not access your microphone.";
+                showCallOverlay(
+                    activeChatUser.name || "Friend",
+                    message,
+                    `<button class="call-action end" onclick="endVoiceCall(false)">Close</button>`
+                );
+                return;
+            }
+
+            voiceCallId = makeVoiceCallId();
+            voiceOtherUserId = activeChatUser.id;
+            voiceOtherUserName = activeChatUser.name || "Friend";
+            voiceCallStartedAt = new Date().toISOString();
+            voiceConnectedAt = null;
+            voiceCallRole = "caller";
+
+            prepareRemoteAudio();
+
+            try {
+                voicePeer = createVoicePeer(voiceOtherUserId);
+                voiceLocalStream.getTracks().forEach(track => {
+                    voicePeer.addTrack(track, voiceLocalStream);
+                });
+
+                const offer = await voicePeer.createOffer({
+                    offerToReceiveAudio: true
+                });
+                await voicePeer.setLocalDescription(offer);
+
+                const sent = await sendCallSignal(
+                    "offer",
+                    {
+                        call_id: voiceCallId,
+                        sdp: voicePeer.localDescription
+                    },
+                    voiceOtherUserId
+                );
+
+                if (!sent) {
+                    await endVoiceCall(false);
+                    return;
+                }
+
+                showCallOverlay(
+                    voiceOtherUserName,
+                    "Calling… 🎙️",
+                    `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button>
+                     <button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`
+                );
+            } catch (err) {
+                console.error("Could not start voice call:", err);
+                await endVoiceCall(false);
+                alert("Could not start the voice call. Check the browser console for details.");
+            }
+        }
+
+        function prepareRemoteAudio() {
+            const audio = document.getElementById("remoteCallAudio");
+            if (!audio) return;
+            audio.autoplay = true;
+            audio.playsInline = true;
+            audio.muted = false;
+            audio.volume = 1;
         }
 
         function createVoicePeer(otherUserId) {
             const pc = new RTCPeerConnection({
-                iceServers: [
-                    { urls: "stun:stun.l.google.com:19302" },
-                    { urls: "stun:stun.cloudflare.com:3478" }
-                ]
+                iceServers: getVoiceIceServers(),
+                iceCandidatePoolSize: 10
             });
+
             pc.onicecandidate = async event => {
-                if (event.candidate) {
-                    await sendCallSignal("ice", { call_id: voiceCallId, candidate: event.candidate }, otherUserId);
-                }
+                if (!event.candidate || !voiceCallId) return;
+
+                await sendCallSignal(
+                    "ice",
+                    {
+                        call_id: voiceCallId,
+                        candidate: event.candidate.toJSON ? event.candidate.toJSON() : event.candidate
+                    },
+                    otherUserId
+                );
             };
+
             pc.ontrack = async event => {
                 const audio = document.getElementById("remoteCallAudio");
                 if (!audio) return;
-                audio.autoplay = true;
-                audio.playsInline = true;
-                audio.muted = false;
-                audio.volume = 1;
-                if (event.streams && event.streams[0]) audio.srcObject = event.streams[0];
+
+                prepareRemoteAudio();
+                if (event.streams?.[0]) {
+                    audio.srcObject = event.streams[0];
+                }
+
                 try {
                     await audio.play();
-                    const status = document.getElementById("callStatus");
-                    if (status && pc.connectionState === "connected") {
-                        status.textContent = "Connected 🎙️🔊";
-                        if (!voiceConnectedAt) voiceConnectedAt = new Date().toISOString();
-                    }
-                } catch (e) {
-                    console.warn("Remote audio autoplay was blocked:", e);
+                } catch (err) {
+                    console.warn("Remote audio autoplay was blocked:", err);
                     const actions = document.getElementById("callActions");
                     if (actions && !document.getElementById("enableCallAudioButton")) {
                         const btn = document.createElement("button");
@@ -4512,53 +4637,122 @@
                         btn.className = "call-action accept";
                         btn.textContent = "🔊 Enable audio";
                         btn.onclick = async () => {
-                            try { await audio.play(); btn.remove(); }
-                            catch (err) { console.error("Could not start remote audio:", err); }
+                            try {
+                                await audio.play();
+                                btn.remove();
+                            } catch (playErr) {
+                                console.error("Could not start remote audio:", playErr);
+                            }
                         };
                         actions.prepend(btn);
                     }
                 }
             };
+
             pc.onconnectionstatechange = () => {
                 const state = pc.connectionState;
-                const status = document.getElementById("callStatus");
-                if (status && state === "connected") {
-                    status.textContent = "Connected 🎙️";
+
+                if (state === "connected") {
                     if (!voiceConnectedAt) voiceConnectedAt = new Date().toISOString();
+                    setCallStatus("Connected 🎙️🔊");
+                } else if (state === "connecting") {
+                    setCallStatus("Connecting…");
+                } else if (state === "disconnected") {
+                    setCallStatus("Connection interrupted…");
+                } else if (state === "failed") {
+                    setCallStatus("Connection failed. A TURN server may be required.");
                 }
-                if (status && state === "connecting") status.textContent = "Connecting…";
-                if (status && ["failed", "disconnected"].includes(state)) status.textContent = "Connection interrupted…";
-                if (state === "closed") endVoiceCall(false);
             };
+
+            pc.oniceconnectionstatechange = () => {
+                const state = pc.iceConnectionState;
+                if (state === "connected" || state === "completed") {
+                    if (!voiceConnectedAt) voiceConnectedAt = new Date().toISOString();
+                    setCallStatus("Connected 🎙️🔊");
+                } else if (state === "checking") {
+                    setCallStatus("Connecting…");
+                } else if (state === "failed") {
+                    setCallStatus("Network connection failed. TURN may be required.");
+                }
+            };
+
             return pc;
         }
 
         async function acceptIncomingCall() {
             if (!voicePendingOffer || !currentUser) return;
+
             const offer = voicePendingOffer;
             voicePendingOffer = null;
-            try {
-                voiceLocalStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            } catch (err) {
-                showCallOverlay(offer.name, "Microphone permission is required.", `<button class="call-action end" onclick="endVoiceCall()">Close</button>`);
+
+            if (!offer.call_id || !offer.from || !offer.sdp) {
+                console.error("Invalid incoming call offer:", offer);
+                await endVoiceCall(false);
                 return;
             }
-            voiceCallId = offer.call_id;
-            voiceCallStartedAt = new Date().toISOString();
-            voiceCallRole = "callee";
-            const remoteAudio = document.getElementById("remoteCallAudio");
-            if (remoteAudio) {
-                remoteAudio.muted = false;
-                remoteAudio.volume = 1;
+
+            try {
+                if (!navigator.mediaDevices?.getUserMedia) {
+                    throw new Error("Microphone access is unavailable. Use HTTPS or localhost.");
+                }
+
+                voiceLocalStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                });
+
+                voiceCallId = offer.call_id;
+                voiceOtherUserId = offer.from;
+                voiceOtherUserName = offer.name || "Friend";
+                voiceCallStartedAt = new Date().toISOString();
+                voiceConnectedAt = null;
+                voiceCallRole = "callee";
+
+                prepareRemoteAudio();
+
+                voicePeer = createVoicePeer(voiceOtherUserId);
+                voiceLocalStream.getTracks().forEach(track => {
+                    voicePeer.addTrack(track, voiceLocalStream);
+                });
+
+                await voicePeer.setRemoteDescription(
+                    new RTCSessionDescription(offer.sdp)
+                );
+
+                await flushVoiceIceCandidates();
+
+                const answer = await voicePeer.createAnswer();
+                await voicePeer.setLocalDescription(answer);
+
+                const sent = await sendCallSignal(
+                    "answer",
+                    {
+                        call_id: voiceCallId,
+                        sdp: voicePeer.localDescription
+                    },
+                    voiceOtherUserId
+                );
+
+                if (!sent) {
+                    await endVoiceCall(false);
+                    return;
+                }
+
+                showCallOverlay(
+                    voiceOtherUserName,
+                    "Connecting…",
+                    `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button>
+                     <button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`
+                );
+            } catch (err) {
+                console.error("Could not accept voice call:", err);
+                await endVoiceCall(false);
+                alert("Could not accept the voice call. Check microphone permission and browser console.");
             }
-            voicePeer = createVoicePeer(offer.from);
-            voiceLocalStream.getTracks().forEach(track => voicePeer.addTrack(track, voiceLocalStream));
-            await voicePeer.setRemoteDescription(new RTCSessionDescription(offer.sdp));
-            await flushVoiceIceCandidates();
-            const answer = await voicePeer.createAnswer();
-            await voicePeer.setLocalDescription(answer);
-            await sendCallSignal("answer", { call_id: voiceCallId, sdp: answer }, offer.from);
-            showCallOverlay(offer.name, "Connecting…", `<button class="call-action mute" onclick="toggleCallMute()" id="muteCallButton">🔇 Mute</button><button class="call-action end" onclick="endVoiceCall()">📵 End call</button>`);
         }
 
         async function rejectIncomingCall() {
@@ -4566,133 +4760,316 @@
             voicePendingOffer = null;
             voiceIceQueue = [];
             hideCallOverlay();
-            if (offer) await sendCallSignal("hangup", { call_id: offer.call_id }, offer.from);
+
+            if (offer?.call_id && offer?.from) {
+                await sendCallSignal(
+                    "hangup",
+                    { call_id: offer.call_id },
+                    offer.from
+                );
+            }
         }
 
         async function flushVoiceIceCandidates() {
             if (!voicePeer || !voicePeer.remoteDescription) return;
+
             const pending = voiceIceQueue.splice(0);
             for (const candidate of pending) {
                 try {
                     await voicePeer.addIceCandidate(new RTCIceCandidate(candidate));
-                } catch (e) {
-                    console.debug("Could not add queued ICE candidate", e);
+                } catch (err) {
+                    console.debug("Could not add queued ICE candidate:", err);
                 }
             }
         }
 
         async function toggleCallMute() {
             if (!voiceLocalStream) return;
+
             const track = voiceLocalStream.getAudioTracks()[0];
             if (!track) return;
+
             track.enabled = !track.enabled;
             const btn = document.getElementById("muteCallButton");
             if (btn) btn.textContent = track.enabled ? "🔇 Mute" : "🎙️ Unmute";
         }
 
         async function saveCallActivity(status = "completed") {
-            if (!currentUser || !activeChatUser || !voiceCallId) return;
+            if (!currentUser || !voiceOtherUserId || !voiceCallId) return;
+
             const callId = voiceCallId;
+            const otherId = voiceOtherUserId;
             const started = voiceConnectedAt || voiceCallStartedAt;
-            const duration = status === "completed" && started ? Math.max(0, Math.round((Date.now() - new Date(started).getTime()) / 1000)) : 0;
-            const payload = { call_id: callId, status, duration };
+            const duration = status === "completed" && started
+                ? Math.max(0, Math.round((Date.now() - new Date(started).getTime()) / 1000))
+                : 0;
+
+            const payload = {
+                call_id: callId,
+                status,
+                duration
+            };
+
             const encoded = "[[MINDCARE_CALL]]" + JSON.stringify(payload);
 
             const { data: existing, error: lookupError } = await supabaseClient
                 .from("messages")
                 .select("id")
-                .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${activeChatUser.id}),and(sender_id.eq.${activeChatUser.id},receiver_id.eq.${currentUser.id})`)
+                .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${otherId}),and(sender_id.eq.${otherId},receiver_id.eq.${currentUser.id})`)
                 .eq("message", encoded)
                 .limit(1);
+
             if (lookupError) {
                 console.error("Call history lookup error:", lookupError);
                 return;
             }
-            if (existing && existing.length) return;
 
-            const { error } = await supabaseClient.from("messages").insert({
-                sender_id: currentUser.id,
-                receiver_id: activeChatUser.id,
-                message: encoded
-            });
-            if (error) console.error("Call history save error:", error);
-            else if (activeChatUser) await renderChat(true);
+            if (existing?.length) return;
+
+            const { error } = await supabaseClient
+                .from("messages")
+                .insert({
+                    sender_id: currentUser.id,
+                    receiver_id: otherId,
+                    message: encoded
+                });
+
+            if (error) {
+                console.error("Call history save error:", error);
+            } else if (activeChatUser?.id === otherId) {
+                await renderChat(true);
+            }
         }
 
         async function endVoiceCall(sendSignal = true) {
-            const otherId = activeChatUser?.id || voicePendingOffer?.from;
+            const otherId = getVoiceOtherId();
             const id = voiceCallId || voicePendingOffer?.call_id;
             const wasActive = !!voiceCallId;
+            const wasConnected = !!voiceConnectedAt;
+
             if (sendSignal && otherId && id) {
                 await sendCallSignal("hangup", { call_id: id }, otherId);
             }
-            if (wasActive) await saveCallActivity(voiceConnectedAt ? "completed" : "cancelled");
-            if (voicePeer) voicePeer.close();
-            if (voiceLocalStream) voiceLocalStream.getTracks().forEach(t => t.stop());
+
+            if (wasActive) {
+                await saveCallActivity(wasConnected ? "completed" : "cancelled");
+            }
+
+            if (voicePeer) {
+                try { voicePeer.ontrack = null; } catch (_) {}
+                try { voicePeer.onicecandidate = null; } catch (_) {}
+                try { voicePeer.close(); } catch (_) {}
+            }
+
+            if (voiceLocalStream) {
+                voiceLocalStream.getTracks().forEach(track => track.stop());
+            }
+
             const remoteAudio = document.getElementById("remoteCallAudio");
             if (remoteAudio) {
                 remoteAudio.pause();
                 remoteAudio.srcObject = null;
+                remoteAudio.removeAttribute("src");
             }
+
             voiceIceQueue = [];
+            voiceEarlyIceQueue.delete(id);
             voicePeer = null;
             voiceLocalStream = null;
             voiceCallId = null;
             voiceCallStartedAt = null;
             voiceConnectedAt = null;
             voiceCallRole = null;
+            voiceOtherUserId = null;
+            voiceOtherUserName = null;
             voicePendingOffer = null;
+
             hideCallOverlay();
+        }
+
+        async function handleVoiceSignal(signal) {
+            if (!currentUser || !signal) return;
+            if (voiceProcessedSignals.has(signal.id)) return;
+
+            voiceProcessedSignals.add(signal.id);
+
+            const d = signal.data || {};
+
+            /* Ignore signals that are not meant for this logged-in user. */
+            if (signal.caller_id !== currentUser.id && signal.receiver_id !== currentUser.id) return;
+
+            /* Once a call is active, ignore signals from another call. */
+            if (d.call_id && voiceCallId && d.call_id !== voiceCallId) return;
+
+            if (signal.type === "offer") {
+                const ageMs = Date.now() - new Date(signal.created_at).getTime();
+
+                if (signal.receiver_id !== currentUser.id) return;
+                if (ageMs > 30000) return;
+                if (voicePeer || voicePendingOffer) return;
+
+                voicePendingOffer = {
+                    ...d,
+                    from: signal.caller_id,
+                    name: getUserById(signal.caller_id)?.name || "Friend"
+                };
+
+                /* ICE can arrive a few milliseconds before the offer is accepted.
+                   Keep it until the callee creates its RTCPeerConnection. */
+                const earlyCandidates = voiceEarlyIceQueue.get(voicePendingOffer.call_id) || [];
+                voiceIceQueue.push(...earlyCandidates);
+                voiceEarlyIceQueue.delete(voicePendingOffer.call_id);
+
+                showCallOverlay(
+                    voicePendingOffer.name,
+                    "Incoming voice call…",
+                    `<button class="call-action accept" onclick="acceptIncomingCall()">📞 Accept</button>
+                     <button class="call-action end" onclick="rejectIncomingCall()">Decline</button>`
+                );
+                return;
+            }
+
+            if (signal.type === "answer") {
+                if (
+                    signal.receiver_id !== currentUser.id ||
+                    !voicePeer ||
+                    voiceCallRole !== "caller" ||
+                    voiceCallId !== d.call_id ||
+                    !d.sdp
+                ) return;
+
+                try {
+                    await voicePeer.setRemoteDescription(
+                        new RTCSessionDescription(d.sdp)
+                    );
+                    await flushVoiceIceCandidates();
+                    setCallStatus("Connecting…");
+                } catch (err) {
+                    console.error("Could not apply call answer:", err);
+                    setCallStatus("Could not connect the call.");
+                }
+                return;
+            }
+
+            if (signal.type === "ice") {
+                if (
+                    signal.receiver_id !== currentUser.id ||
+                    !d.call_id ||
+                    !d.candidate
+                ) return;
+
+                if (!voicePeer || voiceCallId !== d.call_id) {
+                    const list = voiceEarlyIceQueue.get(d.call_id) || [];
+                    list.push(d.candidate);
+                    voiceEarlyIceQueue.set(d.call_id, list);
+                    return;
+                }
+
+                if (voicePeer.remoteDescription) {
+                    try {
+                        await voicePeer.addIceCandidate(
+                            new RTCIceCandidate(d.candidate)
+                        );
+                    } catch (err) {
+                        console.debug("ICE candidate ignored:", err);
+                    }
+                } else {
+                    voiceIceQueue.push(d.candidate);
+                }
+                return;
+            }
+
+            if (signal.type === "hangup") {
+                const matchesActiveCall = voiceCallId && d.call_id === voiceCallId;
+                const matchesPendingCall = voicePendingOffer && d.call_id === voicePendingOffer.call_id;
+
+                if (matchesActiveCall || matchesPendingCall) {
+                    await endVoiceCall(false);
+                }
+            }
         }
 
         async function pollVoiceSignals() {
             if (!currentUser) return;
+
             const { data, error } = await supabaseClient
                 .from("call_signals")
                 .select("id,caller_id,receiver_id,type,data,created_at")
                 .or(`caller_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
                 .order("created_at", { ascending: true })
                 .limit(200);
-            if (error) return;
+
+            if (error) {
+                console.error("Call signal polling error:", error);
+                return;
+            }
 
             for (const signal of (data || [])) {
-                if (voiceProcessedSignals.has(signal.id)) continue;
-                voiceProcessedSignals.add(signal.id);
-                const d = signal.data || {};
-                if (d.call_id && voiceCallId && d.call_id !== voiceCallId) continue;
+                await handleVoiceSignal(signal);
+            }
+        }
 
-                if (signal.type === "offer") {
-                    // Only the receiver should ever see an incoming-call offer.
-                    // Also ignore old offers left in Supabase so refreshing the page
-                    // cannot make a previous call look like a new call.
-                    const ageMs = Date.now() - new Date(signal.created_at).getTime();
-                    if (signal.receiver_id !== currentUser.id || ageMs > 15000) continue;
-                    if (voicePeer || voicePendingOffer) continue;
-                    voicePendingOffer = { ...d, from: signal.caller_id, name: getUserById(signal.caller_id)?.name || "Friend" };
-                    showCallOverlay(voicePendingOffer.name, "Incoming voice call…", `<button class="call-action accept" onclick="acceptIncomingCall()">📞 Accept</button><button class="call-action end" onclick="rejectIncomingCall()">Decline</button>`);
-                } else if (signal.type === "answer" && voicePeer && voiceCallId === d.call_id && voiceCallRole === "caller") {
-                    await voicePeer.setRemoteDescription(new RTCSessionDescription(d.sdp));
-                    await flushVoiceIceCandidates();
-                    const status = document.getElementById("callStatus");
-                    if (status) status.textContent = "Connecting…";
-                } else if (signal.type === "ice" && voicePeer && voiceCallId === d.call_id && d.candidate) {
-                    if (voicePeer.remoteDescription) {
-                        try { await voicePeer.addIceCandidate(new RTCIceCandidate(d.candidate)); } catch (e) { console.debug("ICE candidate ignored", e); }
-                    } else {
-                        voiceIceQueue.push(d.candidate);
+        function startVoiceRealtime() {
+            if (!currentUser) return;
+
+            if (voiceRealtimeChannel) {
+                try { supabaseClient.removeChannel(voiceRealtimeChannel); } catch (_) {}
+                voiceRealtimeChannel = null;
+            }
+
+            /*
+             * Realtime makes incoming calls instant. Polling remains enabled below
+             * as a fallback in case Realtime is not enabled for call_signals.
+             */
+            voiceRealtimeChannel = supabaseClient
+                .channel("mindcare-voice-signals-" + currentUser.id)
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "INSERT",
+                        schema: "public",
+                        table: "call_signals"
+                    },
+                    async payload => {
+                        await handleVoiceSignal(payload.new);
                     }
-                } else if (signal.type === "hangup" && d.call_id && d.call_id === voiceCallId) {
-                    await endVoiceCall(false);
-                }
+                )
+                .subscribe(status => {
+                    console.log("Voice Realtime status:", status);
+                });
+        }
+
+        function stopVoiceRealtime() {
+            if (voiceRealtimeChannel) {
+                try { supabaseClient.removeChannel(voiceRealtimeChannel); } catch (_) {}
+                voiceRealtimeChannel = null;
             }
         }
 
         function startVoiceSignalPolling() {
             if (voiceSignalTimer) clearInterval(voiceSignalTimer);
+
             voicePollingStartedAt = Date.now();
             voiceProcessedSignals.clear();
-            voiceSignalTimer = setInterval(pollVoiceSignals, 1000);
+            startVoiceRealtime();
+
+            voiceSignalTimer = setInterval(() => {
+                pollVoiceSignals();
+            }, 1000);
+
             pollVoiceSignals();
+        }
+
+        async function stopVoiceCalling() {
+            stopVoiceRealtime();
+            if (voiceSignalTimer) {
+                clearInterval(voiceSignalTimer);
+                voiceSignalTimer = null;
+            }
+            voiceProcessedSignals.clear();
+            if (voicePeer || voiceLocalStream || voicePendingOffer) {
+                await endVoiceCall(false);
+            }
         }
 
         /* ========================================
